@@ -280,34 +280,34 @@ class Sequence implements \IteratorAggregate, \Countable, \JsonSerializable
      *
      * The consumer receives the element as first value, and the key as second:
      * <code>
-     * Sequence::of(['foo' => 'bar'])
-     *         ->each(function($element, $key)
-     *                {
-     *                    // do something with $element and $key
-     *                }
-     *           );
+     * Sequence::of(['foo' => 'bar'])->each(
+     *         function($element, $key)
+     *         {
+     *              // do something with $element
+     *         }
+     * );
      * </code>
      *
      * The key is optional and can be left away:
      * <code>
-     * Sequence::of([1, 2, 3, 4])
-     *         ->each(function($element)
-     *                {
-     *                    // do something with $element
-     *                }
-     *           );
+     * Sequence::of([1, 2, 3, 4])->each(
+     *         function($element)
+     *         {
+     *              // do something with $element
+     *         }
+     * );
      * </code>
      *
      * Iteration can be stopped by returning false from the consumer. The
      * following example stops when it reaches element 2:
      * <code>
-     * Sequence::of([1, 2, 3, 4])
-     *         ->each(function($element)
-     *                {
-     *                    return (2 <= $element);
-     *
-     *                }
-     *           );
+     * Sequence::of([1, 2, 3, 4])->each(
+     *         function($element)
+     *         {
+     *             echo $element . "\n";
+     *             return (2 <= $element);
+     *         }
+     * );
      * </code>
      *
      *
