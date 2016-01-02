@@ -17,7 +17,6 @@
 namespace stubbles\sequence;
 use function bovigo\assert\assert;
 use function bovigo\assert\assertNull;
-use function bovigo\assert\assertTrue;
 use function bovigo\assert\predicate\equals;
 use function bovigo\assert\predicate\isOfSize;
 /**
