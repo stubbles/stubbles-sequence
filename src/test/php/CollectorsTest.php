@@ -85,6 +85,20 @@ class CollectorsTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function joiningNamesWithKeySeparator()
+    {
+        assert(
+                Sequence::of($this->people)
+                        ->map(function(Employee $e) { return $e->name(); })
+                        ->collect()
+                        ->byJoining(', ', '(', ')', ':'),
+                equals('(1549:Timm, 1552:Alex, 6100:Dude)')
+        );
+    }
+
+    /**
+     * @test
+     */
     public function groupingBy() {
         assert(
                 Sequence::of($this->people)
@@ -138,6 +152,22 @@ class CollectorsTest extends \PHPUnit_Framework_TestCase
                 equals([
                         true  => [$this->people[1549], $this->people[1552]],
                         false => [$this->people[6100]]
+                ])
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function partitioningByWithSum() {
+        assert(
+                Sequence::of($this->people)->collect()->inPartitions(
+                        function(Employee $e) { return $e->years() > 10; },
+                        Collector::forSum(function(Employee $e) { return $e->years(); })
+                ),
+                equals([
+                        true  => 29,
+                        false => 4
                 ])
         );
     }
