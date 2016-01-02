@@ -324,12 +324,11 @@ Sequence::of(['a', 'b', 'c', 'd'])->reduce()->toMax(
 
 Collects all elements into a structure defined by given collector.
 
-```php
-
-```
+A collector accumulates elements into a structure, optionally transforming the
+result into a final representation.
 
 In case no collector is provided an instance of `stubbles\sequence\Collectors`
-will be returned which provides convenience methods for some common collection
+will be returned which provides convenience methods for some common collector
 operations.
 
 #### `collect()->inList()`
