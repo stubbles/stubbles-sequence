@@ -3,7 +3,7 @@
     "type": "library",
     "homepage": "http://stubbles.net/",
     "license": "BSD-3-Clause",
-    "description": "Provides base classes for Stubbles packages.",
+    "description": "Stream your iterators.",
     "require": {
         "php": ">=5.6.0",
         "ext-iconv": "*"
