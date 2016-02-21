@@ -17,6 +17,7 @@
 namespace stubbles\sequence;
 use function bovigo\assert\assert;
 use function bovigo\assert\assertNull;
+use function bovigo\assert\expect;
 use function bovigo\assert\predicate\equals;
 use function bovigo\assert\predicate\isOfSize;
 /**
@@ -59,11 +60,13 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException  InvalidArgumentException
      */
     public function sequenceOfInvalidElementsThrowsIllegalArgumentException()
     {
-        Sequence::of(new \stdClass());
+        expect(function() {
+                Sequence::of(new \stdClass());
+        })
+        ->throws(\InvalidArgumentException::class);
     }
 
     /**

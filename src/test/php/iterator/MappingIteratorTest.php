@@ -10,6 +10,7 @@
 namespace stubbles\sequence\iterator;
 use function bovigo\assert\assert;
 use function bovigo\assert\assertNull;
+use function bovigo\assert\expect;
 use function bovigo\assert\fail;
 use function bovigo\assert\predicate\equals;
 /**
@@ -22,12 +23,14 @@ class MappingIteratorTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @test
-     * @expectedException  InvalidArgumentException
      * @since  5.3.0
      */
     public function throwsInvalidArgumentExceptionWhenBothValueMapperAndKeyMapperAreNull()
     {
-        new MappingIterator(new \ArrayIterator(['foo', 'bar', 'baz']));
+        expect(function() {
+                new MappingIterator(new \ArrayIterator(['foo', 'bar', 'baz']));
+        })
+        ->throws(\InvalidArgumentException::class);
     }
 
     /**
