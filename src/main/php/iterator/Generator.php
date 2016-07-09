@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -68,7 +69,7 @@ class Generator implements \Iterator
      * @param   callable  $operation  operation which takes a value and generates a new one
      * @return  Generator
      */
-    public static function infinite($seed, callable $operation)
+    public static function infinite($seed, callable $operation): self
     {
         return new self($seed, $operation, function() { return true; });
     }
@@ -76,7 +77,7 @@ class Generator implements \Iterator
     /**
      * returns the current generated value
      *
-     * @return  string
+     * @return  mixed
      */
     public function current()
     {
@@ -88,7 +89,7 @@ class Generator implements \Iterator
      *
      * @return  int
      */
-    public function key()
+    public function key(): int
     {
         return $this->elementsGenerated;
     }
@@ -115,7 +116,7 @@ class Generator implements \Iterator
     /**
      * checks if current element is valid
      *
-     * @return  string
+     * @return  mixed
      */
     public function valid()
     {

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -68,7 +69,7 @@ class Collector
      * @api
      * @return  \stubbles\sequence\Collector
      */
-    public static function forList()
+    public static function forList(): self
     {
         return new self(
                 function() { return []; },
@@ -84,7 +85,7 @@ class Collector
      * @param   callable  $valueSelector  optional  function to select the value for the map entry
      * @return  \stubbles\sequence\Collector
      */
-    public static function forMap(callable $keySelector = null, callable $valueSelector = null)
+    public static function forMap(callable $keySelector = null, callable $valueSelector = null): self
     {
         $selectKey   = (null !== $keySelector) ? $keySelector : function($value, $key) { return $key; };
         $selectValue = (null !== $valueSelector) ? $valueSelector : function($value) { return $value; };
@@ -104,7 +105,7 @@ class Collector
      * @param   callable  $num  callable which retrieves a number from a given element
      * @return  \stubbles\sequence\Collector
      */
-    public static function forSum(callable $num) {
+    public static function forSum(callable $num): self {
         return new self(
                 function() { return 0; },
                 function(&$result, $element) use($num) { $result+= $num($element); }
@@ -118,7 +119,7 @@ class Collector
      * @param   callable  $num  callable which retrieves a number from a given element
      * @return  \stubbles\sequence\Collector
      */
-    public static function forAverage(callable $num) {
+    public static function forAverage(callable $num): self {
         return new self(
                 function() { return [0, 0]; },
                 function(&$result, $arg) use($num) { $result[0] += $num($arg); $result[1]++; },
@@ -131,7 +132,7 @@ class Collector
      *
      * @return  \stubbles\sequence\Collector
      */
-    public function fork()
+    public function fork(): self
     {
         return new self($this->supplier, $this->accumulator, $this->finisher);
     }

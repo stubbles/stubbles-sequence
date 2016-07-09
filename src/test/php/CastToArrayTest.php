@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -8,7 +9,6 @@
  * @package  stubbles\sequence
  */
 namespace stubbles\sequence;
-
 use function bovigo\assert\assert;
 use function bovigo\assert\predicate\equals;
 /**
@@ -19,7 +19,7 @@ class ToArray
     /**
      * @return  array
      */
-    public function toArray()
+    public function toArray(): array
     {
         return ['foo' => 'bar', 'baz' => 303];
     }
@@ -32,7 +32,7 @@ class AsArray
     /**
      * @return  array
      */
-    public function asArray()
+    public function asArray(): array
     {
         return ['foo' => 'bar', 'baz' => 303];
     }

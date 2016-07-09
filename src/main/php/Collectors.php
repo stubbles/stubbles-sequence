@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -53,7 +54,7 @@ class Collectors
      * @api
      * @return  array
      */
-    public function inList()
+    public function inList(): array
     {
         return $this->sequence->collect(Collector::forList());
     }
@@ -64,7 +65,7 @@ class Collectors
      * @api
      * @return  array
      */
-    public function inMap(callable $selectKey = null, callable $selectValue = null)
+    public function inMap(callable $selectKey = null, callable $selectValue = null): array
     {
         return $this->sequence->collect(Collector::forMap($selectKey, $selectValue));
     }
@@ -77,7 +78,7 @@ class Collectors
      * @param   \stubbles\sequence\Collector  $base       optional  defaults to Collector::forList()
      * @return  array
      */
-    public function inPartitions(callable $predicate, Collector $base = null)
+    public function inPartitions(callable $predicate, Collector $base = null): array
     {
         $collector = (null === $base) ? Collector::forList() : $base;
         return $this->with(
@@ -108,7 +109,7 @@ class Collectors
      * @param   \stubbles\sequence\Collector  $base        optional  defaults to Collector::forList()
      * @return  array
      */
-    public function inGroups(callable $classifier, Collector $base = null)
+    public function inGroups(callable $classifier, Collector $base = null): array
     {
         $collector = (null === $base) ? Collector::forList() : $base;
         return $this->with(
@@ -155,8 +156,12 @@ class Collectors
      * @param   string  $keySeparator  optional  separator between key and element
      * @return  string
      */
-    public function byJoining($delimiter = ', ', $prefix = '', $suffix = '', $keySeparator = null)
-    {
+    public function byJoining(
+            string $delimiter = ', ',
+            string $prefix = '',
+            string $suffix = '',
+            string $keySeparator = null
+    ): string {
         return $this->with(
                 function () { return null; },
                 function(&$joinedElements, $element, $key) use($prefix, $delimiter, $keySeparator)

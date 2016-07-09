@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -37,10 +38,16 @@ class MappingIterator extends \IteratorIterator
      * @param   callable      $keyMapper    optional  callable which maps the keys
      * @throws  \InvalidArgumentException  in case both $valueMapper and $keyMapper are null
      */
-    public function __construct(\Traversable $iterator, callable $valueMapper = null, callable $keyMapper = null)
-    {
+    public function __construct(
+            \Traversable $iterator,
+            callable $valueMapper = null,
+            callable $keyMapper = null
+    ) {
         if (null === $valueMapper && null === $keyMapper) {
-            throw new \InvalidArgumentException('Passed null for both valueMapper and keyMapper, but at least one of both must not be null');
+            throw new \InvalidArgumentException(
+                    'Passed null for both valueMapper and keyMapper, but at '
+                    . 'least one of both must not be null'
+            );
         }
 
         parent::__construct($iterator);
@@ -51,7 +58,7 @@ class MappingIterator extends \IteratorIterator
     /**
      * returns the current element
      *
-     * @return  string
+     * @return  mixed
      */
     public function current()
     {

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -24,7 +25,7 @@ namespace stubbles\sequence {
      * @return  array
      * @since   5.4.0
      */
-    function castToArray($value)
+    function castToArray($value): array
     {
         if ($value instanceof \Traversable) {
             return iterator_to_array($value);
@@ -54,7 +55,7 @@ namespace stubbles\sequence {
      * @return  array
      * @since   3.1.0
      */
-    function extractObjectProperties($object)
+    function extractObjectProperties($object): array
     {
         $properties      = (array) $object;
         $fixedProperties = [];
@@ -82,7 +83,7 @@ namespace stubbles\sequence {
      * @return  callable
      * @since   4.0.0
      */
-    function ensureCallable(callable $callable)
+    function ensureCallable(callable $callable): callable
     {
         if (!is_string($callable)) {
             return $callable;
