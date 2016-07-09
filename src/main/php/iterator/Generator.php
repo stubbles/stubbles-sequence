@@ -9,12 +9,13 @@ declare(strict_types=1);
  * @package  stubbles\sequence
  */
 namespace stubbles\sequence\iterator;
+use function stubbles\sequence\describeCallable;
 /**
  * Iterator which calls an operation to retrieve the value.
  *
  * @since  5.2.0
  */
-class Generator implements \Iterator
+class Generator implements \Iterator, SequenceUtility
 {
     /**
      * initial value
@@ -122,5 +123,16 @@ class Generator implements \Iterator
     {
         $validate = $this->validator;
         return $validate($this->value, $this->elementsGenerated);
+    }
+
+    /**
+     * returns description of this iterator
+     *
+     * @return  string
+     */
+    public function description(): string
+    {
+        return 'starting at ' . $this->seed . ' continued by '
+         . describeCallable($this->operation);
     }
 }

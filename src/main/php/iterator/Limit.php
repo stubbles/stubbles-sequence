@@ -17,22 +17,14 @@ namespace stubbles\sequence\iterator;
  */
 class Limit extends \LimitIterator implements SequenceUtility
 {
-    /**
-     * @type  string
-     */
-    private $description;
+    private $offset;
+    private $count;
 
     public function __construct(\Iterator $iterator, int $offset = 0, int $count = -1)
     {
         parent::__construct($iterator, $offset, $count);
-        if (0 === $offset) {
-            $this->description = 'limited to first ' . $count . ' elements of ';
-        } elseif (-1 === $count) {
-            $this->description = 'skipping first ' . $offset . ' elements of ';
-        } else {
-            $this->description = 'limited to ' . $count
-                    . ' elements starting at offset ' . $offset . ' of ';
-        }
+        $this->offset = $offset;
+        $this->count  = $count;
     }
 
     /**
@@ -43,6 +35,15 @@ class Limit extends \LimitIterator implements SequenceUtility
      */
     public function description(): string
     {
-        return $this->description;
+        if (0 === $this->offset) {
+            return 'limited to ' . $this->count . ' elements';
+        }
+
+        if (-1 === $this->count) {
+            return 'skipping until offset ' . $this->offset;
+        }
+
+        return 'limited to ' . $this->count
+         . ' elements starting at offset ' . $this->offset;
     }
 }
