@@ -9,13 +9,8 @@ declare(strict_types=1);
  * @package  stubbles\sequence
  */
 namespace stubbles\sequence;
-use stubbles\sequence\assert\Provides;
-
 use function bovigo\assert\assert;
-use function bovigo\assert\assertNull;
-use function bovigo\assert\expect;
 use function bovigo\assert\predicate\equals;
-use function bovigo\assert\predicate\isOfSize;
 /**
  * Tests for stubbles\sequence\Sequence->__toString().
  *
