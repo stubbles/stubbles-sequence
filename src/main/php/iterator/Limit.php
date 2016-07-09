@@ -40,7 +40,7 @@ class Limit extends \LimitIterator implements SequenceUtility
         }
 
         if (-1 === $this->count) {
-            return 'skipping until offset ' . $this->offset;
+            return 'skipped until offset ' . $this->offset;
         }
 
         return 'limited to ' . $this->count

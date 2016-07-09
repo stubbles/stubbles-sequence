@@ -493,7 +493,7 @@ class Sequence implements \IteratorAggregate, \Countable, \JsonSerializable
      */
     public function __toString(): string
     {
-        return __CLASS__ . ' ' . $this->type;
+        return __CLASS__ . ' ' . trim($this->type);
     }
 
     /**
