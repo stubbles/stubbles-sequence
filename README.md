@@ -472,3 +472,22 @@ for `collect()->inMap()`.
 ```php
 Sequence::of(['foo' => 'bar', 'dummy' => 'baz'])->data(); // returns ['foo' => 'bar', 'dummy' => 'baz']
 ```
+
+Sequence validation with _bovigo/assert_
+----------------------------------------
+
+_Available since release 8.0.0_
+
+In case you use [_bovigo/assert_](https://github.com/mikey179/bovigo-assert) for
+assertions in your unit tests _stubbles/sequence_  provides two predicates which
+can be used to ensure a sequence contains the expected data:
+
+```php
+assert($yourSequence, Provides::values([1, 2, 3]));
+assert($yourSequence, Provides::data(['foo' => 1, 'bar' => 2, 'baz' => 3]));
+```
+
+Both are available with the class `stubbles\sequence\assert\Provides`. While the
+first one checks values only and does not consider the keys, the second also
+checks the keys. Please note that both check exactly those elements - if the
+sequence contains more values the predicated will fail.

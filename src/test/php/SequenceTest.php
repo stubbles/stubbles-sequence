@@ -16,12 +16,13 @@ declare(strict_types=1);
  * @package  stubbles\sequence
  */
 namespace stubbles\sequence;
+use stubbles\sequence\assert\Provides;
+
 use function bovigo\assert\assert;
 use function bovigo\assert\assertNull;
 use function bovigo\assert\expect;
 use function bovigo\assert\predicate\equals;
 use function bovigo\assert\predicate\isOfSize;
-use function stubbles\sequence\assert\provides;
 /**
  * Tests for stubbles\sequence\Sequence.
  *
@@ -65,7 +66,7 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
      */
     public function dataReturnsElementsAsArray($input, $name)
     {
-        assert(Sequence::of($input), provides([1, 2, 3]), $name);
+        assert(Sequence::of($input), Provides::values([1, 2, 3]), $name);
     }
 
     /**
@@ -76,7 +77,7 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
         assert(
                 Sequence::of([1, 2, 3, 4])
                         ->filter(function($e) { return 0 === $e % 2; }),
-                provides([2, 4])
+                Provides::values([2, 4])
         );
     }
 
@@ -87,7 +88,7 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
     {
         assert(
                 Sequence::of(['Hello', 1337, 'World'])->filter('is_string'),
-                provides(['Hello', 'World'])
+                Provides::values(['Hello', 'World'])
         );
     }
 
@@ -98,7 +99,7 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
     {
         assert(
                 Sequence::of([1, 2, 3, 4])->map(function($e) { return $e * 2; }),
-                provides([2, 4, 6, 8])
+                Provides::values([2, 4, 6, 8])
         );
     }
 
@@ -109,7 +110,7 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
     {
         assert(
                 Sequence::of([1.9, 2.5, 3.1])->map('floor'),
-                provides([1.0, 2.0, 3.0])
+                Provides::values([1.0, 2.0, 3.0])
         );
     }
 
@@ -121,9 +122,8 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
     {
         assert(
                 Sequence::of([1, 2, 3, 4])
-                        ->mapKeys(function($e) { return $e * 2; })
-                        ->data(),
-                equals([0 => 1, 2 => 2, 4 => 3, 6 => 4])
+                        ->mapKeys(function($e) { return $e * 2; }),
+                Provides::data([0 => 1, 2 => 2, 4 => 3, 6 => 4])
         );
     }
 
@@ -295,11 +295,9 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
      */
     public function collectUsedForAveraging()
     {
-        $result = Sequence::of([1, 2, 3, 4])
-                          ->collect()
-                          ->with(
-                                function() { return ['total' => 0, 'sum' => 0]; },
-                                function(&$result, $element) { $result['total']++; $result['sum'] += $element; }
+        $result = Sequence::of([1, 2, 3, 4])->collect()->with(
+                function() { return ['total' => 0, 'sum' => 0]; },
+                function(&$result, $element) { $result['total']++; $result['sum'] += $element; }
         );
         assert($result['sum'] / $result['total'], equals(2.5));
     }
@@ -309,12 +307,10 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
      */
     public function collectUsedForJoining()
     {
-        $result = Sequence::of(['a', 'b', 'c'])
-                          ->collect()
-                          ->with(
-                                function() { return ''; },
-                                function(&$result, $arg) { $result .= ', '.$arg; },
-                                function($result) { return substr($result, 2); }
+        $result = Sequence::of(['a', 'b', 'c'])->collect()->with(
+                function() { return ''; },
+                function(&$result, $arg) { $result .= ', '.$arg; },
+                function($result) { return substr($result, 2); }
         );
         assert($result, equals('a, b, c'));
     }
@@ -387,8 +383,12 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
     public function eachStopsWhenCallableReturnsFalse()
     {
         $collect = [];
-        Sequence::of(['a', 'b', 'c', 'd'])
-                ->each(function($e) use(&$collect) { $collect[] = $e; if ('b' === $e) { return false; }});
+        Sequence::of(['a', 'b', 'c', 'd'])->each(
+                function($e) use(&$collect)
+                {
+                    $collect[] = $e; if ('b' === $e) { return false; }
+                }
+        );
         assert($collect, equals(['a', 'b']));
     }
 
@@ -424,7 +424,7 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
      */
     public function limitStopsAtNthArrayElement()
     {
-        assert(Sequence::of([1, 2, 3])->limit(2), provides([1, 2]));
+        assert(Sequence::of([1, 2, 3])->limit(2), Provides::values([1, 2]));
     }
 
     /**
@@ -434,7 +434,7 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
     {
         assert(
                 Sequence::infinite(1, function($i) { return ++$i; })->limit(2),
-                provides([1, 2])
+                Provides::values([1, 2])
         );
     }
 
@@ -449,7 +449,7 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
                         function($i) { return $i + 1; },
                         function($i) { return $i < 10; }
                         )->limit(2),
-                provides([1, 2])
+                Provides::values([1, 2])
         );
     }
 
@@ -458,7 +458,7 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
      */
     public function skipIgnoresNumberOfArrayElements()
     {
-        assert(Sequence::of([4, 5, 6])->skip(2), provides([6]));
+        assert(Sequence::of([4, 5, 6])->skip(2), Provides::values([6]));
     }
 
     /**
@@ -470,7 +470,7 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
                 Sequence::infinite(1, function($i) { return ++$i; })
                         ->skip(2)
                         ->limit(3),
-                provides([3, 4, 5])
+                Provides::values([3, 4, 5])
         );
     }
 
@@ -486,7 +486,7 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
                         function($i) { return $i < 10; }
                         )->skip(2)
                         ->limit(3),
-                provides([3, 4, 5])
+                Provides::values([3, 4, 5])
         );
     }
 
@@ -497,7 +497,7 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
     {
         assert(
                 Sequence::of([1, 2])->append(Sequence::of([3, 4])),
-                provides([1, 2, 3, 4])
+                Provides::values([1, 2, 3, 4])
         );
     }
 
@@ -507,7 +507,10 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
      */
     public function appendCreatesNewCombinedSequenceWithGivenArray()
     {
-        assert(Sequence::of([1, 2])->append([3, 4]), provides([1, 2, 3, 4]));
+        assert(
+                Sequence::of([1, 2])->append([3, 4]),
+                Provides::values([1, 2, 3, 4])
+        );
     }
 
     /**
@@ -518,7 +521,7 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
     {
         assert(
                 Sequence::of([1, 2])->append(new \ArrayIterator([3, 4])),
-                provides([1, 2, 3, 4])
+                Provides::values([1, 2, 3, 4])
         );
     }
 
@@ -538,7 +541,7 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
      */
     public function appendCreatesNewCombinedSequenceWithGivenElement($initial)
     {
-        assert(Sequence::of($initial)->append(3), provides([1, 2, 3]));
+        assert(Sequence::of($initial)->append(3), Provides::values([1, 2, 3]));
     }
 
     /**
@@ -560,9 +563,8 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
     public function dataReturnsCompleteDataAsArray()
     {
         assert(
-                Sequence::of(new \ArrayIterator(['foo' => 'bar', 'baz' => 303]))
-                        ->data(),
-                equals(['foo' => 'bar', 'baz' => 303])
+                Sequence::of(new \ArrayIterator(['foo' => 'bar', 'baz' => 303])),
+                Provides::data(['foo' => 'bar', 'baz' => 303])
         );
     }
 
