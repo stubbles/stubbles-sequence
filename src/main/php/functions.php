@@ -111,4 +111,83 @@ namespace stubbles\sequence {
 
         return $wrappedFunctions[$callable];
     }
+
+    /**
+     * tries to determine a name for the callable
+     *
+     * @return  string
+     * @since   8.0.0
+     */
+    function describeCallable(callable $callable): string
+    {
+        if (is_array($callable)) {
+            if (is_string($callable[0])) {
+                return $callable[0] . '::' . $callable[1] . '()';
+            }
+
+            return get_class($callable[0]) . '->' . $callable[1] . '()';
+        } elseif (is_string($callable)) {
+            return $callable . '()';
+        }
+
+        return 'a lambda function';
+    }
+}
+
+namespace stubbles\sequence\assert {
+    use bovigo\assert\predicate\Predicate;
+    use SebastianBergmann\Exporter\Exporter;
+    use stubbles\sequence\Sequence;
+
+    use function bovigo\assert\predicate\equals;
+
+    /**
+     * returns a predicate which checks that a sequence provides all expected values
+     *
+     * @param  array  $expected
+     * @return  \bovigo\assert\predicate\Predicate
+     * @since  8.0.0
+     */
+    function provides(array $expected)
+    {
+        return new class($expected) extends Predicate
+        {
+            private $expected;
+            public function __construct(array $expected)
+            {
+                $this->expected = equals($expected);
+            }
+
+            public function test($value): bool
+            {
+                if (!($value instanceof Sequence)) {
+                    throw new \InvalidArgumentException(
+                            'Given value of type "' . gettype($value)
+                            . '" is not an instance of ' . Sequence::class
+                    );
+                }
+
+                return $this->expected->test($value->values());
+            }
+
+            public function __toString(): string
+            {
+                $return = 'provides expected values';
+                if ($this->expected->hasDiffForLastFailure()) {
+                    $return .= '.' . $this->expected->diffForLastFailure();
+                }
+
+                return $return;
+            }
+
+            public function describeValue(Exporter $exporter, $value): string
+            {
+                if ($value instanceof Sequence) {
+                    return $value->__toString();
+                }
+
+                return parent::describeValue($exporter, $value);
+            }
+        };
+    }
 }
