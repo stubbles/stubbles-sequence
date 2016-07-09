@@ -410,13 +410,13 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
     public function peekWithVarExportAndKeys()
     {
         ob_start();
-        Sequence::of(['a', 'b', 'c', 'd'])
+        Sequence::of(['a' => 0, 'b' => 1, 'c' => 2, 'd' => 3])
                 ->peek('var_export', 'var_export')
                 ->reduce()
                 ->toSum();
         $bytes = ob_get_contents();
         ob_end_clean();
-        assert($bytes, equals("'a'0'b'1'c'2'd'3"));
+        assert($bytes, equals("0'a'1'b'2'c'3'd'"));
     }
 
     /**
