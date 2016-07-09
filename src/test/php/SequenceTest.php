@@ -29,27 +29,6 @@ use function bovigo\assert\predicate\isOfSize;
 class SequenceTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     *
-     * @type  array
-     */
-    private static $generators = [];
-
-    /**
-     * Defines generator fixtures. Since their definition involves new syntax
-     * unparseable with previous PHP versions, wrap in eval() statements.
-     *
-     * @beforeClass
-     */
-    public static function defineGenerators()
-    {
-        if (class_exists('Generator', false) && count(self::$generators) === 0) {
-            self::$generators= [
-              [eval('return function() { yield 1; yield 2; yield 3; };'), 'closure'],
-              [eval('$f= function() { yield 1; yield 2; yield 3; }; return $f();'), 'generator']
-            ];
-        }
-    }
-    /**
      * @param   array    $expected
      * @param   Sequence $sequence
      * @param   string   $message   optional
@@ -72,18 +51,19 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Returns valid arguments for the `of()` method: Arrays, iterables,
-     * iterators and generators (the latter only if available).
+     * iterators and generators.
      *
      * @return  array
      */
-    public function validData() {
-        return array_merge(
-                self::$generators,
-                [[[1, 2, 3], 'array'],
-                 [new \ArrayIterator([1, 2, 3]), 'iterator'],
-                 [Sequence::of([1, 2, 3]), 'self']
-                ]
-        );
+    public function validData(): array
+    {
+        $f = function() { yield 1; yield 2; yield 3; };
+        return [
+                [[1, 2, 3], 'array'],
+                [new \ArrayIterator([1, 2, 3]), 'iterator'],
+                [Sequence::of([1, 2, 3]), 'self'],
+                [$f(), 'generator']
+        ];
     }
 
     /**
@@ -234,7 +214,7 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
     /**
      * @return  array
      */
-    public function maxData()
+    public function maxData(): array
     {
         return [
             [null, []],
