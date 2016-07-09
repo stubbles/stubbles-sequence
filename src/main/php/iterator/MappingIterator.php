@@ -9,13 +9,14 @@ declare(strict_types=1);
  * @package  stubbles\sequence
  */
 namespace stubbles\sequence\iterator;
+use function stubbles\sequence\describeCallable;
 use function stubbles\sequence\ensureCallable;
 /**
  * Maps values and/or keys from an underlying iterator.
  *
  * @since  5.0.0
  */
-class MappingIterator extends \IteratorIterator
+class MappingIterator extends \IteratorIterator implements SequenceUtility
 {
     /**
      * callable which maps the values‚
@@ -29,6 +30,10 @@ class MappingIterator extends \IteratorIterator
      * @type  callable
      */
     private $keyMapper;
+    /**
+     * @type  string[]
+     */
+    private $description = [];
 
     /**
      * constructor
@@ -51,8 +56,15 @@ class MappingIterator extends \IteratorIterator
         }
 
         parent::__construct($iterator);
-        $this->valueMapper = null !== $valueMapper ? ensureCallable($valueMapper) : null;
-        $this->keyMapper   = null !== $keyMapper ? ensureCallable($keyMapper) : null;
+        if (null !== $valueMapper) {
+            $this->valueMapper = ensureCallable($valueMapper);
+            $this->description[] = 'values mapped by ' . describeCallable($valueMapper);
+        }
+
+        if (null !== $keyMapper) {
+            $this->keyMapper = ensureCallable($keyMapper);
+            $this->description[] = 'keys mapped by ' . describeCallable($keyMapper);
+        }
     }
 
     /**
@@ -91,5 +103,16 @@ class MappingIterator extends \IteratorIterator
 
         $map = $this->keyMapper;
         return $map(parent::key(), parent::current());
+    }
+
+    /**
+     * returns description of this iterator
+     *
+     * @return  string
+     * @since   8.0.0
+     */
+    public function description(): string
+    {
+        return join(',', $this->description);
     }
 }

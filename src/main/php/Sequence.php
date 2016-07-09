@@ -17,8 +17,10 @@ declare(strict_types=1);
  */
 namespace stubbles\sequence;
 use stubbles\sequence\iterator\Generator;
+use stubbles\sequence\iterator\Limit;
 use stubbles\sequence\iterator\MappingIterator;
 use stubbles\sequence\iterator\Peek;
+use stubbles\sequence\iterator\SequenceUtility;
 /**
  * Sequence is a stream of data that can be operated on.
  *
@@ -58,15 +60,32 @@ class Sequence implements \IteratorAggregate, \Countable, \JsonSerializable
      * @type  \Traversable|array  $elements
      */
     private $elements;
+    /**
+     * @type  string
+     * @since  8.0.0
+     */
+    private $type;
 
     /**
      * constructor
      *
      * @param  \Traversable|array  $elements
+     * @param  string              $elementsType  optional
      */
-    private function __construct($elements)
+    private function __construct($elements, string $elementsType = null)
     {
         $this->elements = $elements;
+        if (is_array($elements)) {
+            $this->type = 'array';
+        } elseif ($elements instanceof SequenceUtility) {
+            $this->type = $elements->description();
+        } else {
+            $this->type = get_class($elements);
+        }
+
+        if (null !== $elementsType) {
+            $this->type .= '<' . $elementsType . '>';
+        }
     }
 
     /**
@@ -150,7 +169,7 @@ class Sequence implements \IteratorAggregate, \Countable, \JsonSerializable
      */
     public function limit(int $n): self
     {
-        return new self(new \LimitIterator($this->getIterator(), 0, $n));
+        return new self(new Limit($this->getIterator(), 0, $n), $this->type);
     }
 
     /**
@@ -163,7 +182,10 @@ class Sequence implements \IteratorAggregate, \Countable, \JsonSerializable
      */
     public function skip(int $n): self
     {
-        return new self(new \LimitIterator($this->getIterator(), $n));
+        return new self(
+                new Limit($this->getIterator(), $n),
+                $this->type
+        );
     }
 
     /**
@@ -179,10 +201,13 @@ class Sequence implements \IteratorAggregate, \Countable, \JsonSerializable
      */
     public function filter(callable $predicate): self
     {
-        return new self(new \CallbackFilterIterator(
-                $this->getIterator(),
-                ensureCallable($predicate)
-        ));
+        return new self(
+                new \CallbackFilterIterator(
+                        $this->getIterator(),
+                            ensureCallable($predicate)
+                ),
+                $this->type
+        );
     }
 
     /**
@@ -196,11 +221,14 @@ class Sequence implements \IteratorAggregate, \Countable, \JsonSerializable
      */
     public function map(callable $valueMapper, callable $keyMapper = null): self
     {
-        return new self(new MappingIterator(
-                $this->getIterator(),
-                $valueMapper,
-                $keyMapper
-        ));
+        return new self(
+                new MappingIterator(
+                        $this->getIterator(),
+                        $valueMapper,
+                        $keyMapper
+                ),
+                $this->type
+        );
     }
 
     /**
@@ -214,11 +242,14 @@ class Sequence implements \IteratorAggregate, \Countable, \JsonSerializable
      */
     public function mapKeys(callable $keyMapper): self
     {
-        return new self(new MappingIterator(
-                $this->getIterator(),
-                null,
-                $keyMapper
-        ));
+        return new self(
+                new MappingIterator(
+                        $this->getIterator(),
+                        null,
+                        $keyMapper
+                ),
+                $this->type
+        );
     }
 
     /**
@@ -253,7 +284,7 @@ class Sequence implements \IteratorAggregate, \Countable, \JsonSerializable
         $appendIterator = new \AppendIterator();
         $appendIterator->append($this->getIterator());
         $appendIterator->append($otherIterator);
-        return new self($appendIterator);
+        return new self($appendIterator, $this->type);
     }
 
     /**
@@ -267,11 +298,14 @@ class Sequence implements \IteratorAggregate, \Countable, \JsonSerializable
      */
     public function peek(callable $valueConsumer, callable $keyConsumer = null): self
     {
-        return new self(new Peek(
-                $this->getIterator(),
-                $valueConsumer,
-                $keyConsumer
-        ));
+        return new self(
+                new Peek(
+                        $this->getIterator(),
+                        $valueConsumer,
+                        $keyConsumer
+                ),
+                $this->type
+        );
     }
 
     /**
@@ -458,6 +492,17 @@ class Sequence implements \IteratorAggregate, \Countable, \JsonSerializable
         }
 
         return new \ArrayIterator($this->elements);
+    }
+
+    /**
+     * returns string description of this sequence
+     *
+     * @return  string
+     * @since   8.0.0
+     */
+    public function __toString(): string
+    {
+        return __CLASS__ . '<' . $this->type . '>';
     }
 
     /**

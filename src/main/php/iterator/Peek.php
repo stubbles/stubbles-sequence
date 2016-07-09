@@ -14,7 +14,7 @@ namespace stubbles\sequence\iterator;
  *
  * @since  5.2.0
  */
-class Peek extends \IteratorIterator
+class Peek extends \IteratorIterator implements SequenceUtility
 {
     /**
      * consumer for values
@@ -70,5 +70,18 @@ class Peek extends \IteratorIterator
         }
 
         return $key;
+    }
+
+    /**
+     * returns description of this iterator
+     *
+     * description is intentionally empty, peeking does not change the
+     * elements which it is peeking at
+     *
+     * @return  string
+     */
+    public function description(): string
+    {
+        return '';
     }
 }

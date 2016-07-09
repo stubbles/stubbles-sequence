@@ -7,6 +7,11 @@
   * introduced scalar type hints and strict type checking
 
 
+### Other changes
+
+  * `stubbles\sequence\Sequence` can now be casted to string, which provides information about how the sequence is build
+
+
 7.0.0 (2016-01-11)
 ------------------
 
