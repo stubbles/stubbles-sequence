@@ -144,8 +144,10 @@ Result: `[2, 4, 6, 8, 10]`
 Returns a new sequence which maps each element using the given mapper.
 
 ```php
-
+Sequence::of([1, 2, 3, 4])->map(function($e) { return $e * 2; })->data();
 ```
+
+Result: `[2, 4, 6, 8]`
 
 
 ### `mapKeys(callable $keyMapper)`
@@ -153,8 +155,10 @@ Returns a new sequence which maps each element using the given mapper.
 Returns a new sequence which maps each key using the given mapper.
 
 ```php
-
+Sequence::of([1, 2, 3, 4])->mapKeys(function($e) { return $e * 2; })->data();
 ```
+
+Result: `[0 => 1, 2 => 2, 4 => 3, 6 => 4]`
 
 
 ### `append($other)`
