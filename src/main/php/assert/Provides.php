@@ -31,7 +31,7 @@ class Provides extends Predicate
     private $what;
 
     /**
-     * creates instance which checks that a sequence provides given values
+     * creates instance which checks that a sequence provides given values ignoring the keys
      *
      * @param   array  $expected
      * @return  Provides
