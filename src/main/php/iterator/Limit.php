@@ -44,6 +44,6 @@ class Limit extends \LimitIterator implements SequenceUtility
         }
 
         return 'limited to ' . $this->count
-         . ' elements starting at offset ' . $this->offset;
+         . ' elements starting from offset ' . $this->offset;
     }
 }

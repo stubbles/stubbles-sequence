@@ -9,6 +9,8 @@ declare(strict_types=1);
  * @package  stubbles\sequence
  */
 namespace stubbles\sequence;
+use stubbles\sequence\iterator\Limit;
+
 use function bovigo\assert\assert;
 use function bovigo\assert\predicate\equals;
 /**
@@ -178,6 +180,17 @@ class SequenceToStringTest extends \PHPUnit_Framework_TestCase
                         Sequence::class . ' starting at 1 continued by a lambda function'
                         . ' skipped until offset 2 limited to 3 elements'
                 )
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function limitDescriptionWithBothLimitAndSkipped()
+    {
+        assert(
+                (new Limit(new \ArrayIterator([]), 2, 3))->description(),
+                equals('limited to 3 elements starting from offset 2')
         );
     }
 }
