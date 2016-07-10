@@ -19,11 +19,13 @@ namespace stubbles\sequence;
 use bovigo\callmap\NewInstance;
 use stubbles\sequence\assert\Provides;
 
-use function bovigo\assert\assert;
-use function bovigo\assert\assertNull;
-use function bovigo\assert\expect;
-use function bovigo\assert\predicate\equals;
-use function bovigo\assert\predicate\isOfSize;
+use function bovigo\assert\{
+    assert,
+    assertNull,
+    expect,
+    predicate\equals,
+    predicate\isOfSize
+};
 /**
  * Tests for stubbles\sequence\Sequence.
  *

@@ -16,12 +16,14 @@ declare(strict_types=1);
  * @package  stubbles\sequence
  */
 namespace stubbles\sequence;
-use stubbles\sequence\iterator\Filter;
-use stubbles\sequence\iterator\Generator;
-use stubbles\sequence\iterator\Limit;
-use stubbles\sequence\iterator\MappingIterator;
-use stubbles\sequence\iterator\Peek;
-use stubbles\sequence\iterator\SequenceUtility;
+use stubbles\sequence\iterator\{
+    Filter,
+    Generator,
+    Limit,
+    MappingIterator,
+    Peek,
+    SequenceUtility
+};
 /**
  * Sequence is a stream of data that can be operated on.
  *
