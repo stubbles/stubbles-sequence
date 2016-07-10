@@ -16,6 +16,7 @@ declare(strict_types=1);
  * @package  stubbles\sequence
  */
 namespace stubbles\sequence;
+use bovigo\callmap\NewInstance;
 use stubbles\sequence\assert\Provides;
 
 use function bovigo\assert\assert;
@@ -521,6 +522,20 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
     {
         assert(
                 Sequence::of([1, 2])->append(new \ArrayIterator([3, 4])),
+                Provides::values([1, 2, 3, 4])
+        );
+    }
+
+    /**
+     * @test
+     * @since  8.0.0
+     */
+    public function appendCreatesNewCombinedSequenceWithGivenIteratorAggregate()
+    {
+        $iteratorAggregate = NewInstance::of(\IteratorAggregate::class)
+                ->mapCalls(['getIterator' => new \ArrayIterator([3, 4])]);
+        assert(
+                Sequence::of([1, 2])->append($iteratorAggregate),
                 Provides::values([1, 2, 3, 4])
         );
     }
