@@ -545,6 +545,20 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @test
+     * @since  8.0.0
+     */
+    public function appendCreatesNewCombinedSequenceFromInitialIteratorAggregate()
+    {
+        $iteratorAggregate = NewInstance::of(\IteratorAggregate::class)
+                ->mapCalls(['getIterator' => new \ArrayIterator([1, 2])]);
+        assert(
+                Sequence::of($iteratorAggregate)->append([3, 4]),
+                Provides::values([1, 2, 3, 4])
+        );
+    }
+
+    /**
      * @return  array
      * @since   5.4.0
      */
