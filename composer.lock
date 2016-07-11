@@ -10,16 +10,16 @@
     "packages-dev": [
         {
             "name": "bovigo/assert",
-            "version": "dev-master",
+            "version": "v2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mikey179/bovigo-assert.git",
-                "reference": "3c8b4813bd4f2b88ee896e800c03fcdb55bf55be"
+                "reference": "5187f3f880fbe8c4a937c0d362682431429f999f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mikey179/bovigo-assert/zipball/3c8b4813bd4f2b88ee896e800c03fcdb55bf55be",
-                "reference": "3c8b4813bd4f2b88ee896e800c03fcdb55bf55be",
+                "url": "https://api.github.com/repos/mikey179/bovigo-assert/zipball/5187f3f880fbe8c4a937c0d362682431429f999f",
+                "reference": "5187f3f880fbe8c4a937c0d362682431429f999f",
                 "shasum": ""
             },
             "require": {
@@ -51,20 +51,20 @@
                 "BSD-3-Clause"
             ],
             "description": "Provides assertions for unit tests.",
-            "time": "2016-07-08 18:03:16"
+            "time": "2016-07-10 10:31:41"
         },
         {
             "name": "bovigo/callmap",
-            "version": "dev-master",
+            "version": "v3.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mikey179/bovigo-callmap.git",
-                "reference": "4c74641142319e4de92cc266e870ff1c7c6bc863"
+                "reference": "28e9568ba151903a8e967a27581f8aa2caf1b2f3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mikey179/bovigo-callmap/zipball/4c74641142319e4de92cc266e870ff1c7c6bc863",
-                "reference": "4c74641142319e4de92cc266e870ff1c7c6bc863",
+                "url": "https://api.github.com/repos/mikey179/bovigo-callmap/zipball/28e9568ba151903a8e967a27581f8aa2caf1b2f3",
+                "reference": "28e9568ba151903a8e967a27581f8aa2caf1b2f3",
                 "shasum": ""
             },
             "require": {
@@ -72,12 +72,13 @@
             },
             "require-dev": {
                 "bovigo/assert": " ^2.0",
-                "phpunit/phpunit": "~5.4"
+                "phpunit/phpunit": "~5.4",
+                "xp-framework/unittest": "^7.0"
             },
             "suggest": {
                 "bovigo/assert": "To use argument verification",
                 "phpunit/phpunit": "Alternative option for argument verification",
-                "xp-framework/core": "Alternative option for argument verification"
+                "xp-framework/unittest": "Alternative option for argument verification"
             },
             "type": "library",
             "extra": {
@@ -98,7 +99,7 @@
                 "BSD-3-Clause"
             ],
             "description": "Allows to stub and mock method calls by applying a callmap.",
-            "time": "2016-07-08 22:49:07"
+            "time": "2016-07-11 11:13:58"
         },
         {
             "name": "doctrine/instantiator",
