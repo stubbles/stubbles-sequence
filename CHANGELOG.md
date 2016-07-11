@@ -12,6 +12,7 @@
   * `stubbles\sequence\Sequence` can now be casted to string, which provides information about how the sequence is build
   * added `stubbles\sequence\assert\Provides:values()` which creates a predicate that allows to assert that a sequence contains the expected values
   * added `stubbles\sequence\assert\Provides:data()` which creates a predicate that allows to assert that a sequence contains the expected data
+  * added `stubbles\sequence\castToIterator()`
 
 
 7.0.0 (2016-01-11)

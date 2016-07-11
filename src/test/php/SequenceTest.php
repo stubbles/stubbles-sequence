@@ -55,21 +55,23 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
         $f = function() { yield 1; yield 2; yield 3; };
         return [
                 [[1, 2, 3], 'array'],
-                [new \ArrayIterator([1, 2, 3]), 'iterator'],
+                [new \ArrayIterator([1, 2, 3]), '\Iterator'],
+                [NewInstance::of(\IteratorAggregate::class)
+                        ->mapCalls(['getIterator' => new \ArrayIterator([1, 2, 3])]),
+                 '\IteratorAggregate'
+                ],
                 [Sequence::of([1, 2, 3]), 'self'],
-                [$f(), 'generator']
+                [$f(), '\Generator']
         ];
     }
 
     /**
-     * @param  array   $input
-     * @param  string  $name
      * @test
      * @dataProvider  validData
      */
-    public function dataReturnsElementsAsArray($input, $name)
+    public function dataReturnsElementsAsArray($iterable, string $name)
     {
-        assert(Sequence::of($input), Provides::values([1, 2, 3]), $name);
+        assert(Sequence::of($iterable), Provides::values([1, 2, 3]), $name);
     }
 
     /**

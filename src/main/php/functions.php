@@ -45,6 +45,41 @@ namespace stubbles\sequence {
     }
 
     /**
+     * cast any value into an iterator
+     *
+     * The following rules apply:
+     *  - instances of stubbles\sequence\Sequence are casted using $value->getIterator()
+     *  - instances of \Iterator are returned as they arguments
+     *  - instances of \Traversable are wrapped with \IteratorIterator
+     *  - arrays are wrapped with \ArrayIterator
+     *  - any other value is put into an array wrapped with \ArrayIterator
+     *
+     * @param   mixed  $value
+     * @return  \Iterator
+     * @since   8.0.0
+     */
+    function castToIterator($value): \Iterator
+    {
+        if ($value instanceof Sequence) {
+            return $value->getIterator();
+        }
+
+        if ($value instanceof \Iterator) {
+            return $value;
+        }
+
+        if ($value instanceof \Traversable) {
+            return new \IteratorIterator($value);
+        }
+
+        if (is_array($value)) {
+            return new \ArrayIterator($value);
+        }
+
+        return new \ArrayIterator([$value]);
+    }
+
+    /**
      * method to extract all properties regardless of their visibility
      *
      * This is a workaround for the problem that as of PHP 5.2.4 get_object_vars()

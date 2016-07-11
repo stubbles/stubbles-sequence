@@ -262,25 +262,15 @@ class Sequence implements \IteratorAggregate, \Countable, \JsonSerializable
      */
     public function append($other): self
     {
-        if ($other instanceof self) {
-            $otherIterator = $other->getIterator();
-        } elseif ($other instanceof \Iterator) {
-            $otherIterator = $other;
-        } elseif ($other instanceof \Traversable) {
-            $otherIterator = new \IteratorIterator($other);
-        } elseif (is_array($other)) {
-            $otherIterator = new \ArrayIterator($other);
-        } elseif (is_array($this->elements)) {
+        if (is_array($this->elements) && !is_array($other) && !($other instanceof \Traversable)) {
             $all = $this->elements;
             $all[] = $other;
             return new self($all);
-        } else {
-            $otherIterator = new \ArrayIterator([$other]);
         }
 
         $appendIterator = new \AppendIterator();
         $appendIterator->append($this->getIterator());
-        $appendIterator->append($otherIterator);
+        $appendIterator->append(castToIterator($other));
         return new self($appendIterator, $this->type);
     }
 
