@@ -78,16 +78,12 @@ class Sequence implements \IteratorAggregate, \Countable, \JsonSerializable
     private function __construct($elements, string $sourceType = null)
     {
         $this->elements = $elements;
-        if (null !== $sourceType) {
-            $this->type = $sourceType . ' ';
-        }
-
-        if (is_array($elements)) {
-            $this->type .= 'of array';
-        } elseif ($elements instanceof SelfDescribing) {
-            $this->type .= $elements->description();
+        if ($elements instanceof SelfDescribing) {
+            $this->type = $sourceType . ' ' . $elements->description();
+        } elseif (is_array($elements)) {
+            $this->type = 'of array';
         } else {
-            $this->type .= 'from ' . get_class($elements);
+            $this->type = 'from ' . get_class($elements);
         }
     }
 
