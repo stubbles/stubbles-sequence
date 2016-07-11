@@ -34,17 +34,6 @@ use function bovigo\assert\{
 class SequenceTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @test
-     */
-    public function sequenceOfInvalidElementsThrowsIllegalArgumentException()
-    {
-        expect(function() {
-                Sequence::of(new \stdClass());
-        })
-        ->throws(\InvalidArgumentException::class);
-    }
-
-    /**
      * Returns valid arguments for the `of()` method: Arrays, iterables,
      * iterators and generators.
      *
@@ -76,11 +65,38 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
+     * @since  8.1.0
+     */
+    public function canCreateEmptySequenceByPassingNoParameters()
+    {
+        assert(Sequence::of(), Provides::data([]));
+    }
+
+    /**
+     * @test
+     * @since  8.1.0
+     */
+    public function canCreateSequenceFromOneNoniterableArgument()
+    {
+        assert(Sequence::of('foo'), Provides::data(['foo']));
+    }
+
+    /**
+     * @test
+     * @since  8.1.0
+     */
+    public function canCreateSequenceFromNiull()
+    {
+        assert(Sequence::of(null), Provides::data([null]));
+    }
+
+    /**
+     * @test
      */
     public function filterRemovesElements()
     {
         assert(
-                Sequence::of([1, 2, 3, 4])
+                Sequence::of(1, 2, 3, 4)
                         ->filter(function($e) { return 0 === $e % 2; }),
                 Provides::values([2, 4])
         );
@@ -103,7 +119,7 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
     public function map()
     {
         assert(
-                Sequence::of([1, 2, 3, 4])->map(function($e) { return $e * 2; }),
+                Sequence::of(1, 2, 3, 4)->map(function($e) { return $e * 2; }),
                 Provides::values([2, 4, 6, 8])
         );
     }
@@ -114,7 +130,7 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
     public function mapWithNativeFunction()
     {
         assert(
-                Sequence::of([1.9, 2.5, 3.1])->map('floor'),
+                Sequence::of(1.9, 2.5, 3.1)->map('floor'),
                 Provides::values([1.0, 2.0, 3.0])
         );
     }
@@ -126,7 +142,7 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
     public function mapKeys()
     {
         assert(
-                Sequence::of([1, 2, 3, 4])
+                Sequence::of(1, 2, 3, 4)
                         ->mapKeys(function($e) { return $e * 2; }),
                 Provides::data([0 => 1, 2 => 2, 4 => 3, 6 => 4])
         );
@@ -269,7 +285,7 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
     public function reduceUsedForSumming()
     {
         assert(
-                Sequence::of([1, 2, 3, 4])
+                Sequence::of(1, 2, 3, 4)
                         ->reduce(function($a, $b) { return $a + $b; }),
                 equals(10)
         );
@@ -280,7 +296,7 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
      */
     public function reduceUsedForMaxWithNativeMaxFunction()
     {
-        assert(Sequence::of([7, 1, 10, 3])->reduce('max'), equals(10));
+        assert(Sequence::of(7, 1, 10, 3)->reduce('max'), equals(10));
     }
 
     /**
@@ -300,7 +316,7 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
      */
     public function collectUsedForAveraging()
     {
-        $result = Sequence::of([1, 2, 3, 4])->collect()->with(
+        $result = Sequence::of(1, 2, 3, 4)->collect()->with(
                 function() { return ['total' => 0, 'sum' => 0]; },
                 function(&$result, $element) { $result['total']++; $result['sum'] += $element; }
         );
@@ -312,7 +328,7 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
      */
     public function collectUsedForJoining()
     {
-        $result = Sequence::of(['a', 'b', 'c'])->collect()->with(
+        $result = Sequence::of('a', 'b', 'c')->collect()->with(
                 function() { return ''; },
                 function(&$result, $arg) { $result .= ', '.$arg; },
                 function($result) { return substr($result, 2); }
@@ -333,7 +349,7 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
      */
     public function firstReturnsFirstArrayElement()
     {
-        assert(Sequence::of([1, 2, 3])->first(), equals(1));
+        assert(Sequence::of(1, 2, 3)->first(), equals(1));
     }
 
     /**
@@ -366,7 +382,7 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
     public function eachReturnsAmountOfElementsForWhichCallableWasExecuted($expected, $callable)
     {
         assert(
-                Sequence::of(['a', 'b', 'c', 'd'])->each($callable),
+                Sequence::of('a', 'b', 'c', 'd')->each($callable),
                 equals($expected)
         );
     }
@@ -377,7 +393,7 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
     public function eachAppliesGivenCallableForAllElements()
     {
         $collect = [];
-        Sequence::of(['a', 'b', 'c', 'd'])
+        Sequence::of('a', 'b', 'c', 'd')
                 ->each(function($e) use(&$collect) { $collect[] = $e; });
         assert($collect, equals(['a', 'b', 'c', 'd']));
     }
@@ -388,7 +404,7 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
     public function eachStopsWhenCallableReturnsFalse()
     {
         $collect = [];
-        Sequence::of(['a', 'b', 'c', 'd'])->each(
+        Sequence::of('a', 'b', 'c', 'd')->each(
                 function($e) use(&$collect)
                 {
                     $collect[] = $e; if ('b' === $e) { return false; }
@@ -403,7 +419,7 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
     public function peekWithVarExport()
     {
         ob_start();
-        Sequence::of([1, 2, 3, 4])->peek('var_export')->reduce()->toSum();
+        Sequence::of(1, 2, 3, 4)->peek('var_export')->reduce()->toSum();
         $bytes = ob_get_contents();
         ob_end_clean();
         assert($bytes, equals('1234'));
@@ -429,7 +445,7 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
      */
     public function limitStopsAtNthArrayElement()
     {
-        assert(Sequence::of([1, 2, 3])->limit(2), Provides::values([1, 2]));
+        assert(Sequence::of(1, 2, 3)->limit(2), Provides::values([1, 2]));
     }
 
     /**
@@ -463,7 +479,7 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
      */
     public function skipIgnoresNumberOfArrayElements()
     {
-        assert(Sequence::of([4, 5, 6])->skip(2), Provides::values([6]));
+        assert(Sequence::of(4, 5, 6)->skip(2), Provides::values([6]));
     }
 
     /**
@@ -501,7 +517,7 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
     public function appendCreatesNewCombinedSequenceWithGivenSequence()
     {
         assert(
-                Sequence::of([1, 2])->append(Sequence::of([3, 4])),
+                Sequence::of(1, 2)->append(Sequence::of(3, 4)),
                 Provides::values([1, 2, 3, 4])
         );
     }
@@ -513,7 +529,7 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
     public function appendCreatesNewCombinedSequenceWithGivenArray()
     {
         assert(
-                Sequence::of([1, 2])->append([3, 4]),
+                Sequence::of(1, 2)->append([3, 4]),
                 Provides::values([1, 2, 3, 4])
         );
     }
@@ -525,7 +541,7 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
     public function appendCreatesNewCombinedSequenceWithGivenIterator()
     {
         assert(
-                Sequence::of([1, 2])->append(new \ArrayIterator([3, 4])),
+                Sequence::of(1, 2)->append(new \ArrayIterator([3, 4])),
                 Provides::values([1, 2, 3, 4])
         );
     }
@@ -539,7 +555,7 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
         $iteratorAggregate = NewInstance::of(\IteratorAggregate::class)
                 ->mapCalls(['getIterator' => new \ArrayIterator([3, 4])]);
         assert(
-                Sequence::of([1, 2])->append($iteratorAggregate),
+                Sequence::of(1, 2)->append($iteratorAggregate),
                 Provides::values([1, 2, 3, 4])
         );
     }

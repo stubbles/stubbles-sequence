@@ -51,7 +51,7 @@ class SequenceToStringTest extends \PHPUnit_Framework_TestCase
     public function containsReferenceToFilterLambdaFunction()
     {
         assert(
-                (string) Sequence::of([1, 2, 3, 4])
+                (string) Sequence::of(1, 2, 3, 4)
                         ->filter(function($e) { return 0 === $e % 2; }),
                 equals(Sequence::class . ' of array filtered by a lambda function')
         );
@@ -63,7 +63,7 @@ class SequenceToStringTest extends \PHPUnit_Framework_TestCase
     public function containsReferenceToFilterNamedFunction()
     {
         assert(
-                (string) Sequence::of(['Hello', 1337, 'World'])->filter('is_string'),
+                (string) Sequence::of('Hello', 1337, 'World')->filter('is_string'),
                 equals(Sequence::class . ' of array filtered by is_string()')
         );
     }
@@ -162,7 +162,7 @@ class SequenceToStringTest extends \PHPUnit_Framework_TestCase
     public function containsReferenceToSkippedElements()
     {
         assert(
-                (string) Sequence::of([4, 5, 6])->skip(2),
+                (string) Sequence::of(4, 5, 6)->skip(2),
                 equals(Sequence::class . ' of array skipped until offset 2')
         );
     }

@@ -90,12 +90,22 @@ class Sequence implements \IteratorAggregate, \Countable, \JsonSerializable
     /**
      * creates sequence of given data
      *
+     * The result depends on the arguments:
+     * - no arguments: equivalent to Sequence::of([])
+     * - one argument which is an instance of Sequence: exactly this sequence
+     * - one argument which is an array or a Traversable: sequence of this
+     * - one argument which is none of the above: equivalent to Sequence::of([$element])
+     * - two or more arguments: sequence of the list of arguments
+     *
      * @param   \stubbles\sequence\Sequence|\Traversable|array  $elements
      * @return  \stubbles\sequence\Sequence
-     * @throws  \InvalidArgumentException
      */
-    public static function of($elements): self
+    public static function of(...$elements): self
     {
+        if (count($elements) === 1) {
+            $elements = $elements[0];
+        }
+
         if ($elements instanceof self) {
             return $elements;
         }
@@ -104,11 +114,7 @@ class Sequence implements \IteratorAggregate, \Countable, \JsonSerializable
             return new self($elements);
         }
 
-        throw new \InvalidArgumentException(
-                'Given data must either be a ' . __CLASS__
-                . ', an instance of \Traversable or an array but is '
-                . gettype($elements)
-        );
+        return new self([$elements]);
     }
 
     /**

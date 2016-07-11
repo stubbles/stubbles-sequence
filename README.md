@@ -65,6 +65,13 @@ Create a sequence
 Creates sequence of given `$elements` which can be either a `\Traversable` or an
 array.
 
+Since release 8.1 it is possible to create a sequence in these ways:
+ - no arguments: equivalent to `Sequence::of([])`
+ - one argument which is an instance of `Sequence`: returns exactly this sequence
+ - one argument which is an `array` or a `\Traversable`: sequence of this
+ - one argument which is none of the above: equivalent to `Sequence::of([$element])`
+ - two or more arguments: sequence of the list of arguments
+
 
 ### `Sequence::infinite($seed, callable $operation)`
 
