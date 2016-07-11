@@ -1,4 +1,4 @@
-8.1.0 (2016-07-??)
+8.1.0 (2016-07-11)
 ------------------
 
   * implemented #2: create sequence with variadic arguments
