@@ -22,7 +22,7 @@ use stubbles\sequence\iterator\{
     Limit,
     MappingIterator,
     Peek,
-    SequenceUtility
+    SelfDescribing
 };
 /**
  * Sequence is a stream of data that can be operated on.
@@ -84,7 +84,7 @@ class Sequence implements \IteratorAggregate, \Countable, \JsonSerializable
 
         if (is_array($elements)) {
             $this->type .= 'of array';
-        } elseif ($elements instanceof SequenceUtility) {
+        } elseif ($elements instanceof SelfDescribing) {
             $this->type .= $elements->description();
         } else {
             $this->type .= 'from ' . get_class($elements);

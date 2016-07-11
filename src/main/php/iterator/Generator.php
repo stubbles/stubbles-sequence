@@ -15,7 +15,7 @@ use function stubbles\sequence\describeCallable;
  *
  * @since  5.2.0
  */
-class Generator implements \Iterator, SequenceUtility
+class Generator implements \Iterator, SelfDescribing
 {
     /**
      * initial value

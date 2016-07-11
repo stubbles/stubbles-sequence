@@ -15,7 +15,7 @@ namespace stubbles\sequence\iterator;
  * @since  8.0.0
  * @internal
  */
-class Limit extends \LimitIterator implements SequenceUtility
+class Limit extends \LimitIterator implements SelfDescribing
 {
     private $offset;
     private $count;

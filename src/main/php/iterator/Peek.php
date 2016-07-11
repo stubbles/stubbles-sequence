@@ -14,7 +14,7 @@ namespace stubbles\sequence\iterator;
  *
  * @since  5.2.0
  */
-class Peek extends \IteratorIterator implements SequenceUtility
+class Peek extends \IteratorIterator implements SelfDescribing
 {
     /**
      * consumer for values

@@ -16,7 +16,7 @@ use function stubbles\sequence\ensureCallable;
  *
  * @since  5.0.0
  */
-class MappingIterator extends \IteratorIterator implements SequenceUtility
+class MappingIterator extends \IteratorIterator implements SelfDescribing
 {
     /**
      * callable which maps the values‚

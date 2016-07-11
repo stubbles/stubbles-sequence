@@ -14,7 +14,7 @@ namespace stubbles\sequence\iterator;
  *
  * @since  8.0.0
  */
-interface SequenceUtility
+interface SelfDescribing
 {
     /**
      * returns description of this iterator

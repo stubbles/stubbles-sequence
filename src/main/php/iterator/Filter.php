@@ -17,7 +17,7 @@ use function stubbles\sequence\ensureCallable;
  * @since  8.0.0
  * @internal
  */
-class Filter extends \CallbackFilterIterator implements SequenceUtility
+class Filter extends \CallbackFilterIterator implements SelfDescribing
 {
     /**
      * @type  string
