@@ -33,12 +33,10 @@ class SequenceToStringTest extends TestCase
     }
 
     /**
-     * @param  array   $input
-     * @param  string  $name
      * @test
      * @dataProvider  sequenceSourceTypes
      */
-    public function containsSourceType($input, $expectedSourceType)
+    public function containsSourceType(iterable $input, string $expectedSourceType)
     {
         assertThat(
                 (string) Sequence::of($input),

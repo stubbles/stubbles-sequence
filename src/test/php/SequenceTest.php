@@ -22,6 +22,7 @@ use function bovigo\assert\{
     assertThat,
     assertNull,
     expect,
+    fail,
     predicate\equals,
     predicate\isOfSize
 };

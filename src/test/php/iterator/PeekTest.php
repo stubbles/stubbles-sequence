@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace stubbles\sequence\iterator;
 use PHPUnit\Framework\TestCase;
 use function bovigo\assert\assertThat;
+use function bovigo\assert\fail;
 use function bovigo\assert\predicate\equals;
 /**
  * Tests for stubbles\sequence\iterator\Peek.

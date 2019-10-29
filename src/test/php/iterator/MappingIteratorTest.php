@@ -154,6 +154,7 @@ class MappingIteratorTest extends TestCase
                 function($value) { return 'mappedValue'; },
                 function($key) { return 'mappedKey'; }
         );
+        $keys = [];
         foreach ($mapping as $key => $value) {
             $keys[] = $key;
         }
