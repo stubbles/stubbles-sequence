@@ -150,7 +150,6 @@ class Collector
     /**
      * finishes collection of result
      *
-     * @param   mixed  $result
      * @return  mixed  finished result
      */
     public function finish()

@@ -461,10 +461,10 @@ class Sequence implements \IteratorAggregate, \Countable, \JsonSerializable
     /**
      * returns an iterator on this sequence
      *
-     * @return  \Traversable
+     * @return  \Iterator
      * @XmlIgnore
      */
-    public function getIterator(): \Traversable
+    public function getIterator(): \Iterator
     {
         if ($this->elements instanceof \Iterator) {
             return $this->elements;

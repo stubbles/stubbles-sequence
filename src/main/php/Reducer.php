@@ -42,7 +42,7 @@ class Reducer
     /**
      * reduce with given callable
      *
-     * @param   ccallable  $accumulator
+     * @param   callable  $accumulator
      * @param   mixed      $identity
      * @return  mixed
      */
