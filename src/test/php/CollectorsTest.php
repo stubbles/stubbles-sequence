@@ -12,27 +12,23 @@ declare(strict_types=1);
  * Copyright (c) 2001-2014, XP-Framework Team
  * All rights reserved.
  * https://github.com/xp-framework/xp-framework/blob/master/core/src/main/php/LICENCE
- *
- * @package  stubbles\sequence
  */
 namespace stubbles\sequence;
+use PHPUnit\Framework\TestCase;
 use stubbles\test\sequence\Employee;
 
-use function bovigo\assert\assert;
+use function bovigo\assert\assertThat;
 use function bovigo\assert\predicate\equals;
 /**
  * Tests for stubbles\sequence\Collectors.
  *
  * @since  5.2.0
  */
-class CollectorsTest extends \PHPUnit_Framework_TestCase
+class CollectorsTest extends TestCase
 {
     private $people;
 
-    /**
-     * set up test environment
-     */
-    public function setUp()
+    protected function setUp(): void
     {
         $this->people= [
             1549 => new Employee(1549, 'Timm', 'B', 15),
@@ -46,7 +42,7 @@ class CollectorsTest extends \PHPUnit_Framework_TestCase
      */
     public function joiningNames()
     {
-        assert(
+        assertThat(
                 Sequence::of($this->people)
                         ->map(function(Employee $e) { return $e->name(); })
                         ->collect()
@@ -60,7 +56,7 @@ class CollectorsTest extends \PHPUnit_Framework_TestCase
      */
     public function joiningNamesWithSemicolon()
     {
-        assert(
+        assertThat(
                 Sequence::of($this->people)
                         ->map(function(Employee $e) { return $e->name(); })
                         ->collect()
@@ -74,7 +70,7 @@ class CollectorsTest extends \PHPUnit_Framework_TestCase
      */
     public function joiningNamesWithPrefixAndSuffix()
     {
-        assert(
+        assertThat(
                 Sequence::of($this->people)
                         ->map(function(Employee $e) { return $e->name(); })
                         ->collect()
@@ -88,7 +84,7 @@ class CollectorsTest extends \PHPUnit_Framework_TestCase
      */
     public function joiningNamesWithKeySeparator()
     {
-        assert(
+        assertThat(
                 Sequence::of($this->people)
                         ->map(function(Employee $e) { return $e->name(); })
                         ->collect()
@@ -101,7 +97,7 @@ class CollectorsTest extends \PHPUnit_Framework_TestCase
      * @test
      */
     public function groupingBy() {
-        assert(
+        assertThat(
                 Sequence::of($this->people)
                         ->collect()
                         ->inGroups(function(Employee $e) { return $e->department(); }),
@@ -116,7 +112,7 @@ class CollectorsTest extends \PHPUnit_Framework_TestCase
      * @test
      */
     public function groupingByWithSummingOfYears() {
-        assert(
+        assertThat(
                 Sequence::of($this->people)
                         ->collect()
                         ->inGroups(
@@ -131,7 +127,7 @@ class CollectorsTest extends \PHPUnit_Framework_TestCase
      * @test
      */
     public function groupingByWithAveragingOfYears() {
-        assert(
+        assertThat(
                 Sequence::of($this->people)
                         ->collect()
                         ->inGroups(
@@ -146,7 +142,7 @@ class CollectorsTest extends \PHPUnit_Framework_TestCase
      * @test
      */
     public function partitioningBy() {
-        assert(
+        assertThat(
                 Sequence::of($this->people)
                         ->collect()
                         ->inPartitions(function(Employee $e) { return $e->years() > 10; }),
@@ -161,7 +157,7 @@ class CollectorsTest extends \PHPUnit_Framework_TestCase
      * @test
      */
     public function partitioningByWithSum() {
-        assert(
+        assertThat(
                 Sequence::of($this->people)->collect()->inPartitions(
                         function(Employee $e) { return $e->years() > 10; },
                         Collector::forSum(function(Employee $e) { return $e->years(); })

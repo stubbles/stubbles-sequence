@@ -5,11 +5,10 @@ declare(strict_types=1);
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
- *
- * @package  stubbles\sequence
  */
 namespace stubbles\sequence\iterator;
-use function bovigo\assert\assert;
+use PHPUnit\Framework\TestCase;
+use function bovigo\assert\assertThat;
 use function bovigo\assert\predicate\equals;
 /**
  * Tests for stubbles\sequence\iterator\Peek.
@@ -17,7 +16,7 @@ use function bovigo\assert\predicate\equals;
  * @group  iterator
  * @since  5.2.0
  */
-class PeekTest extends \PHPUnit_Framework_TestCase
+class PeekTest extends TestCase
 {
     /**
      * @test
@@ -33,7 +32,7 @@ class PeekTest extends \PHPUnit_Framework_TestCase
             // do nothing
         }
 
-        assert($result, equals('foobarbaz'));
+        assertThat($result, equals('foobarbaz'));
     }
 
     /**
@@ -51,7 +50,7 @@ class PeekTest extends \PHPUnit_Framework_TestCase
             // do nothing
         }
 
-        assert($result, equals('foobarbaz'));
+        assertThat($result, equals('foobarbaz'));
     }
 
     /**
@@ -69,6 +68,6 @@ class PeekTest extends \PHPUnit_Framework_TestCase
             $i++;
         }
 
-        assert($i, equals(3));
+        assertThat($i, equals(3));
     }
 }

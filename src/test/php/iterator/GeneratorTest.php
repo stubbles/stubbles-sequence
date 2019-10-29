@@ -9,7 +9,8 @@ declare(strict_types=1);
  * @package  stubbles\sequence
  */
 namespace stubbles\sequence\iterator;
-use function bovigo\assert\assert;
+use PHPUnit\Framework\TestCase;
+use function bovigo\assert\assertThat;
 use function bovigo\assert\predicate\equals;
 /**
  * Tests for stubbles\sequence\iterator\Generator.
@@ -17,7 +18,7 @@ use function bovigo\assert\predicate\equals;
  * @group  iterator
  * @since  5.2.0
  */
-class GeneratorTest extends \PHPUnit_Framework_TestCase
+class GeneratorTest extends TestCase
 {
     /**
      * @test
@@ -34,7 +35,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
             $result[$key] = $value;
         }
 
-        assert(
+        assertThat(
                 $result,
                 equals([0 => 2, 1 => 4, 2 => 6, 3 => 8, 4 => 10, 5 => 12, 6 => 14])
         );
@@ -60,7 +61,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
             $result2[$key] = $value;
         }
 
-        assert($result1, equals($result2));
+        assertThat($result1, equals($result2));
     }
 
     /**
@@ -77,6 +78,6 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
             }
         }
 
-        assert($i, equals(1000));
+        assertThat($i, equals(1000));
     }
 }

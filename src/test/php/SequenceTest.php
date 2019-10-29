@@ -12,15 +12,14 @@ declare(strict_types=1);
  * Copyright (c) 2001-2014, XP-Framework Team
  * All rights reserved.
  * https://github.com/xp-framework/xp-framework/blob/master/core/src/main/php/LICENCE
- *
- * @package  stubbles\sequence
  */
 namespace stubbles\sequence;
 use bovigo\callmap\NewInstance;
+use PHPUnit\Framework\TestCase;
 use stubbles\sequence\assert\Provides;
 
 use function bovigo\assert\{
-    assert,
+    assertThat,
     assertNull,
     expect,
     predicate\equals,
@@ -31,13 +30,11 @@ use function bovigo\assert\{
  *
  * @since  5.2.0
  */
-class SequenceTest extends \PHPUnit_Framework_TestCase
+class SequenceTest extends TestCase
 {
     /**
      * Returns valid arguments for the `of()` method: Arrays, iterables,
      * iterators and generators.
-     *
-     * @return  array
      */
     public function validData(): array
     {
@@ -46,7 +43,7 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
                 [[1, 2, 3], 'array'],
                 [new \ArrayIterator([1, 2, 3]), '\Iterator'],
                 [NewInstance::of(\IteratorAggregate::class)
-                        ->mapCalls(['getIterator' => new \ArrayIterator([1, 2, 3])]),
+                        ->returns(['getIterator' => new \ArrayIterator([1, 2, 3])]),
                  '\IteratorAggregate'
                 ],
                 [Sequence::of([1, 2, 3]), 'self'],
@@ -60,7 +57,7 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
      */
     public function dataReturnsElementsAsArray($iterable, string $name)
     {
-        assert(Sequence::of($iterable), Provides::values([1, 2, 3]), $name);
+        assertThat(Sequence::of($iterable), Provides::values([1, 2, 3]), $name);
     }
 
     /**
@@ -69,7 +66,7 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
      */
     public function canCreateEmptySequenceByPassingNoParameters()
     {
-        assert(Sequence::of(), Provides::data([]));
+        assertThat(Sequence::of(), Provides::data([]));
     }
 
     /**
@@ -78,7 +75,7 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
      */
     public function canCreateSequenceFromOneNoniterableArgument()
     {
-        assert(Sequence::of('foo'), Provides::data(['foo']));
+        assertThat(Sequence::of('foo'), Provides::data(['foo']));
     }
 
     /**
@@ -87,7 +84,7 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
      */
     public function canCreateSequenceFromNiull()
     {
-        assert(Sequence::of(null), Provides::data([null]));
+        assertThat(Sequence::of(null), Provides::data([null]));
     }
 
     /**
@@ -95,7 +92,7 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
      */
     public function filterRemovesElements()
     {
-        assert(
+        assertThat(
                 Sequence::of(1, 2, 3, 4)
                         ->filter(function($e) { return 0 === $e % 2; }),
                 Provides::values([2, 4])
@@ -107,7 +104,7 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
      */
     public function filterWithNativeFunction()
     {
-        assert(
+        assertThat(
                 Sequence::of(['Hello', 1337, 'World'])->filter('is_string'),
                 Provides::values(['Hello', 'World'])
         );
@@ -118,7 +115,7 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
      */
     public function map()
     {
-        assert(
+        assertThat(
                 Sequence::of(1, 2, 3, 4)->map(function($e) { return $e * 2; }),
                 Provides::values([2, 4, 6, 8])
         );
@@ -129,7 +126,7 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
      */
     public function mapWithNativeFunction()
     {
-        assert(
+        assertThat(
                 Sequence::of(1.9, 2.5, 3.1)->map('floor'),
                 Provides::values([1.0, 2.0, 3.0])
         );
@@ -141,7 +138,7 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
      */
     public function mapKeys()
     {
-        assert(
+        assertThat(
                 Sequence::of(1, 2, 3, 4)
                         ->mapKeys(function($e) { return $e * 2; }),
                 Provides::data([0 => 1, 2 => 2, 4 => 3, 6 => 4])
@@ -168,7 +165,7 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
      */
     public function sequenceIsCountable($expectedLength, $elements)
     {
-        assert(Sequence::of($elements), isOfSize($expectedLength));
+        assertThat(Sequence::of($elements), isOfSize($expectedLength));
     }
 
     /**
@@ -191,7 +188,7 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
      */
     public function sum($expectedResult, $elements)
     {
-        assert(
+        assertThat(
                 Sequence::of($elements)->reduce()->toSum(),
                 equals($expectedResult)
         );
@@ -217,7 +214,7 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
      */
     public function min($expectedResult, $elements)
     {
-        assert(
+        assertThat(
                 Sequence::of($elements)->reduce()->toMin(),
                 equals($expectedResult)
         );
@@ -243,7 +240,7 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
      */
     public function max($expectedResult, $elements)
     {
-        assert(
+        assertThat(
                 Sequence::of($elements)->reduce()->toMax(),
                 equals($expectedResult)
         );
@@ -267,7 +264,7 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
      */
     public function reduceReturnsIdentityForEmptyInput()
     {
-        assert(
+        assertThat(
                 Sequence::of([])->reduce(
                         function($a, $b)
                         {
@@ -284,7 +281,7 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
      */
     public function reduceUsedForSumming()
     {
-        assert(
+        assertThat(
                 Sequence::of(1, 2, 3, 4)
                         ->reduce(function($a, $b) { return $a + $b; }),
                 equals(10)
@@ -296,7 +293,7 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
      */
     public function reduceUsedForMaxWithNativeMaxFunction()
     {
-        assert(Sequence::of(7, 1, 10, 3)->reduce('max'), equals(10));
+        assertThat(Sequence::of(7, 1, 10, 3)->reduce('max'), equals(10));
     }
 
     /**
@@ -304,7 +301,7 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
      */
     public function reduceUsedForConcatenation()
     {
-        assert(
+        assertThat(
                 Sequence::of(['Hello', ' ', 'World'])
                         ->reduce(function($a, $b) { return $a . $b; }),
                 equals('Hello World')
@@ -320,7 +317,7 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
                 function() { return ['total' => 0, 'sum' => 0]; },
                 function(&$result, $element) { $result['total']++; $result['sum'] += $element; }
         );
-        assert($result['sum'] / $result['total'], equals(2.5));
+        assertThat($result['sum'] / $result['total'], equals(2.5));
     }
 
     /**
@@ -333,7 +330,7 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
                 function(&$result, $arg) { $result .= ', '.$arg; },
                 function($result) { return substr($result, 2); }
         );
-        assert($result, equals('a, b, c'));
+        assertThat($result, equals('a, b, c'));
     }
 
     /**
@@ -349,7 +346,7 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
      */
     public function firstReturnsFirstArrayElement()
     {
-        assert(Sequence::of(1, 2, 3)->first(), equals(1));
+        assertThat(Sequence::of(1, 2, 3)->first(), equals(1));
     }
 
     /**
@@ -357,7 +354,7 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
      */
     public function eachOnEmptyInput()
     {
-        assert(
+        assertThat(
                 Sequence::of([])
                         ->each(function() { fail('Should not be called'); }),
                 equals(0)
@@ -381,7 +378,7 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
      */
     public function eachReturnsAmountOfElementsForWhichCallableWasExecuted($expected, $callable)
     {
-        assert(
+        assertThat(
                 Sequence::of('a', 'b', 'c', 'd')->each($callable),
                 equals($expected)
         );
@@ -395,7 +392,7 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
         $collect = [];
         Sequence::of('a', 'b', 'c', 'd')
                 ->each(function($e) use(&$collect) { $collect[] = $e; });
-        assert($collect, equals(['a', 'b', 'c', 'd']));
+        assertThat($collect, equals(['a', 'b', 'c', 'd']));
     }
 
     /**
@@ -410,7 +407,7 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
                     $collect[] = $e; if ('b' === $e) { return false; }
                 }
         );
-        assert($collect, equals(['a', 'b']));
+        assertThat($collect, equals(['a', 'b']));
     }
 
     /**
@@ -422,7 +419,7 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
         Sequence::of(1, 2, 3, 4)->peek('var_export')->reduce()->toSum();
         $bytes = ob_get_contents();
         ob_end_clean();
-        assert($bytes, equals('1234'));
+        assertThat($bytes, equals('1234'));
     }
 
     /**
@@ -437,7 +434,7 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
                 ->toSum();
         $bytes = ob_get_contents();
         ob_end_clean();
-        assert($bytes, equals("0'a'1'b'2'c'3'd'"));
+        assertThat($bytes, equals("0'a'1'b'2'c'3'd'"));
     }
 
     /**
@@ -445,7 +442,7 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
      */
     public function limitStopsAtNthArrayElement()
     {
-        assert(Sequence::of(1, 2, 3)->limit(2), Provides::values([1, 2]));
+        assertThat(Sequence::of(1, 2, 3)->limit(2), Provides::values([1, 2]));
     }
 
     /**
@@ -453,7 +450,7 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
      */
     public function limitStopsAtNthInfiniteElement()
     {
-        assert(
+        assertThat(
                 Sequence::infinite(1, function($i) { return ++$i; })->limit(2),
                 Provides::values([1, 2])
         );
@@ -464,7 +461,7 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
      */
     public function limitStopsAtNthGeneratorElement()
     {
-        assert(
+        assertThat(
                 Sequence::generate(
                         1,
                         function($i) { return $i + 1; },
@@ -479,7 +476,7 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
      */
     public function skipIgnoresNumberOfArrayElements()
     {
-        assert(Sequence::of(4, 5, 6)->skip(2), Provides::values([6]));
+        assertThat(Sequence::of(4, 5, 6)->skip(2), Provides::values([6]));
     }
 
     /**
@@ -487,7 +484,7 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
      */
     public function skipIgnoresNumberOfInfiniteElements()
     {
-        assert(
+        assertThat(
                 Sequence::infinite(1, function($i) { return ++$i; })
                         ->skip(2)
                         ->limit(3),
@@ -500,7 +497,7 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
      */
     public function skipIgnoresNumberOfGeneratorElements()
     {
-        assert(
+        assertThat(
                 Sequence::generate(
                         1,
                         function($i) { return $i + 1; },
@@ -516,7 +513,7 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
      */
     public function appendCreatesNewCombinedSequenceWithGivenSequence()
     {
-        assert(
+        assertThat(
                 Sequence::of(1, 2)->append(Sequence::of(3, 4)),
                 Provides::values([1, 2, 3, 4])
         );
@@ -528,7 +525,7 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
      */
     public function appendCreatesNewCombinedSequenceWithGivenArray()
     {
-        assert(
+        assertThat(
                 Sequence::of(1, 2)->append([3, 4]),
                 Provides::values([1, 2, 3, 4])
         );
@@ -540,7 +537,7 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
      */
     public function appendCreatesNewCombinedSequenceWithGivenIterator()
     {
-        assert(
+        assertThat(
                 Sequence::of(1, 2)->append(new \ArrayIterator([3, 4])),
                 Provides::values([1, 2, 3, 4])
         );
@@ -553,8 +550,8 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
     public function appendCreatesNewCombinedSequenceWithGivenIteratorAggregate()
     {
         $iteratorAggregate = NewInstance::of(\IteratorAggregate::class)
-                ->mapCalls(['getIterator' => new \ArrayIterator([3, 4])]);
-        assert(
+                ->returns(['getIterator' => new \ArrayIterator([3, 4])]);
+        assertThat(
                 Sequence::of(1, 2)->append($iteratorAggregate),
                 Provides::values([1, 2, 3, 4])
         );
@@ -567,8 +564,8 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
     public function appendCreatesNewCombinedSequenceFromInitialIteratorAggregate()
     {
         $iteratorAggregate = NewInstance::of(\IteratorAggregate::class)
-                ->mapCalls(['getIterator' => new \ArrayIterator([1, 2])]);
-        assert(
+                ->returns(['getIterator' => new \ArrayIterator([1, 2])]);
+        assertThat(
                 Sequence::of($iteratorAggregate)->append([3, 4]),
                 Provides::values([1, 2, 3, 4])
         );
@@ -590,7 +587,7 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
      */
     public function appendCreatesNewCombinedSequenceWithGivenElement($initial)
     {
-        assert(Sequence::of($initial)->append(3), Provides::values([1, 2, 3]));
+        assertThat(Sequence::of($initial)->append(3), Provides::values([1, 2, 3]));
     }
 
     /**
@@ -603,7 +600,7 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
           $result[$key] = $element;
         }
 
-        assert($result, equals(['foo' => 1, 'bar' => 2, 'baz' => 3]));
+        assertThat($result, equals(['foo' => 1, 'bar' => 2, 'baz' => 3]));
     }
 
     /**
@@ -611,7 +608,7 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
      */
     public function dataReturnsCompleteDataAsArray()
     {
-        assert(
+        assertThat(
                 Sequence::of(new \ArrayIterator(['foo' => 'bar', 'baz' => 303])),
                 Provides::data(['foo' => 'bar', 'baz' => 303])
         );
@@ -623,7 +620,7 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
      */
     public function canBeSerializedToJson()
     {
-        assert(
+        assertThat(
                 json_encode(Sequence::of(['one' => 1, 2, 'three' => 3, 4])),
                 equals('{"one":1,"0":2,"three":3,"1":4}')
         );

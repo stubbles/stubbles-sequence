@@ -9,16 +9,17 @@ declare(strict_types=1);
  * @package  stubbles\sequence
  */
 namespace stubbles\sequence;
+use PHPUnit\Framework\TestCase;
 use stubbles\sequence\iterator\Limit;
 
-use function bovigo\assert\assert;
+use function bovigo\assert\assertThat;
 use function bovigo\assert\predicate\equals;
 /**
  * Tests for stubbles\sequence\Sequence->__toString().
  *
  * @since  8.0.0
  */
-class SequenceToStringTest extends \PHPUnit_Framework_TestCase
+class SequenceToStringTest extends TestCase
 {
     public function sequenceSourceTypes(): array
     {
@@ -39,7 +40,7 @@ class SequenceToStringTest extends \PHPUnit_Framework_TestCase
      */
     public function containsSourceType($input, $expectedSourceType)
     {
-        assert(
+        assertThat(
                 (string) Sequence::of($input),
                 equals(Sequence::class . ' ' . $expectedSourceType)
         );
@@ -50,7 +51,7 @@ class SequenceToStringTest extends \PHPUnit_Framework_TestCase
      */
     public function containsReferenceToFilterLambdaFunction()
     {
-        assert(
+        assertThat(
                 (string) Sequence::of(1, 2, 3, 4)
                         ->filter(function($e) { return 0 === $e % 2; }),
                 equals(Sequence::class . ' of array filtered by a lambda function')
@@ -62,7 +63,7 @@ class SequenceToStringTest extends \PHPUnit_Framework_TestCase
      */
     public function containsReferenceToFilterNamedFunction()
     {
-        assert(
+        assertThat(
                 (string) Sequence::of('Hello', 1337, 'World')->filter('is_string'),
                 equals(Sequence::class . ' of array filtered by is_string()')
         );
@@ -73,7 +74,7 @@ class SequenceToStringTest extends \PHPUnit_Framework_TestCase
      */
     public function containsReferenceToMappingLambdaFunction()
     {
-        assert(
+        assertThat(
                 (string) Sequence::of([1, 2, 3, 4])->map(function($e) { return $e * 2; }),
                 equals(Sequence::class . ' of array values mapped by a lambda function')
         );
@@ -84,7 +85,7 @@ class SequenceToStringTest extends \PHPUnit_Framework_TestCase
      */
     public function containsReferenceToMappingNamedFunction()
     {
-        assert(
+        assertThat(
                 (string) Sequence::of([1.9, 2.5, 3.1])->map('floor'),
                 equals(Sequence::class . ' of array values mapped by floor()')
         );
@@ -95,7 +96,7 @@ class SequenceToStringTest extends \PHPUnit_Framework_TestCase
      */
     public function containsReferenceToKeyMappingFunction()
     {
-        assert(
+        assertThat(
                 (string) Sequence::of([1, 2, 3, 4])
                         ->mapKeys(function($e) { return $e * 2; }),
                 equals(Sequence::class . ' of array keys mapped by a lambda function')
@@ -107,7 +108,7 @@ class SequenceToStringTest extends \PHPUnit_Framework_TestCase
      */
     public function containsNoReferenceToPeakFunction()
     {
-        assert(
+        assertThat(
                 (string) Sequence::of([1, 2, 3, 4])->peek('var_export'),
                 equals(Sequence::class . ' of array')
         );
@@ -118,7 +119,7 @@ class SequenceToStringTest extends \PHPUnit_Framework_TestCase
      */
     public function containsReferenceToLimit()
     {
-        assert(
+        assertThat(
                 (string)  Sequence::of([1, 2, 3])->limit(2),
                 equals(Sequence::class . ' of array limited to 2 elements')
         );
@@ -129,7 +130,7 @@ class SequenceToStringTest extends \PHPUnit_Framework_TestCase
      */
     public function containsReferenceToInfiniteGenerator()
     {
-        assert(
+        assertThat(
                 (string) Sequence::infinite(1, function($i) { return ++$i; })->limit(2),
                 equals(
                         Sequence::class . ' starting at 1 continued by a lambda function'
@@ -143,7 +144,7 @@ class SequenceToStringTest extends \PHPUnit_Framework_TestCase
      */
     public function containsReferenceToGenerator()
     {
-        assert(
+        assertThat(
                 (string) Sequence::generate(
                         1,
                         function($i) { return $i + 1; },
@@ -161,7 +162,7 @@ class SequenceToStringTest extends \PHPUnit_Framework_TestCase
      */
     public function containsReferenceToSkippedElements()
     {
-        assert(
+        assertThat(
                 (string) Sequence::of(4, 5, 6)->skip(2),
                 equals(Sequence::class . ' of array skipped until offset 2')
         );
@@ -172,7 +173,7 @@ class SequenceToStringTest extends \PHPUnit_Framework_TestCase
      */
     public function containsReferenceToBothLimitAndSkippedElements()
     {
-        assert(
+        assertThat(
                 (string) Sequence::infinite(1, function($i) { return ++$i; })
                         ->skip(2)
                         ->limit(3),
@@ -188,7 +189,7 @@ class SequenceToStringTest extends \PHPUnit_Framework_TestCase
      */
     public function limitDescriptionWithBothLimitAndSkipped()
     {
-        assert(
+        assertThat(
                 (new Limit(new \ArrayIterator([]), 2, 3))->description(),
                 equals('limited to 3 elements starting from offset 2')
         );

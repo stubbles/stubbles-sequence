@@ -16,23 +16,21 @@ declare(strict_types=1);
  * @package  stubbles\sequence
  */
 namespace stubbles\sequence;
+use PHPUnit\Framework\TestCase;
 use stubbles\test\sequence\Employee;
 
-use function bovigo\assert\assert;
+use function bovigo\assert\assertThat;
 use function bovigo\assert\predicate\equals;
 /**
  * Tests for stubbles\sequence\Collector.
  *
  * @since  5.2.0
  */
-class CollectorTest extends \PHPUnit_Framework_TestCase
+class CollectorTest extends TestCase
 {
     private $people;
 
-    /**
-     * set up test environment
-     */
-    public function setUp()
+    protected function setUp(): void
     {
         $this->people= [
             1549 => new Employee(1549, 'Timm', 'B', 15),
@@ -46,7 +44,7 @@ class CollectorTest extends \PHPUnit_Framework_TestCase
      */
     public function toList()
     {
-        assert(
+        assertThat(
                 Sequence::of($this->people)
                         ->map(function($e) { return $e->name(); })
                         ->collect()
@@ -60,7 +58,7 @@ class CollectorTest extends \PHPUnit_Framework_TestCase
      */
     public function toMapUsesGivenKeyAndValueSelector()
     {
-        assert(
+        assertThat(
                 Sequence::of($this->people)
                         ->collect()
                         ->inMap(
@@ -76,7 +74,7 @@ class CollectorTest extends \PHPUnit_Framework_TestCase
      */
     public function toMapPassesKeyAndValueWhenNoSelectorProvided()
     {
-        assert(
+        assertThat(
                 Sequence::of($this->people)->collect()->inMap(),
                 equals($this->people)
         );

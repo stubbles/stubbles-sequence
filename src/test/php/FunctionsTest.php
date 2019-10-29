@@ -5,11 +5,10 @@ declare(strict_types=1);
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
- *
- * @package  stubbles\sequence
  */
 namespace stubbles\sequence;
-use function bovigo\assert\assert;
+use PHPUnit\Framework\TestCase;
+use function bovigo\assert\assertThat;
 use function bovigo\assert\predicate\equals;
 use function bovigo\assert\predicate\isInstanceOf;
 use function bovigo\assert\predicate\isSameAs;
@@ -19,7 +18,7 @@ use function bovigo\assert\predicate\isSameAs;
  * @since  3.1.0
  * @group  ensure_callable
  */
-class FunctionsTest extends \PHPUnit_Framework_TestCase
+class FunctionsTest extends TestCase
 {
     /**
      * @test
@@ -28,7 +27,7 @@ class FunctionsTest extends \PHPUnit_Framework_TestCase
     public function ensureCallableDoesNotChangeClosures()
     {
         $closure = function() { return true; };
-        assert(ensureCallable($closure), isSameAs($closure));
+        assertThat(ensureCallable($closure), isSameAs($closure));
     }
 
     /**
@@ -38,7 +37,7 @@ class FunctionsTest extends \PHPUnit_Framework_TestCase
     public function ensureCallableDoesNotChangeCallbackWithInstance()
     {
         $callback = [$this, __FUNCTION__];
-        assert(ensureCallable($callback), isSameAs($callback));
+        assertThat(ensureCallable($callback), isSameAs($callback));
     }
 
     /**
@@ -56,7 +55,7 @@ class FunctionsTest extends \PHPUnit_Framework_TestCase
     public function ensureCallableDoesNotChangeCallbackWithStaticMethod()
     {
         $callback = [__CLASS__, 'example'];
-        assert(ensureCallable($callback), isSameAs($callback));
+        assertThat(ensureCallable($callback), isSameAs($callback));
     }
 
     /**
@@ -65,7 +64,7 @@ class FunctionsTest extends \PHPUnit_Framework_TestCase
      */
     public function ensureCallableDoesNotWrapUserlandFunction()
     {
-        assert(
+        assertThat(
                 ensureCallable('stubbles\sequence\ensureCallable'),
                 isSameAs('stubbles\sequence\ensureCallable')
         );
@@ -77,7 +76,7 @@ class FunctionsTest extends \PHPUnit_Framework_TestCase
      */
     public function ensureCallableWrapsInternalFunction()
     {
-        assert(ensureCallable('strlen'), isInstanceOf(\Closure::class));
+        assertThat(ensureCallable('strlen'), isInstanceOf(\Closure::class));
     }
 
     /**
@@ -86,7 +85,7 @@ class FunctionsTest extends \PHPUnit_Framework_TestCase
      */
     public function ensureCallableAlwaysReturnsSameClosureForSameFunction()
     {
-        assert(ensureCallable('strlen'), isSameAs(ensureCallable('strlen')));
+        assertThat(ensureCallable('strlen'), isSameAs(ensureCallable('strlen')));
     }
 
     /**
@@ -96,6 +95,6 @@ class FunctionsTest extends \PHPUnit_Framework_TestCase
     public function ensureCallableReturnsClosureThatPassesArgumentsAndReturnsValue()
     {
         $strlen = ensureCallable('strlen');
-        assert($strlen('foo'), equals(3));
+        assertThat($strlen('foo'), equals(3));
     }
 }

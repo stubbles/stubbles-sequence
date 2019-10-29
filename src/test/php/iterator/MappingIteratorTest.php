@@ -5,11 +5,10 @@ declare(strict_types=1);
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
- *
- * @package  stubbles\sequence
  */
 namespace stubbles\sequence\iterator;
-use function bovigo\assert\assert;
+use PHPUnit\Framework\TestCase;
+use function bovigo\assert\assertThat;
 use function bovigo\assert\assertNull;
 use function bovigo\assert\expect;
 use function bovigo\assert\fail;
@@ -20,7 +19,7 @@ use function bovigo\assert\predicate\equals;
  * @since  5.0.0
  * @group  iterator
  */
-class MappingIteratorTest extends \PHPUnit_Framework_TestCase
+class MappingIteratorTest extends TestCase
 {
     /**
      * @test
@@ -44,7 +43,7 @@ class MappingIteratorTest extends \PHPUnit_Framework_TestCase
                 function($value) { return 'bar'; }
         );
         foreach ($mapping as $value) {
-            assert($value, equals('bar'));
+            assertThat($value, equals('bar'));
         }
     }
 
@@ -58,7 +57,7 @@ class MappingIteratorTest extends \PHPUnit_Framework_TestCase
                 function($value, $key) { return $key; }
         );
         foreach ($mapping as $value) {
-            assert($value, equals('foo'));
+            assertThat($value, equals('foo'));
         }
     }
 
@@ -74,7 +73,7 @@ class MappingIteratorTest extends \PHPUnit_Framework_TestCase
                 function($key, $value) { return $value; }
         );
         foreach ($mapping as $key => $value) {
-            assert($key, equals('bar'));
+            assertThat($key, equals('bar'));
         }
     }
 
@@ -85,7 +84,7 @@ class MappingIteratorTest extends \PHPUnit_Framework_TestCase
     {
         $mapping = new MappingIterator(
                 new \ArrayIterator(['foo' => 'bar']),
-                function($value, $key) { assert($key, equals('foo')); return 'mappedValue'; },
+                function($value, $key) { assertThat($key, equals('foo')); return 'mappedValue'; },
                 function($key) { return 'mappedKey'; }
         );
         foreach ($mapping as $key => $value) {
@@ -102,7 +101,7 @@ class MappingIteratorTest extends \PHPUnit_Framework_TestCase
         $mapping = new MappingIterator(
                 new \ArrayIterator(['foo' => 'bar']),
                 function($value) { return 'mappedValue'; },
-                function($key, $value) { assert($value, equals('bar')); return 'mappedKey'; }
+                function($key, $value) { assertThat($value, equals('bar')); return 'mappedKey'; }
         );
         foreach ($mapping as $key => $value) {
             // intentionally empty
@@ -125,7 +124,7 @@ class MappingIteratorTest extends \PHPUnit_Framework_TestCase
             $values[] = $value;
         }
 
-        assert($values, equals([303, 808, '909']));
+        assertThat($values, equals([303, 808, '909']));
     }
 
     /**
@@ -142,7 +141,7 @@ class MappingIteratorTest extends \PHPUnit_Framework_TestCase
             $keys[] = $key;
         }
 
-        assert($keys, equals(['foo', 'bar', 'baz']));
+        assertThat($keys, equals(['foo', 'bar', 'baz']));
     }
 
     /**
@@ -159,7 +158,7 @@ class MappingIteratorTest extends \PHPUnit_Framework_TestCase
             $keys[] = $key;
         }
 
-        assert($keys, equals(['mappedKey', 'mappedKey', 'mappedKey']));
+        assertThat($keys, equals(['mappedKey', 'mappedKey', 'mappedKey']));
     }
 
     /**

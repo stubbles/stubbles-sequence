@@ -5,11 +5,10 @@ declare(strict_types=1);
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
- *
- * @package  stubbles\sequence
  */
 namespace stubbles\sequence;
-use function bovigo\assert\assert;
+use PHPUnit\Framework\TestCase;
+use function bovigo\assert\assertThat;
 use function bovigo\assert\predicate\equals;
 /**
  * Helper class for the test.
@@ -43,14 +42,14 @@ class AsArray
  * @since  5.4.0
  * @group  cast_to_array
  */
-class CastToArrayTest extends \PHPUnit_Framework_TestCase
+class CastToArrayTest extends TestCase
 {
     /**
      * @test
      */
     public function castToArrayOnTraversable()
     {
-        assert(
+        assertThat(
                 castToArray(new \ArrayIterator(['foo' => 'bar', 'baz' => 303])),
                 equals(['foo' => 'bar', 'baz' => 303])
         );
@@ -61,7 +60,7 @@ class CastToArrayTest extends \PHPUnit_Framework_TestCase
      */
     public function castToArrayOnArray()
     {
-        assert(
+        assertThat(
                 castToArray(['foo' => 'bar', 'baz' => 303]),
                 equals(['foo' => 'bar', 'baz' => 303])
         );
@@ -75,7 +74,7 @@ class CastToArrayTest extends \PHPUnit_Framework_TestCase
         $object = new \stdClass();
         $object->foo = 'bar';
         $object->baz = 303;
-        assert(castToArray($object), equals(['foo' => 'bar', 'baz' => 303]));
+        assertThat(castToArray($object), equals(['foo' => 'bar', 'baz' => 303]));
     }
 
     /**
@@ -83,7 +82,7 @@ class CastToArrayTest extends \PHPUnit_Framework_TestCase
      */
     public function castToArrayOnObjectWithAsArrayMethod()
     {
-        assert(
+        assertThat(
                 castToArray(new AsArray()),
                 equals(['foo' => 'bar', 'baz' => 303])
         );
@@ -94,7 +93,7 @@ class CastToArrayTest extends \PHPUnit_Framework_TestCase
      */
     public function castToArrayOnObjectWithToArrayMethod()
     {
-        assert(
+        assertThat(
                 castToArray(new ToArray()),
                 equals(['foo' => 'bar', 'baz' => 303])
         );
@@ -105,6 +104,6 @@ class CastToArrayTest extends \PHPUnit_Framework_TestCase
      */
     public function castToArrayOnScalarValue()
     {
-        assert(castToArray(303), equals([303]));
+        assertThat(castToArray(303), equals([303]));
     }
 }

@@ -5,13 +5,12 @@ declare(strict_types=1);
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
- *
- * @package  stubbles\sequence
  */
 namespace stubbles\sequence\assert;
+use PHPUnit\Framework\TestCase;
 use stubbles\sequence\Sequence;
 
-use function bovigo\assert\assert;
+use function bovigo\assert\assertThat;
 use function bovigo\assert\assertFalse;
 use function bovigo\assert\assertTrue;
 use function bovigo\assert\expect;
@@ -23,7 +22,7 @@ use function bovigo\assert\predicate\equals;
  * @since  8.0.0
  * @group  assert
  */
-class ProvidesTest extends \PHPUnit_Framework_TestCase
+class ProvidesTest extends TestCase
 {
     /**
      * @test
@@ -77,7 +76,7 @@ class ProvidesTest extends \PHPUnit_Framework_TestCase
      */
     public function stringRepresentationReferencesType(Provides $provides, $type)
     {
-        assert((string) $provides, equals('provides expected ' . $type));
+        assertThat((string) $provides, equals('provides expected ' . $type));
     }
 
     /**
@@ -87,7 +86,7 @@ class ProvidesTest extends \PHPUnit_Framework_TestCase
     {
         $provides = Provides::values([1]);
         $provides->test(Sequence::of(['foo' => 1, 'bar' => 2]));
-        assert(
+        assertThat(
                 (string) $provides,
                 equals('provides expected values.
 --- Expected
@@ -108,7 +107,7 @@ class ProvidesTest extends \PHPUnit_Framework_TestCase
     {
         $provides = Provides::data(['foo' => 1]);
         $provides->test(Sequence::of(['foo' => 1, 'bar' => 2]));
-        assert(
+        assertThat(
                 (string) $provides,
                 equals('provides expected data.
 --- Expected
@@ -127,7 +126,7 @@ class ProvidesTest extends \PHPUnit_Framework_TestCase
      */
     public function exportsSequenceAsStringRepresentation()
     {
-        assert(
+        assertThat(
                 Provides::values([1])->describeValue(exporter(), Sequence::of([])),
                 equals(Sequence::class . ' of array')
         );
@@ -138,7 +137,7 @@ class ProvidesTest extends \PHPUnit_Framework_TestCase
      */
     public function exportsAnyThingElseWithDefault()
     {
-        assert(
+        assertThat(
                 Provides::values([1])->describeValue(exporter(), 'foo'),
                 equals('\'foo\'')
         );
