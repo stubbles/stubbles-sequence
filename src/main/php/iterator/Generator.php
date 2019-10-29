@@ -51,7 +51,7 @@ class Generator implements \Iterator, SelfDescribing
     /**
      * constructor
      *
-     * @param  $seed     $seed       initial value
+     * @param  mixed     $seed       initial value
      * @param  callable  $operation  operation which takes a value and generates a new one
      * @param  callable  $validator  function which decides whether a value is valid
      */
@@ -66,7 +66,7 @@ class Generator implements \Iterator, SelfDescribing
     /**
      * creates a generator which iterates infinitely
      *
-     * @param   $seed     $seed       initial value
+     * @param   mixed     $seed       initial value
      * @param   callable  $operation  operation which takes a value and generates a new one
      * @return  Generator
      */

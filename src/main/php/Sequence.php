@@ -12,8 +12,6 @@ declare(strict_types=1);
  * Copyright (c) 2001-2014, XP-Framework Team
  * All rights reserved.
  * https://github.com/xp-framework/xp-framework/blob/master/core/src/main/php/LICENCE
- *
- * @package  stubbles\sequence
  */
 namespace stubbles\sequence;
 use stubbles\sequence\iterator\{
@@ -127,7 +125,7 @@ class Sequence implements \IteratorAggregate, \Countable, \JsonSerializable
      * iteration when required.
      *
      *
-     * @param   $seed     $seed       initial value
+     * @param   mixed     $seed       initial value
      * @param   callable  $operation  operation which takes a value and generates a new one
      * @return  \stubbles\sequence\Sequence
      */
@@ -154,7 +152,7 @@ class Sequence implements \IteratorAggregate, \Countable, \JsonSerializable
      * )->values();
      * </code>
      *
-     * @param   $seed     $seed       initial value
+     * @param   mixed     $seed       initial value
      * @param   callable  $operation  operation which takes a value and generates a new one
      * @param   callable  $validator  function which decides whether a value is valid
      * @return  \stubbles\sequence\Sequence

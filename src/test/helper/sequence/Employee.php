@@ -16,15 +16,7 @@ class Employee
     private $department;
     private $years;
 
-    /**
-     * Creates a new employee
-     *
-     * @param  int $id
-     * @param  string $name
-     * @param  string $department
-     * @param  int $years
-     */
-    public function __construct($id, $name, $department, $years)
+    public function __construct(int $id, string $name, string $department, int $years)
     {
         $this->id         = $id;
         $this->name       = $name;
@@ -32,24 +24,15 @@ class Employee
         $this->years      = $years;
     }
 
-    /** @return int */
-    public function id() { return $this->id; }
+    public function id(): int { return $this->id; }
 
-    /** @return string */
-    public function name() { return $this->name; }
+    public function name(): string { return $this->name; }
 
-    /** @return string */
-    public function department() { return $this->department; }
+    public function department(): string { return $this->department; }
 
-    /** @return int */
-    public function years() { return $this->years; }
+    public function years(): int { return $this->years; }
 
-    /**
-     * Creates a string representation
-     *
-     * @return string
-     */
-    public function toString()
+    public function toString(): string
     {
         return $this->getClassName().'('.
           'id= '.$this->id.', name= '.$this->name.', department= '.$this->department.', years= '.$this->years.
