@@ -34,7 +34,7 @@ class Employee
 
     public function toString(): string
     {
-        return $this->getClassName().'('.
+        return __CLASS__.'('.
           'id= '.$this->id.', name= '.$this->name.', department= '.$this->department.', years= '.$this->years.
         ')';
     }
