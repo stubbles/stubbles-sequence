@@ -8,34 +8,10 @@ declare(strict_types=1);
  */
 namespace stubbles\sequence;
 use PHPUnit\Framework\TestCase;
+use stubbles\test\sequence\AsArray;
+use stubbles\test\sequence\ToArray;
 use function bovigo\assert\assertThat;
 use function bovigo\assert\predicate\equals;
-/**
- * Helper class for the test.
- */
-class ToArray
-{
-    /**
-     * @return  array
-     */
-    public function toArray(): array
-    {
-        return ['foo' => 'bar', 'baz' => 303];
-    }
-}
-/**
- * Helper class for the test.
- */
-class AsArray
-{
-    /**
-     * @return  array
-     */
-    public function asArray(): array
-    {
-        return ['foo' => 'bar', 'baz' => 303];
-    }
-}
 /**
  * Tests for stubbles\sequence\castToArray().
  *

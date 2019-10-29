@@ -20,7 +20,8 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "stubbles\\test\\": "src/test/helper"
+            "stubbles\\test\\": "src/test/helper",
+            "stubbles\\sequence\\": "src/test/php"
         }
     },
     "extra": {
