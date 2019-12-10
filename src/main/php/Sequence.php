@@ -52,7 +52,6 @@ use stubbles\sequence\iterator\{
  *
  * @api
  * @since  5.2.0
- * @template T
  */
 class Sequence implements \IteratorAggregate, \Countable, \JsonSerializable
 {
