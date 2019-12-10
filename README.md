@@ -489,13 +489,13 @@ Sequence validation with _bovigo/assert_
 
 _Available since release 8.0.0_
 
-In case you use [_bovigo/assert_](https://github.com/mikey179/bovigo-assert) for
+In case you use [_bovigo/assert_](https://github.com/bovigo/assert) for
 assertions in your unit tests _stubbles/sequence_  provides two predicates which
 can be used to ensure a sequence contains the expected data:
 
 ```php
-assert($yourSequence, Provides::values([1, 2, 3]));
-assert($yourSequence, Provides::data(['foo' => 1, 'bar' => 2, 'baz' => 3]));
+assertThat($yourSequence, Provides::values([1, 2, 3]));
+assertThat($yourSequence, Provides::data(['foo' => 1, 'bar' => 2, 'baz' => 3]));
 ```
 
 Both are available with the class `stubbles\sequence\assert\Provides`. While the
