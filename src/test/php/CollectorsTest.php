@@ -26,6 +26,9 @@ use function bovigo\assert\predicate\equals;
  */
 class CollectorsTest extends TestCase
 {
+    /**
+     * @var  array<int,Employee>
+     */
     private $people;
 
     protected function setUp(): void
@@ -40,7 +43,7 @@ class CollectorsTest extends TestCase
     /**
      * @test
      */
-    public function joiningNames()
+    public function joiningNames(): void
     {
         assertThat(
                 Sequence::of($this->people)
@@ -54,7 +57,7 @@ class CollectorsTest extends TestCase
     /**
      * @test
      */
-    public function joiningNamesWithSemicolon()
+    public function joiningNamesWithSemicolon(): void
     {
         assertThat(
                 Sequence::of($this->people)
@@ -68,7 +71,7 @@ class CollectorsTest extends TestCase
     /**
      * @test
      */
-    public function joiningNamesWithPrefixAndSuffix()
+    public function joiningNamesWithPrefixAndSuffix(): void
     {
         assertThat(
                 Sequence::of($this->people)
@@ -82,7 +85,7 @@ class CollectorsTest extends TestCase
     /**
      * @test
      */
-    public function joiningNamesWithKeySeparator()
+    public function joiningNamesWithKeySeparator(): void
     {
         assertThat(
                 Sequence::of($this->people)
@@ -96,7 +99,8 @@ class CollectorsTest extends TestCase
     /**
      * @test
      */
-    public function groupingBy() {
+    public function groupingBy(): void
+    {
         assertThat(
                 Sequence::of($this->people)
                         ->collect()
@@ -111,7 +115,8 @@ class CollectorsTest extends TestCase
     /**
      * @test
      */
-    public function groupingByWithSummingOfYears() {
+    public function groupingByWithSummingOfYears(): void
+    {
         assertThat(
                 Sequence::of($this->people)
                         ->collect()
@@ -126,7 +131,8 @@ class CollectorsTest extends TestCase
     /**
      * @test
      */
-    public function groupingByWithAveragingOfYears() {
+    public function groupingByWithAveragingOfYears(): void
+    {
         assertThat(
                 Sequence::of($this->people)
                         ->collect()
@@ -141,7 +147,8 @@ class CollectorsTest extends TestCase
     /**
      * @test
      */
-    public function partitioningBy() {
+    public function partitioningBy(): void
+    {
         assertThat(
                 Sequence::of($this->people)
                         ->collect()
@@ -156,7 +163,8 @@ class CollectorsTest extends TestCase
     /**
      * @test
      */
-    public function partitioningByWithSum() {
+    public function partitioningByWithSum(): void
+    {
         assertThat(
                 Sequence::of($this->people)->collect()->inPartitions(
                         function(Employee $e) { return $e->years() > 10; },

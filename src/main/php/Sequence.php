@@ -52,17 +52,18 @@ use stubbles\sequence\iterator\{
  *
  * @api
  * @since  5.2.0
+ * @template T
  */
 class Sequence implements \IteratorAggregate, \Countable, \JsonSerializable
 {
     /**
      * actual data in sequence
      *
-     * @type  \Traversable|array  $elements
+     * @var  \Traversable|array  $elements
      */
     private $elements;
     /**
-     * @type  string
+     * @var  string
      * @since  8.0.0
      */
     private $type     = '';
@@ -70,18 +71,18 @@ class Sequence implements \IteratorAggregate, \Countable, \JsonSerializable
     /**
      * constructor
      *
-     * @param  \Traversable|array  $elements
-     * @param  string              $sourceType  optional
+     * @param  iterable  $elements
+     * @param  string    $sourceType  optional
      */
     private function __construct($elements, string $sourceType = null)
     {
         $this->elements = $elements;
         if ($elements instanceof SelfDescribing) {
             $this->type = $sourceType . ' ' . $elements->description();
-        } elseif (is_array($elements)) {
+        } elseif (\is_array($elements)) {
             $this->type = 'of array';
         } else {
-            $this->type = 'from ' . get_class($elements);
+            $this->type = 'from ' . \get_class($elements);
         }
     }
 
@@ -95,12 +96,12 @@ class Sequence implements \IteratorAggregate, \Countable, \JsonSerializable
      * - one argument which is none of the above: equivalent to Sequence::of([$element])
      * - two or more arguments: sequence of the list of arguments
      *
-     * @param   array<int, mixed>  $elements
+     * @param   array<int,mixed>  $elements
      * @return  \stubbles\sequence\Sequence
      */
     public static function of(...$elements): self
     {
-        if (count($elements) === 1) {
+        if (\count($elements) === 1) {
             $elements = $elements[0];
         }
 
@@ -108,7 +109,7 @@ class Sequence implements \IteratorAggregate, \Countable, \JsonSerializable
             return $elements;
         }
 
-        if ($elements instanceof \Traversable || is_array($elements)) {
+        if ($elements instanceof \Traversable || \is_array($elements)) {
             return new self($elements);
         }
 

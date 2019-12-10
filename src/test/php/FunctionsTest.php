@@ -24,7 +24,7 @@ class FunctionsTest extends TestCase
      * @test
      * @since  4.0.0
      */
-    public function ensureCallableDoesNotChangeClosures()
+    public function ensureCallableDoesNotChangeClosures(): void
     {
         $closure = function() { return true; };
         assertThat(ensureCallable($closure), isSameAs($closure));
@@ -34,7 +34,7 @@ class FunctionsTest extends TestCase
      * @test
      * @since  4.0.0
      */
-    public function ensureCallableDoesNotChangeCallbackWithInstance()
+    public function ensureCallableDoesNotChangeCallbackWithInstance(): void
     {
         $callback = [$this, __FUNCTION__];
         assertThat(ensureCallable($callback), isSameAs($callback));
@@ -43,7 +43,7 @@ class FunctionsTest extends TestCase
     /**
      * helper method for test
      */
-    public static function example()
+    public static function example(): void
     {
         // intentionally empty
     }
@@ -52,7 +52,7 @@ class FunctionsTest extends TestCase
      * @test
      * @since  4.0.0
      */
-    public function ensureCallableDoesNotChangeCallbackWithStaticMethod()
+    public function ensureCallableDoesNotChangeCallbackWithStaticMethod(): void
     {
         $callback = [__CLASS__, 'example'];
         assertThat(ensureCallable($callback), isSameAs($callback));
@@ -62,7 +62,7 @@ class FunctionsTest extends TestCase
      * @test
      * @since  4.0.0
      */
-    public function ensureCallableDoesNotWrapUserlandFunction()
+    public function ensureCallableDoesNotWrapUserlandFunction(): void
     {
         assertThat(
                 ensureCallable('stubbles\sequence\ensureCallable'),
@@ -74,7 +74,7 @@ class FunctionsTest extends TestCase
      * @test
      * @since  4.0.0
      */
-    public function ensureCallableWrapsInternalFunction()
+    public function ensureCallableWrapsInternalFunction(): void
     {
         assertThat(ensureCallable('strlen'), isInstanceOf(\Closure::class));
     }
@@ -83,7 +83,7 @@ class FunctionsTest extends TestCase
      * @test
      * @since  4.0.0
      */
-    public function ensureCallableAlwaysReturnsSameClosureForSameFunction()
+    public function ensureCallableAlwaysReturnsSameClosureForSameFunction(): void
     {
         assertThat(ensureCallable('strlen'), isSameAs(ensureCallable('strlen')));
     }
@@ -92,7 +92,7 @@ class FunctionsTest extends TestCase
      * @test
      * @since  4.0.0
      */
-    public function ensureCallableReturnsClosureThatPassesArgumentsAndReturnsValue()
+    public function ensureCallableReturnsClosureThatPassesArgumentsAndReturnsValue(): void
     {
         $strlen = ensureCallable('strlen');
         assertThat($strlen('foo'), equals(3));

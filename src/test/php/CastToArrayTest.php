@@ -23,7 +23,7 @@ class CastToArrayTest extends TestCase
     /**
      * @test
      */
-    public function castToArrayOnTraversable()
+    public function castToArrayOnTraversable(): void
     {
         assertThat(
                 castToArray(new \ArrayIterator(['foo' => 'bar', 'baz' => 303])),
@@ -34,7 +34,7 @@ class CastToArrayTest extends TestCase
     /**
      * @test
      */
-    public function castToArrayOnArray()
+    public function castToArrayOnArray(): void
     {
         assertThat(
                 castToArray(['foo' => 'bar', 'baz' => 303]),
@@ -45,7 +45,7 @@ class CastToArrayTest extends TestCase
     /**
      * @test
      */
-    public function castToArrayOnObject()
+    public function castToArrayOnObject(): void
     {
         $object = new \stdClass();
         $object->foo = 'bar';
@@ -56,7 +56,7 @@ class CastToArrayTest extends TestCase
     /**
      * @test
      */
-    public function castToArrayOnObjectWithAsArrayMethod()
+    public function castToArrayOnObjectWithAsArrayMethod(): void
     {
         assertThat(
                 castToArray(new AsArray()),
@@ -67,7 +67,7 @@ class CastToArrayTest extends TestCase
     /**
      * @test
      */
-    public function castToArrayOnObjectWithToArrayMethod()
+    public function castToArrayOnObjectWithToArrayMethod(): void
     {
         assertThat(
                 castToArray(new ToArray()),
@@ -78,7 +78,7 @@ class CastToArrayTest extends TestCase
     /**
      * @test
      */
-    public function castToArrayOnScalarValue()
+    public function castToArrayOnScalarValue(): void
     {
         assertThat(castToArray(303), equals([303]));
     }

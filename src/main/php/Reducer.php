@@ -24,7 +24,7 @@ class Reducer
     /**
      * actual sequence of data to reduce
      *
-     * @type  Sequence
+     * @var  Sequence
      */
     private $sequence;
 

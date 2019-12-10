@@ -22,7 +22,7 @@ class PeekTest extends TestCase
     /**
      * @test
      */
-    public function peekCallsValueConsumerWithCurrentValueOnIteration()
+    public function peekCallsValueConsumerWithCurrentValueOnIteration(): void
     {
         $result = '';
         $peek = new Peek(
@@ -39,7 +39,7 @@ class PeekTest extends TestCase
     /**
      * @test
      */
-    public function peekCallsKeyConsumerWithCurrentKeyOnIteration()
+    public function peekCallsKeyConsumerWithCurrentKeyOnIteration(): void
     {
         $result = '';
         $peek = new Peek(
@@ -57,7 +57,7 @@ class PeekTest extends TestCase
     /**
      * @test
      */
-    public function keyConsumerIsNotCalledWhenNoKeyInForeachRequested()
+    public function keyConsumerIsNotCalledWhenNoKeyInForeachRequested(): void
     {
         $i = 0;
         $peek = new Peek(

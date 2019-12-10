@@ -25,7 +25,7 @@ class MappingIteratorTest extends TestCase
      * @test
      * @since  5.3.0
      */
-    public function throwsInvalidArgumentExceptionWhenBothValueMapperAndKeyMapperAreNull()
+    public function throwsInvalidArgumentExceptionWhenBothValueMapperAndKeyMapperAreNull(): void
     {
         expect(function() {
                 new MappingIterator(new \ArrayIterator(['foo', 'bar', 'baz']));
@@ -36,7 +36,7 @@ class MappingIteratorTest extends TestCase
     /**
      * @test
      */
-    public function mapsValueOnIteration()
+    public function mapsValueOnIteration(): void
     {
         $mapping = new MappingIterator(
                 new \ArrayIterator(['foo']),
@@ -50,7 +50,7 @@ class MappingIteratorTest extends TestCase
     /**
      * @test
      */
-    public function valueMapperCanOptionallyReceiveKey()
+    public function valueMapperCanOptionallyReceiveKey(): void
     {
         $mapping = new MappingIterator(
                 new \ArrayIterator(['foo' => 'bar']),
@@ -65,7 +65,7 @@ class MappingIteratorTest extends TestCase
      * @test
      * @since  5.3.0
      */
-    public function keyMapperCanOptionallyReceiveValue()
+    public function keyMapperCanOptionallyReceiveValue(): void
     {
         $mapping = new MappingIterator(
                 new \ArrayIterator(['foo' => 'bar']),
@@ -80,7 +80,7 @@ class MappingIteratorTest extends TestCase
     /**
      * @test
      */
-    public function valueMapperReceivesUnmappedKey()
+    public function valueMapperReceivesUnmappedKey(): void
     {
         $mapping = new MappingIterator(
                 new \ArrayIterator(['foo' => 'bar']),
@@ -96,7 +96,7 @@ class MappingIteratorTest extends TestCase
      * @test
      * @since  5.3.0
      */
-    public function keyMapperReceivesUnmappedValue()
+    public function keyMapperReceivesUnmappedValue(): void
     {
         $mapping = new MappingIterator(
                 new \ArrayIterator(['foo' => 'bar']),
@@ -112,7 +112,7 @@ class MappingIteratorTest extends TestCase
      * @test
      * @since  5.3.0
      */
-    public function doesNotMapValueWhenNoValueMapperProvided()
+    public function doesNotMapValueWhenNoValueMapperProvided(): void
     {
         $mapping = new MappingIterator(
                 new \ArrayIterator(['foo' => 303, 'bar' => 808, 'baz' => '909']),
@@ -130,7 +130,7 @@ class MappingIteratorTest extends TestCase
     /**
      * @test
      */
-    public function doesNotMapKeyWhenNoKeyMapperProvided()
+    public function doesNotMapKeyWhenNoKeyMapperProvided(): void
     {
         $mapping = new MappingIterator(
                 new \ArrayIterator(['foo' => 303, 'bar' => 808, 'baz' => '909']),
@@ -147,7 +147,7 @@ class MappingIteratorTest extends TestCase
     /**
      * @test
      */
-    public function mapsKeyWhenKeyMapperProvided()
+    public function mapsKeyWhenKeyMapperProvided(): void
     {
         $mapping = new MappingIterator(
                 new \ArrayIterator(['foo' => 303, 'bar' => 808, 'baz' => 909]),
@@ -166,7 +166,7 @@ class MappingIteratorTest extends TestCase
      * @test
      * @since  7.0.0
      */
-    public function doesNotCallValueMapperWhenEndOfIteratorReached()
+    public function doesNotCallValueMapperWhenEndOfIteratorReached(): void
     {
         $mapping = new MappingIterator(
                 new \ArrayIterator(['foo' => 303]),
@@ -180,7 +180,7 @@ class MappingIteratorTest extends TestCase
      * @test
      * @since  7.0.0
      */
-    public function doesNotCallKeyMapperWhenEndOfIteratorReached()
+    public function doesNotCallKeyMapperWhenEndOfIteratorReached(): void
     {
         $mapping = new MappingIterator(
                 new \ArrayIterator(['foo' => 303]),

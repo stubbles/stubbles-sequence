@@ -19,26 +19,26 @@ class MappingIterator extends \IteratorIterator implements SelfDescribing
     /**
      * callable which maps the values‚
      *
-     * @type  callable
+     * @var  callable
      */
     private $valueMapper;
     /**
      * callable which maps the keys
      *
-     * @type  callable
+     * @var  callable
      */
     private $keyMapper;
     /**
-     * @type  string[]
+     * @var  string[]
      */
     private $description = [];
 
     /**
      * constructor
      *
-     * @param   \Traversable  $iterator     iterator to map values of
-     * @param   callable      $valueMapper  optional  callable which maps the values
-     * @param   callable      $keyMapper    optional  callable which maps the keys
+     * @param   \Traversable<mixed>  $iterator     iterator to map values of
+     * @param   callable             $valueMapper  optional  callable which maps the values
+     * @param   callable             $keyMapper    optional  callable which maps the keys
      * @throws  \InvalidArgumentException  in case both $valueMapper and $keyMapper are null
      */
     public function __construct(

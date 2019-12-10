@@ -7,11 +7,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 namespace stubbles\sequence\assert;
+use bovigo\assert\predicate\Equals;
 use bovigo\assert\predicate\Predicate;
 use SebastianBergmann\Exporter\Exporter;
 use stubbles\sequence\Sequence;
-
-use function bovigo\assert\predicate\equals;
 /**
  * Predicate which checks that a sequence provides all expected values or data.
  *
@@ -20,18 +19,18 @@ use function bovigo\assert\predicate\equals;
 class Provides extends Predicate
 {
     /**
-     * @type  Predicate
+     * @var  \bovigo\assert\predicate\Equals
      */
     private $expected;
     /**
-     * @type  string
+     * @var  string
      */
     private $what;
 
     /**
      * creates instance which checks that a sequence provides given values ignoring the keys
      *
-     * @param   array  $expected
+     * @param   mixed[]  $expected
      * @return  Provides
      */
     public static function values(array $expected): self
@@ -42,7 +41,7 @@ class Provides extends Predicate
     /**
      * creates instance which checks that a sequence provides values with keys
      *
-     * @param   array  $expected
+     * @param   array<int|string,mixed>  $expected
      * @return  Provides
      */
     public static function data(array $expected): self
@@ -50,12 +49,22 @@ class Provides extends Predicate
         return new self($expected, 'data');
     }
 
+    /**
+     * @param  array<int|string,mixed>  $expected
+     * @param  string               $what
+     */
     private function __construct(array $expected, string $what)
     {
-        $this->expected = equals($expected);
+        $this->expected = new Equals($expected);
         $this->what     = $what;
     }
 
+    /**
+     * Tests that given value is a sequence and contains all values.
+     *
+     * @param   mixed  $value
+     * @return  bool
+     */
     public function test($value): bool
     {
         if (!($value instanceof Sequence)) {
@@ -78,6 +87,13 @@ class Provides extends Predicate
         return $return;
     }
 
+    /**
+     * Describes given value in textual form.
+     *
+     * @param   Exporter  $exporter
+     * @param   mixed     $value
+     * @return  string
+     */
     public function describeValue(Exporter $exporter, $value): string
     {
         if ($value instanceof Sequence) {

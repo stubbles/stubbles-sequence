@@ -28,6 +28,9 @@ use function bovigo\assert\predicate\equals;
  */
 class CollectorTest extends TestCase
 {
+    /**
+     * @var  array<int,Employee>
+     */
     private $people;
 
     protected function setUp(): void
@@ -42,7 +45,7 @@ class CollectorTest extends TestCase
     /**
      * @test
      */
-    public function toList()
+    public function toList(): void
     {
         assertThat(
                 Sequence::of($this->people)
@@ -56,7 +59,7 @@ class CollectorTest extends TestCase
     /**
      * @test
      */
-    public function toMapUsesGivenKeyAndValueSelector()
+    public function toMapUsesGivenKeyAndValueSelector(): void
     {
         assertThat(
                 Sequence::of($this->people)
@@ -72,7 +75,7 @@ class CollectorTest extends TestCase
     /**
      * @test
      */
-    public function toMapPassesKeyAndValueWhenNoSelectorProvided()
+    public function toMapPassesKeyAndValueWhenNoSelectorProvided(): void
     {
         assertThat(
                 Sequence::of($this->people)->collect()->inMap(),

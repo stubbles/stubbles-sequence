@@ -27,7 +27,7 @@ class ProvidesTest extends TestCase
     /**
      * @test
      */
-    public function throwInvalidArgumentExceptionWhenTestValueIsNotOfTypeSequence()
+    public function throwInvalidArgumentExceptionWhenTestValueIsNotOfTypeSequence(): void
     {
         $provides  = Provides::values([]);
         expect(function() use ($provides) { $provides->test(new \stdClass()); })
@@ -35,6 +35,9 @@ class ProvidesTest extends TestCase
                 ->withMessage('Given value of type "object" is not an instance of ' . Sequence::class);
     }
 
+    /**
+     * @return  array<array<mixed>>
+     */
     public function createProvides(): array
     {
         return [
@@ -47,7 +50,7 @@ class ProvidesTest extends TestCase
      * @test
      * @dataProvider  createProvides
      */
-    public function evaluatesToTrueIfTestedSequenceProvidesExpectedContents(Provides $provides)
+    public function evaluatesToTrueIfTestedSequenceProvidesExpectedContents(Provides $provides): void
     {
         assertTrue($provides->test(Sequence::of(['foo' => 1])));
     }
@@ -56,7 +59,7 @@ class ProvidesTest extends TestCase
      * @test
      * @dataProvider  createProvides
      */
-    public function evaluatesToFalseIfTestedSequenceDoesNotProvideExpectedContents(Provides $provides)
+    public function evaluatesToFalseIfTestedSequenceDoesNotProvideExpectedContents(Provides $provides): void
     {
         assertFalse($provides->test(Sequence::of(['bar' => 2])));
     }
@@ -65,7 +68,7 @@ class ProvidesTest extends TestCase
      * @test
      * @dataProvider  createProvides
      */
-    public function evaluatesToFalseIfTestedSequenceContainsMoreValues(Provides $provides)
+    public function evaluatesToFalseIfTestedSequenceContainsMoreValues(Provides $provides): void
     {
         assertFalse($provides->test(Sequence::of(['foo' => 1, 'bar' => 2])));
     }
@@ -74,7 +77,7 @@ class ProvidesTest extends TestCase
      * @test
      * @dataProvider  createProvides
      */
-    public function stringRepresentationReferencesType(Provides $provides, $type)
+    public function stringRepresentationReferencesType(Provides $provides, string $type): void
     {
         assertThat((string) $provides, equals('provides expected ' . $type));
     }
@@ -82,7 +85,7 @@ class ProvidesTest extends TestCase
     /**
      * @test
      */
-    public function stringRepresentationContainsDiffWhenTestFailedForValues()
+    public function stringRepresentationContainsDiffWhenTestFailedForValues(): void
     {
         $provides = Provides::values([1]);
         $provides->test(Sequence::of(['foo' => 1, 'bar' => 2]));
@@ -103,7 +106,7 @@ class ProvidesTest extends TestCase
     /**
      * @test
      */
-    public function stringRepresentationContainsDiffWhenTestFailedForData()
+    public function stringRepresentationContainsDiffWhenTestFailedForData(): void
     {
         $provides = Provides::data(['foo' => 1]);
         $provides->test(Sequence::of(['foo' => 1, 'bar' => 2]));
@@ -124,7 +127,7 @@ class ProvidesTest extends TestCase
     /**
      * @test
      */
-    public function exportsSequenceAsStringRepresentation()
+    public function exportsSequenceAsStringRepresentation(): void
     {
         assertThat(
                 Provides::values([1])->describeValue(exporter(), Sequence::of([])),
@@ -135,7 +138,7 @@ class ProvidesTest extends TestCase
     /**
      * @test
      */
-    public function exportsAnyThingElseWithDefault()
+    public function exportsAnyThingElseWithDefault(): void
     {
         assertThat(
                 Provides::values([1])->describeValue(exporter(), 'foo'),

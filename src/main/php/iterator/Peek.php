@@ -16,13 +16,13 @@ class Peek extends \IteratorIterator implements SelfDescribing
     /**
      * consumer for values
      *
-     * @type  callable
+     * @var  callable
      */
     private $valueConsumer;
     /**
      * consumer for keys
      *
-     * @type  callable
+     * @var  callable|null
      */
     private $keyConsumer;
 

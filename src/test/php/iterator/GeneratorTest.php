@@ -23,7 +23,7 @@ class GeneratorTest extends TestCase
     /**
      * @test
      */
-    public function iterationStopsWhenValidatorReturnsFalse()
+    public function iterationStopsWhenValidatorReturnsFalse(): void
     {
         $generator = new Generator(
                 2,
@@ -44,7 +44,7 @@ class GeneratorTest extends TestCase
     /**
      * @test
      */
-    public function resultsAreReproducableWhenOperationIsReproducable()
+    public function resultsAreReproducableWhenOperationIsReproducable(): void
     {
         $generator = new Generator(
                 2,
@@ -67,7 +67,7 @@ class GeneratorTest extends TestCase
     /**
      * @test
      */
-    public function infiniteGeneratorDoesStopOnlyWhenBreakOutOfLoop()
+    public function infiniteGeneratorDoesStopOnlyWhenBreakOutOfLoop(): void
     {
         $i = 0;
         foreach (Generator::infinite(0, function($value) { return $value + 2; }) as $key => $value) {

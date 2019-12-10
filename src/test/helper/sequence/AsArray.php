@@ -12,7 +12,7 @@ namespace stubbles\test\sequence;
 class AsArray
 {
     /**
-     * @return  array
+     * @return  array<string,scalar>
      */
     public function asArray(): array
     {

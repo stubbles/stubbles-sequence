@@ -20,31 +20,31 @@ class Generator implements \Iterator, SelfDescribing
     /**
      * initial value
      *
-     * @type  mixed
+     * @var  mixed
      */
     private $seed;
     /**
      * current value
      *
-     * @type  mixed
+     * @var  mixed
      */
     private $value;
     /**
      * number of delivered elements since last rewind
      *
-     * @type  int
+     * @var  int
      */
     private $elementsGenerated = 0;
     /**
      * operation which takes a value and generates a new one
      *
-     * @type  callable
+     * @var  callable
      */
     private $operation;
     /**
      * function which decides whether a value is valid
      *
-     * @type  callable
+     * @var  callable
      */
     private $validator;
 
@@ -98,7 +98,7 @@ class Generator implements \Iterator, SelfDescribing
     /**
      * generates next value
      */
-    public function next()
+    public function next(): void
     {
         $operation   = $this->operation;
         $this->value = $operation($this->value);
@@ -108,7 +108,7 @@ class Generator implements \Iterator, SelfDescribing
     /**
      * resets number of delivered elements to 0 and restarts with initial seed
      */
-    public function rewind()
+    public function rewind(): void
     {
         $this->elementsGenerated = 0;
         $this->value             = $this->seed;
@@ -117,9 +117,9 @@ class Generator implements \Iterator, SelfDescribing
     /**
      * checks if current element is valid
      *
-     * @return  mixed
+     * @return  bool
      */
-    public function valid()
+    public function valid(): bool
     {
         $validate = $this->validator;
         return $validate($this->value, $this->elementsGenerated);

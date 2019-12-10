@@ -24,25 +24,25 @@ class Collector
     /**
      * returns a fresh structure to collect elements into
      *
-     * @type  callable
+     * @var  callable
      */
     private $supplier;
     /**
      * structure to collect elements into
      *
-     * @type  mixed
+     * @var  mixed
      */
     private $structure;
     /**
      * accumulates elements into structure
      *
-     * @type  callable
+     * @var  callable
      */
     private $accumulator;
     /**
      * final operation after all elements have been added to the structure
      *
-     * @type  callable
+     * @var  callable|null
      */
     private $finisher;
 
@@ -141,7 +141,7 @@ class Collector
      * @param  mixed  $element
      * @param  mixed  $key
      */
-    public function accumulate($element, $key)
+    public function accumulate($element, $key): void
     {
         $accumulate = $this->accumulator;
         $accumulate($this->structure, $element, $key);

@@ -18,10 +18,14 @@ use function stubbles\sequence\ensureCallable;
 class Filter extends \CallbackFilterIterator implements SelfDescribing
 {
     /**
-     * @type  string
+     * @var  string
      */
     private $description;
 
+    /**
+     * @param  \Iterator  $iterator
+     * @param  callable   $callback
+     */
     public function __construct(\Iterator $iterator, callable $callback)
     {
         parent::__construct($iterator, ensureCallable($callback));

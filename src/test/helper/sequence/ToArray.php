@@ -12,7 +12,7 @@ namespace stubbles\test\sequence;
 class ToArray
 {
     /**
-     * @return  array
+     * @return  array<string,scalar>
      */
     public function toArray(): array
     {

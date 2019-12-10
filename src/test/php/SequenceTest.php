@@ -36,6 +36,8 @@ class SequenceTest extends TestCase
     /**
      * Returns valid arguments for the `of()` method: Arrays, iterables,
      * iterators and generators.
+     *
+     * @return  array<array<mixed>>
      */
     public function validData(): array
     {
@@ -53,10 +55,12 @@ class SequenceTest extends TestCase
     }
 
     /**
+     * @param  iterable<int>  $iterable
+     * @param  string         $name
      * @test
      * @dataProvider  validData
      */
-    public function dataReturnsElementsAsArray($iterable, string $name)
+    public function dataReturnsElementsAsArray(iterable $iterable, string $name): void
     {
         assertThat(Sequence::of($iterable), Provides::values([1, 2, 3]), $name);
     }
@@ -65,7 +69,7 @@ class SequenceTest extends TestCase
      * @test
      * @since  8.1.0
      */
-    public function canCreateEmptySequenceByPassingNoParameters()
+    public function canCreateEmptySequenceByPassingNoParameters(): void
     {
         assertThat(Sequence::of(), Provides::data([]));
     }
@@ -74,7 +78,7 @@ class SequenceTest extends TestCase
      * @test
      * @since  8.1.0
      */
-    public function canCreateSequenceFromOneNoniterableArgument()
+    public function canCreateSequenceFromOneNoniterableArgument(): void
     {
         assertThat(Sequence::of('foo'), Provides::data(['foo']));
     }
@@ -83,7 +87,7 @@ class SequenceTest extends TestCase
      * @test
      * @since  8.1.0
      */
-    public function canCreateSequenceFromNiull()
+    public function canCreateSequenceFromNiull(): void
     {
         assertThat(Sequence::of(null), Provides::data([null]));
     }
@@ -91,7 +95,7 @@ class SequenceTest extends TestCase
     /**
      * @test
      */
-    public function filterRemovesElements()
+    public function filterRemovesElements(): void
     {
         assertThat(
                 Sequence::of(1, 2, 3, 4)
@@ -103,7 +107,7 @@ class SequenceTest extends TestCase
     /**
      * @test
      */
-    public function filterWithNativeFunction()
+    public function filterWithNativeFunction(): void
     {
         assertThat(
                 Sequence::of(['Hello', 1337, 'World'])->filter('is_string'),
@@ -114,7 +118,7 @@ class SequenceTest extends TestCase
     /**
      * @test
      */
-    public function map()
+    public function map(): void
     {
         assertThat(
                 Sequence::of(1, 2, 3, 4)->map(function($e) { return $e * 2; }),
@@ -125,7 +129,7 @@ class SequenceTest extends TestCase
     /**
      * @test
      */
-    public function mapWithNativeFunction()
+    public function mapWithNativeFunction(): void
     {
         assertThat(
                 Sequence::of(1.9, 2.5, 3.1)->map('floor'),
@@ -137,7 +141,7 @@ class SequenceTest extends TestCase
      * @test
      * @since  5.3.0
      */
-    public function mapKeys()
+    public function mapKeys(): void
     {
         assertThat(
                 Sequence::of(1, 2, 3, 4)
@@ -147,9 +151,9 @@ class SequenceTest extends TestCase
     }
 
     /**
-     * @return  array
+     * @return  array<array<mixed>>
      */
-    public function countData()
+    public function countData(): array
     {
         return [
             [0, []],
@@ -160,19 +164,19 @@ class SequenceTest extends TestCase
 
     /**
      * @param  int    $expectedLength
-     * @param  array  $elements
+     * @param  int[]  $elements
      * @test
      * @dataProvider  countData
      */
-    public function sequenceIsCountable($expectedLength, $elements)
+    public function sequenceIsCountable(int $expectedLength, array $elements): void
     {
         assertThat(Sequence::of($elements), isOfSize($expectedLength));
     }
 
     /**
-     * @return  array
+     * @return  array<array<mixed>>
      */
-    public function sumData()
+    public function sumData(): array
     {
         return [
             [0, []],
@@ -183,11 +187,11 @@ class SequenceTest extends TestCase
 
     /**
      * @param  int    $expectedResult
-     * @param  array  $elements
+     * @param  int[]  $elements
      * @test
      * @dataProvider  sumData
      */
-    public function sum($expectedResult, $elements)
+    public function sum(int $expectedResult, array $elements): void
     {
         assertThat(
                 Sequence::of($elements)->reduce()->toSum(),
@@ -196,9 +200,9 @@ class SequenceTest extends TestCase
     }
 
     /**
-     * @return  array
+     * @return  array<array<mixed>>
      */
-    public function minData()
+    public function minData(): array
     {
         return [
             [null, []],
@@ -209,11 +213,11 @@ class SequenceTest extends TestCase
 
     /**
      * @param  int    $expectedResult
-     * @param  array  $elements
+     * @param  int[]  $elements
      * @test
      * @dataProvider  minData
      */
-    public function min($expectedResult, $elements)
+    public function min(?int $expectedResult, array $elements): void
     {
         assertThat(
                 Sequence::of($elements)->reduce()->toMin(),
@@ -222,7 +226,7 @@ class SequenceTest extends TestCase
     }
 
     /**
-     * @return  array
+     * @return  array<array<mixed>>
      */
     public function maxData(): array
     {
@@ -235,11 +239,11 @@ class SequenceTest extends TestCase
 
     /**
      * @param  int    $expectedResult
-     * @param  array  $elements
+     * @param  int[]  $elements
      * @test
      * @dataProvider  maxData
      */
-    public function max($expectedResult, $elements)
+    public function max(?int $expectedResult, array $elements): void
     {
         assertThat(
                 Sequence::of($elements)->reduce()->toMax(),
@@ -250,7 +254,7 @@ class SequenceTest extends TestCase
     /**
      * @test
      */
-    public function reduceReturnsNullForEmptyInputWhenNoIdentityGiven()
+    public function reduceReturnsNullForEmptyInputWhenNoIdentityGiven(): void
     {
         assertNull(Sequence::of([])->reduce(
                 function($a, $b)
@@ -263,7 +267,7 @@ class SequenceTest extends TestCase
     /**
      * @test
      */
-    public function reduceReturnsIdentityForEmptyInput()
+    public function reduceReturnsIdentityForEmptyInput(): void
     {
         assertThat(
                 Sequence::of([])->reduce(
@@ -280,7 +284,7 @@ class SequenceTest extends TestCase
     /**
      * @test
      */
-    public function reduceUsedForSumming()
+    public function reduceUsedForSumming(): void
     {
         assertThat(
                 Sequence::of(1, 2, 3, 4)
@@ -292,7 +296,7 @@ class SequenceTest extends TestCase
     /**
      * @test
      */
-    public function reduceUsedForMaxWithNativeMaxFunction()
+    public function reduceUsedForMaxWithNativeMaxFunction(): void
     {
         assertThat(Sequence::of(7, 1, 10, 3)->reduce('max'), equals(10));
     }
@@ -300,7 +304,7 @@ class SequenceTest extends TestCase
     /**
      * @test
      */
-    public function reduceUsedForConcatenation()
+    public function reduceUsedForConcatenation(): void
     {
         assertThat(
                 Sequence::of(['Hello', ' ', 'World'])
@@ -312,7 +316,7 @@ class SequenceTest extends TestCase
     /**
      * @test
      */
-    public function collectUsedForAveraging()
+    public function collectUsedForAveraging(): void
     {
         $result = Sequence::of(1, 2, 3, 4)->collect()->with(
                 function() { return ['total' => 0, 'sum' => 0]; },
@@ -324,7 +328,7 @@ class SequenceTest extends TestCase
     /**
      * @test
      */
-    public function collectUsedForJoining()
+    public function collectUsedForJoining(): void
     {
         $result = Sequence::of('a', 'b', 'c')->collect()->with(
                 function() { return ''; },
@@ -337,7 +341,7 @@ class SequenceTest extends TestCase
     /**
      * @test
      */
-    public function firstReturnsNullForEmptyInput()
+    public function firstReturnsNullForEmptyInput(): void
     {
         assertNull(Sequence::of([])->first());
     }
@@ -345,7 +349,7 @@ class SequenceTest extends TestCase
     /**
      * @test
      */
-    public function firstReturnsFirstArrayElement()
+    public function firstReturnsFirstArrayElement(): void
     {
         assertThat(Sequence::of(1, 2, 3)->first(), equals(1));
     }
@@ -353,7 +357,7 @@ class SequenceTest extends TestCase
     /**
      * @test
      */
-    public function eachOnEmptyInput()
+    public function eachOnEmptyInput(): void
     {
         assertThat(
                 Sequence::of([])
@@ -363,9 +367,9 @@ class SequenceTest extends TestCase
     }
 
     /**
-     * @return  array
+     * @return  array<array<mixed>>
      */
-    public function eachWithDifferentAmount()
+    public function eachWithDifferentAmount(): array
     {
         return [
                 [4, function() { /* intentionally empty */ }],
@@ -377,7 +381,7 @@ class SequenceTest extends TestCase
      * @test
      * @dataProvider  eachWithDifferentAmount
      */
-    public function eachReturnsAmountOfElementsForWhichCallableWasExecuted($expected, $callable)
+    public function eachReturnsAmountOfElementsForWhichCallableWasExecuted(int $expected, callable $callable): void
     {
         assertThat(
                 Sequence::of('a', 'b', 'c', 'd')->each($callable),
@@ -388,7 +392,7 @@ class SequenceTest extends TestCase
     /**
      * @test
      */
-    public function eachAppliesGivenCallableForAllElements()
+    public function eachAppliesGivenCallableForAllElements(): void
     {
         $collect = [];
         Sequence::of('a', 'b', 'c', 'd')
@@ -399,7 +403,7 @@ class SequenceTest extends TestCase
     /**
      * @test
      */
-    public function eachStopsWhenCallableReturnsFalse()
+    public function eachStopsWhenCallableReturnsFalse(): void
     {
         $collect = [];
         Sequence::of('a', 'b', 'c', 'd')->each(
@@ -414,7 +418,7 @@ class SequenceTest extends TestCase
     /**
      * @test
      */
-    public function peekWithVarExport()
+    public function peekWithVarExport(): void
     {
         ob_start();
         Sequence::of(1, 2, 3, 4)->peek('var_export')->reduce()->toSum();
@@ -426,7 +430,7 @@ class SequenceTest extends TestCase
     /**
      * @test
      */
-    public function peekWithVarExportAndKeys()
+    public function peekWithVarExportAndKeys(): void
     {
         ob_start();
         Sequence::of(['a' => 0, 'b' => 1, 'c' => 2, 'd' => 3])
@@ -441,7 +445,7 @@ class SequenceTest extends TestCase
     /**
      * @test
      */
-    public function limitStopsAtNthArrayElement()
+    public function limitStopsAtNthArrayElement(): void
     {
         assertThat(Sequence::of(1, 2, 3)->limit(2), Provides::values([1, 2]));
     }
@@ -449,7 +453,7 @@ class SequenceTest extends TestCase
     /**
      * @test
      */
-    public function limitStopsAtNthInfiniteElement()
+    public function limitStopsAtNthInfiniteElement(): void
     {
         assertThat(
                 Sequence::infinite(1, function($i) { return ++$i; })->limit(2),
@@ -460,7 +464,7 @@ class SequenceTest extends TestCase
     /**
      * @test
      */
-    public function limitStopsAtNthGeneratorElement()
+    public function limitStopsAtNthGeneratorElement(): void
     {
         assertThat(
                 Sequence::generate(
@@ -475,7 +479,7 @@ class SequenceTest extends TestCase
     /**
      * @test
      */
-    public function skipIgnoresNumberOfArrayElements()
+    public function skipIgnoresNumberOfArrayElements(): void
     {
         assertThat(Sequence::of(4, 5, 6)->skip(2), Provides::values([6]));
     }
@@ -483,7 +487,7 @@ class SequenceTest extends TestCase
     /**
      * @test
      */
-    public function skipIgnoresNumberOfInfiniteElements()
+    public function skipIgnoresNumberOfInfiniteElements(): void
     {
         assertThat(
                 Sequence::infinite(1, function($i) { return ++$i; })
@@ -496,7 +500,7 @@ class SequenceTest extends TestCase
     /**
      * @test
      */
-    public function skipIgnoresNumberOfGeneratorElements()
+    public function skipIgnoresNumberOfGeneratorElements(): void
     {
         assertThat(
                 Sequence::generate(
@@ -512,7 +516,7 @@ class SequenceTest extends TestCase
     /**
      * @test
      */
-    public function appendCreatesNewCombinedSequenceWithGivenSequence()
+    public function appendCreatesNewCombinedSequenceWithGivenSequence(): void
     {
         assertThat(
                 Sequence::of(1, 2)->append(Sequence::of(3, 4)),
@@ -524,7 +528,7 @@ class SequenceTest extends TestCase
      * @test
      * @since  5.4.0
      */
-    public function appendCreatesNewCombinedSequenceWithGivenArray()
+    public function appendCreatesNewCombinedSequenceWithGivenArray(): void
     {
         assertThat(
                 Sequence::of(1, 2)->append([3, 4]),
@@ -536,7 +540,7 @@ class SequenceTest extends TestCase
      * @test
      * @since  5.4.0
      */
-    public function appendCreatesNewCombinedSequenceWithGivenIterator()
+    public function appendCreatesNewCombinedSequenceWithGivenIterator(): void
     {
         assertThat(
                 Sequence::of(1, 2)->append(new \ArrayIterator([3, 4])),
@@ -548,7 +552,7 @@ class SequenceTest extends TestCase
      * @test
      * @since  8.0.0
      */
-    public function appendCreatesNewCombinedSequenceWithGivenIteratorAggregate()
+    public function appendCreatesNewCombinedSequenceWithGivenIteratorAggregate(): void
     {
         $iteratorAggregate = NewInstance::of(\IteratorAggregate::class)
                 ->returns(['getIterator' => new \ArrayIterator([3, 4])]);
@@ -562,7 +566,7 @@ class SequenceTest extends TestCase
      * @test
      * @since  8.0.0
      */
-    public function appendCreatesNewCombinedSequenceFromInitialIteratorAggregate()
+    public function appendCreatesNewCombinedSequenceFromInitialIteratorAggregate(): void
     {
         $iteratorAggregate = NewInstance::of(\IteratorAggregate::class)
                 ->returns(['getIterator' => new \ArrayIterator([1, 2])]);
@@ -573,20 +577,20 @@ class SequenceTest extends TestCase
     }
 
     /**
-     * @return  array
+     * @return  array<array<mixed>>
      * @since   5.4.0
      */
-    public function initialSequence()
+    public function initialSequence(): array
     {
         return [[[1, 2]], [new \ArrayIterator([1, 2])]];
     }
     /**
-     * @param  iterable  $initial
+     * @param  iterable<int>  $initial
      * @test
      * @dataProvider  initialSequence
      * @since  5.4.0
      */
-    public function appendCreatesNewCombinedSequenceWithGivenElement($initial)
+    public function appendCreatesNewCombinedSequenceWithGivenElement(iterable $initial): void
     {
         assertThat(Sequence::of($initial)->append(3), Provides::values([1, 2, 3]));
     }
@@ -594,7 +598,7 @@ class SequenceTest extends TestCase
     /**
      * @test
      */
-    public function isUseableInsideForeach()
+    public function isUseableInsideForeach(): void
     {
         $result = [];
         foreach (Sequence::of(['foo' => 1, 'bar' => 2, 'baz' => 3]) as $key => $element) {
@@ -607,7 +611,7 @@ class SequenceTest extends TestCase
     /**
      * @test
      */
-    public function dataReturnsCompleteDataAsArray()
+    public function dataReturnsCompleteDataAsArray(): void
     {
         assertThat(
                 Sequence::of(new \ArrayIterator(['foo' => 'bar', 'baz' => 303])),
@@ -619,7 +623,7 @@ class SequenceTest extends TestCase
      * @test
      * @since  5.3.2
      */
-    public function canBeSerializedToJson()
+    public function canBeSerializedToJson(): void
     {
         assertThat(
                 json_encode(Sequence::of(['one' => 1, 2, 'three' => 3, 4])),

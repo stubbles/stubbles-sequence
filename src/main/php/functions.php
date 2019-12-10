@@ -20,7 +20,7 @@ namespace stubbles\sequence {
      * - any other: returns array with value as single entry
      *
      * @param   mixed  $value
-     * @return  array
+     * @return  array<mixed>
      * @since   5.4.0
      */
     function castToArray($value): array
@@ -53,7 +53,7 @@ namespace stubbles\sequence {
      *  - any other value is put into an array wrapped with \ArrayIterator
      *
      * @param   mixed  $value
-     * @return  \Iterator
+     * @return  \Iterator<mixed>
      * @since   8.0.0
      */
     function castToIterator($value): \Iterator
@@ -85,12 +85,13 @@ namespace stubbles\sequence {
      * See http://stubbles.org/archives/32-Subtle-BC-break-in-PHP-5.2.4.html.
      *
      * @param   object  $object
-     * @return  array
+     * @return  array<string,mixed>
      * @since   3.1.0
      */
     function extractObjectProperties($object): array
     {
         $properties      = (array) $object;
+        /** @var array<string,mixed> $properties */
         $fixedProperties = [];
         foreach ($properties as $propertyName => $propertyValue) {
             if (!strstr($propertyName, "\0")) {

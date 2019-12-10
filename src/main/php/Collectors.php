@@ -17,7 +17,7 @@ class Collectors
     /**
      * actual sequence of data to reduce
      *
-     * @type  Sequence
+     * @var  Sequence
      */
     private $sequence;
 
@@ -50,7 +50,7 @@ class Collectors
      * returns a collector for lists
      *
      * @api
-     * @return  array
+     * @return  mixed[]
      */
     public function inList(): array
     {
@@ -61,7 +61,7 @@ class Collectors
      * returns a collector for maps
      *
      * @api
-     * @return  array
+     * @return  array<string,mixed>
      */
     public function inMap(callable $selectKey = null, callable $selectValue = null): array
     {
@@ -74,7 +74,7 @@ class Collectors
      * @api
      * @param   callable                      $predicate  function to evaluate in which partition an element belongs
      * @param   \stubbles\sequence\Collector  $base       optional  defaults to Collector::forList()
-     * @return  array
+     * @return  array<bool,array<mixed>>
      */
     public function inPartitions(callable $predicate, Collector $base = null): array
     {
@@ -105,7 +105,7 @@ class Collectors
      * @api
      * @param   callable                      $classifier  function to map elements to keys
      * @param   \stubbles\sequence\Collector  $base        optional  defaults to Collector::forList()
-     * @return  array
+     * @return  array<mixed>
      */
     public function inGroups(callable $classifier, Collector $base = null): array
     {

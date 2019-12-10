@@ -21,6 +21,9 @@ use function bovigo\assert\predicate\equals;
  */
 class SequenceToStringTest extends TestCase
 {
+    /**
+     * @return  array<array<mixed>>
+     */
     public function sequenceSourceTypes(): array
     {
         $f = function() { yield 1; yield 2; yield 3; };
@@ -33,10 +36,12 @@ class SequenceToStringTest extends TestCase
     }
 
     /**
+     * @param  iterable<int>  $input
+     * @param  string         $expectedSourceType
      * @test
      * @dataProvider  sequenceSourceTypes
      */
-    public function containsSourceType(iterable $input, string $expectedSourceType)
+    public function containsSourceType(iterable $input, string $expectedSourceType): void
     {
         assertThat(
                 (string) Sequence::of($input),
@@ -47,7 +52,7 @@ class SequenceToStringTest extends TestCase
     /**
      * @test
      */
-    public function containsReferenceToFilterLambdaFunction()
+    public function containsReferenceToFilterLambdaFunction(): void
     {
         assertThat(
                 (string) Sequence::of(1, 2, 3, 4)
@@ -59,7 +64,7 @@ class SequenceToStringTest extends TestCase
     /**
      * @test
      */
-    public function containsReferenceToFilterNamedFunction()
+    public function containsReferenceToFilterNamedFunction(): void
     {
         assertThat(
                 (string) Sequence::of('Hello', 1337, 'World')->filter('is_string'),
@@ -70,7 +75,7 @@ class SequenceToStringTest extends TestCase
     /**
      * @test
      */
-    public function containsReferenceToMappingLambdaFunction()
+    public function containsReferenceToMappingLambdaFunction(): void
     {
         assertThat(
                 (string) Sequence::of([1, 2, 3, 4])->map(function($e) { return $e * 2; }),
@@ -81,7 +86,7 @@ class SequenceToStringTest extends TestCase
     /**
      * @test
      */
-    public function containsReferenceToMappingNamedFunction()
+    public function containsReferenceToMappingNamedFunction(): void
     {
         assertThat(
                 (string) Sequence::of([1.9, 2.5, 3.1])->map('floor'),
@@ -92,7 +97,7 @@ class SequenceToStringTest extends TestCase
     /**
      * @test
      */
-    public function containsReferenceToKeyMappingFunction()
+    public function containsReferenceToKeyMappingFunction(): void
     {
         assertThat(
                 (string) Sequence::of([1, 2, 3, 4])
@@ -104,7 +109,7 @@ class SequenceToStringTest extends TestCase
     /**
      * @test
      */
-    public function containsNoReferenceToPeakFunction()
+    public function containsNoReferenceToPeakFunction(): void
     {
         assertThat(
                 (string) Sequence::of([1, 2, 3, 4])->peek('var_export'),
@@ -115,7 +120,7 @@ class SequenceToStringTest extends TestCase
     /**
      * @test
      */
-    public function containsReferenceToLimit()
+    public function containsReferenceToLimit(): void
     {
         assertThat(
                 (string)  Sequence::of([1, 2, 3])->limit(2),
@@ -126,7 +131,7 @@ class SequenceToStringTest extends TestCase
     /**
      * @test
      */
-    public function containsReferenceToInfiniteGenerator()
+    public function containsReferenceToInfiniteGenerator(): void
     {
         assertThat(
                 (string) Sequence::infinite(1, function($i) { return ++$i; })->limit(2),
@@ -140,7 +145,7 @@ class SequenceToStringTest extends TestCase
     /**
      * @test
      */
-    public function containsReferenceToGenerator()
+    public function containsReferenceToGenerator(): void
     {
         assertThat(
                 (string) Sequence::generate(
@@ -158,7 +163,7 @@ class SequenceToStringTest extends TestCase
     /**
      * @test
      */
-    public function containsReferenceToSkippedElements()
+    public function containsReferenceToSkippedElements(): void
     {
         assertThat(
                 (string) Sequence::of(4, 5, 6)->skip(2),
@@ -169,7 +174,7 @@ class SequenceToStringTest extends TestCase
     /**
      * @test
      */
-    public function containsReferenceToBothLimitAndSkippedElements()
+    public function containsReferenceToBothLimitAndSkippedElements(): void
     {
         assertThat(
                 (string) Sequence::infinite(1, function($i) { return ++$i; })
@@ -185,7 +190,7 @@ class SequenceToStringTest extends TestCase
     /**
      * @test
      */
-    public function limitDescriptionWithBothLimitAndSkipped()
+    public function limitDescriptionWithBothLimitAndSkipped(): void
     {
         assertThat(
                 (new Limit(new \ArrayIterator([]), 2, 3))->description(),
