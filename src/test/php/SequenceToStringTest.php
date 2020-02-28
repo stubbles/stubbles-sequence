@@ -83,6 +83,38 @@ class SequenceToStringTest extends TestCase
         );
     }
 
+    public static function map1(int $e): int
+    {
+        return $e * 2;
+    }
+
+    /**
+     * @test
+     */
+    public function containsReferenceToMappingStaticMethod(): void
+    {
+        assertThat(
+                (string) Sequence::of([1, 2, 3, 4])->map([__CLASS__, 'map1']),
+                equals(Sequence::class . ' of array values mapped by ' . __CLASS__ . '::map1()')
+        );
+    }
+
+    public static function map2(int $e): int
+    {
+        return $e * 2;
+    }
+
+    /**
+     * @test
+     */
+    public function containsReferenceToMappingInstanceMethod(): void
+    {
+        assertThat(
+                (string) Sequence::of([1, 2, 3, 4])->map([$this, 'map2']),
+                equals(Sequence::class . ' of array values mapped by ' . __CLASS__ . '->map2()')
+        );
+    }
+
     /**
      * @test
      */
