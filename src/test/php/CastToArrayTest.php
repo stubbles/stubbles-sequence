@@ -48,8 +48,11 @@ class CastToArrayTest extends TestCase
     public function castToArrayOnObject(): void
     {
         $object = new class() {
+            /** @var  string */
             public $foo = 'bar';
+            /** @var  bool */
             protected $bar = true;
+            /** @var  int */
             private $baz = 303;
         };
         assertThat(
