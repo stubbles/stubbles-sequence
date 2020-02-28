@@ -47,10 +47,15 @@ class CastToArrayTest extends TestCase
      */
     public function castToArrayOnObject(): void
     {
-        $object = new \stdClass();
-        $object->foo = 'bar';
-        $object->baz = 303;
-        assertThat(castToArray($object), equals(['foo' => 'bar', 'baz' => 303]));
+        $object = new class() {
+            public $foo = 'bar';
+            protected $bar = true;
+            private $baz = 303;
+        };
+        assertThat(
+            castToArray($object),
+            equals(['foo' => 'bar', 'bar' => true, 'baz' => 303])
+        );
     }
 
     /**
