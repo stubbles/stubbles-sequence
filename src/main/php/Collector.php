@@ -18,6 +18,7 @@ namespace stubbles\sequence;
  * A collector accumulates elements into a structure, optionally transforming the result into a final representation.
  *
  * @since  5.2.0
+ * @template T
  */
 class Collector
 {
@@ -49,9 +50,9 @@ class Collector
     /**
      * constructor
      *
-     * @param  callable  $supplier     returns a fresh structure to collect elements into
-     * @param  callable  $accumulator  accumulates elements into structure
-     * @param  callable  $finisher     optional  final operation after all elements have been added to the structure
+     * @param callable $supplier    returns a fresh structure to collect elements into
+     * @param callable $accumulator accumulates elements into structure
+     * @param callable $finisher    optional final operation after all elements have been added to the structure
      */
     public function __construct(callable $supplier, callable $accumulator, callable $finisher = null)
     {
@@ -65,7 +66,7 @@ class Collector
      * returns a collector for lists
      *
      * @api
-     * @return  \stubbles\sequence\Collector
+     * @return \stubbles\sequence\Collector<array>
      */
     public static function forList(): self
     {
@@ -83,9 +84,9 @@ class Collector
      * returns a collector for maps
      *
      * @api
-     * @param   callable  $keySelector    optional  function to select the key for the map entry
-     * @param   callable  $valueSelector  optional  function to select the value for the map entry
-     * @return  \stubbles\sequence\Collector
+     * @param  callable $keySelector   optional function to select the key for the map entry
+     * @param  callable $valueSelector optional function to select the value for the map entry
+     * @return \stubbles\sequence\Collector<array>
      */
     public static function forMap(callable $keySelector = null, callable $valueSelector = null): self
     {
@@ -109,8 +110,8 @@ class Collector
      * returns a collector to sum up elements
      *
      * @api
-     * @param   callable  $num  callable which retrieves a number from a given element
-     * @return  \stubbles\sequence\Collector
+     * @param  callable $num callable which retrieves a number from a given element
+     * @return \stubbles\sequence\Collector<float>
      */
     public static function forSum(callable $num): self {
         return new self(
@@ -127,8 +128,8 @@ class Collector
      * returns a collector to calculate an average for all the given elements
      *
      * @api
-     * @param   callable  $num  callable which retrieves a number from a given element
-     * @return  \stubbles\sequence\Collector
+     * @param  callable $num callable which retrieves a number from a given element
+     * @return \stubbles\sequence\Collector<float>
      */
     public static function forAverage(callable $num): self {
         return new self(
@@ -149,7 +150,7 @@ class Collector
     /**
      * restarts collection with a fresh instance
      *
-     * @return  \stubbles\sequence\Collector
+     * @return \stubbles\sequence\Collector
      */
     public function fork(): self
     {
@@ -159,8 +160,8 @@ class Collector
     /**
      * adds given element and key to result structure
      *
-     * @param  mixed  $element
-     * @param  mixed  $key
+     * @param mixed $element
+     * @param mixed $key
      */
     public function accumulate($element, $key): void
     {
@@ -171,7 +172,7 @@ class Collector
     /**
      * finishes collection of result
      *
-     * @return  mixed  finished result
+     * @return T finished result
      */
     public function finish()
     {
