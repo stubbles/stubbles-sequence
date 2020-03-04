@@ -58,10 +58,10 @@ class Reducer
      * @param   callable $summer  optional  different summing function, i.e. when elements are not numbers
      * @return  int
      */
-    public function toSum(callable $summer = null)
+    public function toSum(callable $summer = null): int
     {
         if (null === $summer) {
-            $summer = function($sum, $element) { return $sum += $element; };
+            $summer = function(int $sum, int $element): int { return $sum += $element; };
         }
 
         return $this->with($summer, 0);
@@ -77,13 +77,21 @@ class Reducer
     public function toMin(callable $min = null)
     {
         if (null === $min) {
-            // can't use min() as $smallest is initially null but actual
-            // elements were not checked yet, and min() considers null to always
-            // be the minimum value
+            /**
+             * null-aware implementation of min()
+             * 
+             * Can't use min() as $smallest is initially null but actual elements
+             * were not checked yet, and min() considers null to always be the
+             * minimum value.
+             *
+             * @param  mixed $smallest
+             * @param  mixed $element
+             * @return mixed
+             */
             $min = function($smallest, $element)
-                   {
-                       return (null === $smallest || $element < $smallest) ? $element : $smallest;
-                   };
+            {
+                return (null === $smallest || $element < $smallest) ? $element : $smallest;
+            };
         }
 
         return $this->with($min);
