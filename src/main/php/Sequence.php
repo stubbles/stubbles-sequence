@@ -73,7 +73,7 @@ class Sequence implements \IteratorAggregate, \Countable, \JsonSerializable
      * @param  iterable  $elements
      * @param  string    $sourceType  optional
      */
-    private function __construct($elements, string $sourceType = null)
+    private function __construct($elements, string $sourceType = '')
     {
         $this->elements = $elements;
         if ($elements instanceof SelfDescribing) {
