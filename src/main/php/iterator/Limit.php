@@ -15,7 +15,9 @@ namespace stubbles\sequence\iterator;
  */
 class Limit extends \LimitIterator implements SelfDescribing
 {
+    /** @var int */
     private $offset;
+    /** @var int */
     private $count;
 
     public function __construct(\Iterator $iterator, int $offset = 0, int $count = -1)
