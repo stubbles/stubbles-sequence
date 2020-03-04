@@ -70,8 +70,12 @@ class Collector
     public static function forList(): self
     {
         return new self(
-                function() { return []; },
-                function(&$list, $element) { $list[] = $element; }
+            function(): array { return []; },
+            /**
+             * @param  mixed[]  $list
+             * @param  mixed    $element
+             */
+            function(array &$list, $element) { $list[] = $element; }
         );
     }
 
@@ -86,13 +90,18 @@ class Collector
     public static function forMap(callable $keySelector = null, callable $valueSelector = null): self
     {
         $selectKey   = (null !== $keySelector) ? $keySelector : function($value, $key) { return $key; };
-        $selectValue = (null !== $valueSelector) ? $valueSelector : function($value) { return $value; };
+        $selectValue = (null !== $valueSelector) ? $valueSelector : function($value, $key) { return $value; };
         return new self(
-                function() { return []; },
-                function(&$map, $element, $key) use($selectKey, $selectValue)
-                {
-                    $map[$selectKey($element, $key)] = $selectValue($element, $key);
-                }
+            function(): array { return []; },
+            /**
+             * @param array      $map
+             * @param mixed      $element
+             * @param int|string $key
+             */
+            function(array &$map, $element, $key) use($selectKey, $selectValue)
+            {
+                $map[$selectKey($element, $key)] = $selectValue($element, $key);
+            }
         );
     }
 
@@ -105,8 +114,12 @@ class Collector
      */
     public static function forSum(callable $num): self {
         return new self(
-                function() { return 0; },
-                function(&$result, $element) use($num) { $result+= $num($element); }
+            function(): float { return 0; },
+            /**
+             * @param float $result
+             * @param mixed $element
+             */
+            function(float &$result, $element) use($num) { $result+= $num($element); }
         );
     }
 
@@ -119,9 +132,17 @@ class Collector
      */
     public static function forAverage(callable $num): self {
         return new self(
-                function() { return [0, 0]; },
-                function(&$result, $arg) use($num) { $result[0] += $num($arg); $result[1]++; },
-                function($result) { return $result[0] / $result[1]; }
+            function(): array { return [0, 0]; },
+            /**
+             * @param int[] $result
+             * @param mixed $arg
+             */
+            function(array &$result, $arg) use($num) { $result[0] += $num($arg); $result[1]++; },
+            /**
+             * @param  int[] $result
+             * @return float
+             */
+            function(array $result): float { return $result[0] / $result[1]; }
         );
     }
 
