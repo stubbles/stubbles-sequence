@@ -58,7 +58,7 @@ class Sequence implements \IteratorAggregate, \Countable, \JsonSerializable
     /**
      * actual data in sequence
      *
-     * @var  \Traversable|array  $elements
+     * @var  iterable  $elements
      */
     private $elements;
     /**
