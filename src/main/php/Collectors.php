@@ -74,23 +74,35 @@ class Collectors
      * @api
      * @param   callable                      $predicate  function to evaluate in which partition an element belongs
      * @param   \stubbles\sequence\Collector  $base       optional  defaults to Collector::forList()
-     * @return  array<bool,array<mixed>>
+     * @return  array<bool,mixed[]>
      */
     public function inPartitions(callable $predicate, Collector $base = null): array
     {
         $collector = (null === $base) ? Collector::forList() : $base;
         return $this->with(
-                function() use($collector)
+                /**
+                 * @return array<bool,Collector>
+                 */
+                function() use($collector): array
                 {
                     return [true  => $collector->fork(),
                             false => $collector->fork()
                     ];
                 },
-                function(&$partitions, $element, $key) use($predicate)
+                /**
+                 * @param array<bool,Collector> $partitions
+                 * @param mixed                 $element
+                 * @param int|string            $key
+                 */
+                function(array &$partitions, $element, $key) use($predicate): void
                 {
                     $partitions[$predicate($element)]->accumulate($element, $key);
                 },
-                function($partitions)
+                /**
+                 * @param  array<bool,Collector> $partitions
+                 * @return array<bool,mixed[]>
+                 */
+                function(array $partitions): array
                 {
                     return [true  => $partitions[true]->finish(),
                             false => $partitions[false]->finish()
@@ -111,8 +123,12 @@ class Collectors
     {
         $collector = (null === $base) ? Collector::forList() : $base;
         return $this->with(
-                function() { return []; },
-                function(&$groups, $element) use($classifier, $collector)
+                function(): array { return []; },
+                /**
+                 * @param array<Collector> $groups
+                 * @param mixed            $element
+                 */
+                function(array &$groups, $element) use($classifier, $collector): void
                 {
                     $key = $classifier($element);
                     if (!isset($groups[$key])) {
@@ -121,7 +137,11 @@ class Collectors
 
                     $groups[$key]->accumulate($element, $key);
                 },
-                function($groups)
+                /**
+                 * @param  array<Collector> $groups
+                 * @return mixed[]
+                 */
+                function(array $groups): array
                 {
                     foreach ($groups as $key => $group) {
                         $groups[$key] = $group->finish();
@@ -161,18 +181,18 @@ class Collectors
             string $keySeparator = null
     ): string {
         return $this->with(
-                function () { return null; },
-                function(&$joinedElements, $element, $key) use($prefix, $delimiter, $keySeparator)
+                function (): string { return ''; },
+                function(string &$joinedElements, string $element, $key) use($prefix, $delimiter, $keySeparator): void
                 {
-                    if (null === $joinedElements) {
+                    if (strlen($joinedElements) === 0) {
                         $joinedElements = $prefix;
                     } else {
                         $joinedElements .= $delimiter;
                     }
 
-                    $joinedElements .= (null !== $keySeparator ? $key . $keySeparator : null) . $element;
+                    $joinedElements .= (null !== $keySeparator ? $key . $keySeparator : '') . $element;
                 },
-                function($joinedElements) use($suffix) { return $joinedElements . $suffix; }
+                function(string $joinedElements) use($suffix): string { return $joinedElements . $suffix; }
         );
     }
 }

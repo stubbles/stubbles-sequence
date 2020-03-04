@@ -76,7 +76,7 @@ class Collector
              * @param  mixed[]  $list
              * @param  mixed    $element
              */
-            function(array &$list, $element) { $list[] = $element; }
+            function(array &$list, $element): void { $list[] = $element; }
         );
     }
 
@@ -99,7 +99,7 @@ class Collector
              * @param mixed      $element
              * @param int|string $key
              */
-            function(array &$map, $element, $key) use($selectKey, $selectValue)
+            function(array &$map, $element, $key) use($selectKey, $selectValue): void
             {
                 $map[$selectKey($element, $key)] = $selectValue($element, $key);
             }
@@ -120,7 +120,7 @@ class Collector
              * @param float $result
              * @param mixed $element
              */
-            function(float &$result, $element) use($num) { $result+= $num($element); }
+            function(float &$result, $element) use($num): void { $result+= $num($element); }
         );
     }
 
@@ -138,7 +138,7 @@ class Collector
              * @param int[] $result
              * @param mixed $arg
              */
-            function(array &$result, $arg) use($num) { $result[0] += $num($arg); $result[1]++; },
+            function(array &$result, $arg) use($num): void { $result[0] += $num($arg); $result[1]++; },
             /**
              * @param  int[] $result
              * @return float

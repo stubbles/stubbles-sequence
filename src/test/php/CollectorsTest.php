@@ -17,6 +17,7 @@ namespace stubbles\sequence;
 use PHPUnit\Framework\TestCase;
 use stubbles\test\sequence\Employee;
 
+use function bovigo\assert\assertEmptyString;
 use function bovigo\assert\assertThat;
 use function bovigo\assert\predicate\equals;
 /**
@@ -38,6 +39,14 @@ class CollectorsTest extends TestCase
             1552 => new Employee(1552, 'Alex', 'I', 14),
             6100 => new Employee(6100, 'Dude', 'I', 4)
         ];
+    }
+
+    /**
+     * @test
+     */
+    public function joiningEmptySequenceReturnsEmptyString(): void
+    {
+        assertEmptyString(Sequence::of([])->collect()->byJoining());
     }
 
     /**
