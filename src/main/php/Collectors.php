@@ -11,13 +11,14 @@ namespace stubbles\sequence;
  * Provides factory functions for common collectors.
  *
  * @since  5.2.0
+ * @template T
  */
 class Collectors
 {
     /**
      * actual sequence of data to reduce
      *
-     * @var  Sequence
+     * @var  Sequence<T>
      */
     private $sequence;
 
@@ -25,7 +26,7 @@ class Collectors
      * constructor
      *
      * @internal  create an instance with $sequence->collect() instead
-     * @param  \stubbles\sequence\Sequence  $sequence
+     * @param  \stubbles\sequence\Sequence<T>  $sequence
      */
     public function __construct(Sequence $sequence)
     {
@@ -36,36 +37,36 @@ class Collectors
      * collects all elements into structure defined by supplier
      *
      * @api
-     * @param   callable  $supplier     returns a fresh structure to collect elements into
-     * @param   callable  $accumulator  accumulates elements into structure
-     * @param   callable  $finisher     optional  final operation after all elements have been added to the structure
+     * @param   callable(): mixed                         $supplier     returns a fresh structure to collect elements into
+     * @param   callable(mixed, mixed, int|string): void  $accumulator  accumulates elements into structure
+     * @param   callable(mixed): mixed                    $finisher     optional  final operation after all elements have been added to the structure
      * @return  mixed
      */
     public function with(callable $supplier, callable $accumulator, callable $finisher = null)
     {
-        return $this->sequence->collect(new Collector($supplier, $accumulator, $finisher));
+        return $this->sequence->collectWith(new Collector($supplier, $accumulator, $finisher));
     }
 
     /**
      * returns a collector for lists
      *
      * @api
-     * @return  mixed[]
+     * @return  T[]
      */
     public function inList(): array
     {
-        return $this->sequence->collect(Collector::forList());
+        return $this->sequence->collectWith(Collector::forList());
     }
 
     /**
      * returns a collector for maps
      *
      * @api
-     * @return  array<string,mixed>
+     * @return  array<string,T>
      */
     public function inMap(callable $selectKey = null, callable $selectValue = null): array
     {
-        return $this->sequence->collect(Collector::forMap($selectKey, $selectValue));
+        return $this->sequence->collectWith(Collector::forMap($selectKey, $selectValue));
     }
 
     /**
@@ -81,7 +82,7 @@ class Collectors
         $collector = (null === $base) ? Collector::forList() : $base;
         return $this->with(
                 /**
-                 * @return array<bool,Collector>
+                 * @return array<bool,Collector<T>>
                  */
                 function() use($collector): array
                 {
@@ -90,17 +91,17 @@ class Collectors
                     ];
                 },
                 /**
-                 * @param array<bool,Collector> $partitions
-                 * @param mixed                 $element
-                 * @param int|string            $key
+                 * @param array<bool,Collector<T>> $partitions
+                 * @param mixed                    $element
+                 * @param int|string               $key
                  */
                 function(array &$partitions, $element, $key) use($predicate): void
                 {
                     $partitions[$predicate($element)]->accumulate($element, $key);
                 },
                 /**
-                 * @param  array<bool,Collector> $partitions
-                 * @return array<bool,mixed[]>
+                 * @param  array<bool,Collector<T>> $partitions
+                 * @return array<bool,T>
                  */
                 function(array $partitions): array
                 {

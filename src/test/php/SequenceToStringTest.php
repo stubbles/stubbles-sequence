@@ -133,7 +133,7 @@ class SequenceToStringTest extends TestCase
     {
         assertThat(
                 (string) Sequence::of([1, 2, 3, 4])
-                        ->mapKeys(function($e) { return $e * 2; }),
+                        ->mapKeys(function(int $e): int { return $e * 2; }),
                 equals(Sequence::class . ' of array keys mapped by a lambda function')
         );
     }

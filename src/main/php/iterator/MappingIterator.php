@@ -13,19 +13,21 @@ use function stubbles\sequence\ensureCallable;
  * Maps values and/or keys from an underlying iterator.
  *
  * @since  5.0.0
+ * @template T
+ * @template V
  */
 class MappingIterator extends \IteratorIterator implements SelfDescribing
 {
     /**
      * callable which maps the values‚
      *
-     * @var  callable|null
+     * @var  callable(T, int|string): V|null
      */
     private $valueMapper;
     /**
      * callable which maps the keys
      *
-     * @var  callable|null
+     * @var  (callable(int|string, T): int|string)
      */
     private $keyMapper;
     /**
@@ -36,10 +38,10 @@ class MappingIterator extends \IteratorIterator implements SelfDescribing
     /**
      * constructor
      *
-     * @param   \Traversable<mixed>  $iterator     iterator to map values of
-     * @param   callable             $valueMapper  optional  callable which maps the values
-     * @param   callable             $keyMapper    optional  callable which maps the keys
-     * @throws  \InvalidArgumentException  in case both $valueMapper and $keyMapper are null
+     * @param  \Traversable<T>                       $iterator    iterator to map values of
+     * @param  (callable(T, int|string): V)          $valueMapper optional  callable which maps the values
+     * @param  (callable(int|string, T): int|string) $keyMapper   optional  callable which maps the keys
+     * @throws \InvalidArgumentException  in case both $valueMapper and $keyMapper are null
      */
     public function __construct(
             \Traversable $iterator,
@@ -62,13 +64,15 @@ class MappingIterator extends \IteratorIterator implements SelfDescribing
         if (null !== $keyMapper) {
             $this->keyMapper = ensureCallable($keyMapper);
             $this->description[] = 'keys mapped by ' . describeCallable($keyMapper);
+        } else {
+            $this->keyMapper = function($key, $element) { return $key; };
         }
     }
 
     /**
      * returns the current element
      *
-     * @return  mixed
+     * @return ?V
      */
     public function current()
     {
@@ -87,16 +91,12 @@ class MappingIterator extends \IteratorIterator implements SelfDescribing
     /**
      * returns the current key
      *
-     * @return  mixed
+     * @return int|string|null
      */
     public function key()
     {
         if (!$this->valid()) {
             return null;
-        }
-
-        if (null === $this->keyMapper) {
-            return parent::key();
         }
 
         $map = $this->keyMapper;

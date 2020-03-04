@@ -145,7 +145,7 @@ class SequenceTest extends TestCase
     {
         assertThat(
                 Sequence::of(1, 2, 3, 4)
-                        ->mapKeys(function($e) { return $e * 2; }),
+                        ->mapKeys(function(int $e): int { return $e * 2; }),
                 Provides::data([0 => 1, 2 => 2, 4 => 3, 6 => 4])
         );
     }
@@ -319,8 +319,8 @@ class SequenceTest extends TestCase
     public function collectUsedForAveraging(): void
     {
         $result = Sequence::of(1, 2, 3, 4)->collect()->with(
-                function() { return ['total' => 0, 'sum' => 0]; },
-                function(&$result, $element) { $result['total']++; $result['sum'] += $element; }
+                function(): array { return ['total' => 0, 'sum' => 0]; },
+                function(array &$result, $element): void { $result['total']++; $result['sum'] += $element; }
         );
         assertThat($result['sum'] / $result['total'], equals(2.5));
     }
@@ -331,9 +331,9 @@ class SequenceTest extends TestCase
     public function collectUsedForJoining(): void
     {
         $result = Sequence::of('a', 'b', 'c')->collect()->with(
-                function() { return ''; },
-                function(&$result, $arg) { $result .= ', '.$arg; },
-                function($result) { return substr($result, 2); }
+                function(): string { return ''; },
+                function(string &$result, string $arg): void { $result .= ', '. $arg; },
+                function(string $result): string { return substr($result, 2); }
         );
         assertThat($result, equals('a, b, c'));
     }

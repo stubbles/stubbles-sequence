@@ -27,7 +27,7 @@ class PeekTest extends TestCase
         $result = '';
         $peek = new Peek(
                 new \ArrayIterator(['foo', 'bar', 'baz']),
-                function($value) use(&$result) { $result = $result . $value; }
+                function(string $value) use(&$result): void { $result = $result . $value; }
         );
         foreach ($peek as $value) {
             // do nothing
@@ -44,8 +44,8 @@ class PeekTest extends TestCase
         $result = '';
         $peek = new Peek(
                 new \ArrayIterator(['foo' => 303, 'bar' => 404, 'baz' => 505]),
-                function() { },
-                function($key) use(&$result) { $result = $result . $key; }
+                function(): void { },
+                function(string $key) use(&$result): void { $result = $result . $key; }
         );
         foreach ($peek as $key => $value) {
             // do nothing
@@ -62,8 +62,8 @@ class PeekTest extends TestCase
         $i = 0;
         $peek = new Peek(
                 new \ArrayIterator(['foo' => 303, 'bar' => 404, 'baz' => 505]),
-                function() { },
-                function() { fail('Key consumer is not expected to be called'); }
+                function(): void { },
+                function(): void { fail('Key consumer is not expected to be called'); }
         );
         foreach ($peek as $value) {
             $i++;

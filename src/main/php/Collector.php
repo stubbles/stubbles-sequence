@@ -19,13 +19,14 @@ namespace stubbles\sequence;
  *
  * @since  5.2.0
  * @template T
+ * @template V
  */
 class Collector
 {
     /**
      * returns a fresh structure to collect elements into
      *
-     * @var  callable
+     * @var  callable(): mixed
      */
     private $supplier;
     /**
@@ -37,22 +38,22 @@ class Collector
     /**
      * accumulates elements into structure
      *
-     * @var  callable
+     * @var  callable(mixed, T, int|string): void
      */
     private $accumulator;
     /**
      * final operation after all elements have been added to the structure
      *
-     * @var  callable|null
+     * @var  callable(mixed): V|null
      */
     private $finisher;
 
     /**
      * constructor
      *
-     * @param callable $supplier    returns a fresh structure to collect elements into
-     * @param callable $accumulator accumulates elements into structure
-     * @param callable $finisher    optional final operation after all elements have been added to the structure
+     * @param callable(): mixed                    $supplier    returns a fresh structure to collect elements into
+     * @param callable(mixed, T, int|string): void $accumulator accumulates elements into structure
+     * @param callable(mixed): V                   $finisher    optional final operation after all elements have been added to the structure
      */
     public function __construct(callable $supplier, callable $accumulator, callable $finisher = null)
     {
@@ -66,7 +67,7 @@ class Collector
      * returns a collector for lists
      *
      * @api
-     * @return \stubbles\sequence\Collector<array>
+     * @return \stubbles\sequence\Collector<mixed,mixed[]>
      */
     public static function forList(): self
     {
@@ -84,9 +85,9 @@ class Collector
      * returns a collector for maps
      *
      * @api
-     * @param  callable $keySelector   optional function to select the key for the map entry
-     * @param  callable $valueSelector optional function to select the value for the map entry
-     * @return \stubbles\sequence\Collector<array>
+     * @param  callable(T, int|string): string $keySelector   optional function to select the key for the map entry
+     * @param  callable(T, int|string): T      $valueSelector optional function to select the value for the map entry
+     * @return \stubbles\sequence\Collector<T, T>
      */
     public static function forMap(callable $keySelector = null, callable $valueSelector = null): self
     {
@@ -96,7 +97,7 @@ class Collector
             function(): array { return []; },
             /**
              * @param array      $map
-             * @param mixed      $element
+             * @param T          $element
              * @param int|string $key
              */
             function(array &$map, $element, $key) use($selectKey, $selectValue): void
@@ -110,15 +111,15 @@ class Collector
      * returns a collector to sum up elements
      *
      * @api
-     * @param  callable $num callable which retrieves a number from a given element
-     * @return \stubbles\sequence\Collector<float>
+     * @param  callable(T):float $num callable which retrieves a number from a given element
+     * @return \stubbles\sequence\Collector<T, float>
      */
     public static function forSum(callable $num): self {
         return new self(
             function(): float { return 0; },
             /**
              * @param float $result
-             * @param mixed $element
+             * @param T     $element
              */
             function(float &$result, $element) use($num): void { $result+= $num($element); }
         );
@@ -128,17 +129,17 @@ class Collector
      * returns a collector to calculate an average for all the given elements
      *
      * @api
-     * @param  callable $num callable which retrieves a number from a given element
-     * @return \stubbles\sequence\Collector<float>
+     * @param  callable(T): int $num callable which retrieves a number from a given element
+     * @return \stubbles\sequence\Collector<T, float>
      */
     public static function forAverage(callable $num): self {
         return new self(
             function(): array { return [0, 0]; },
             /**
              * @param int[] $result
-             * @param mixed $arg
+             * @param T     $element
              */
-            function(array &$result, $arg) use($num): void { $result[0] += $num($arg); $result[1]++; },
+            function(array &$result, $element) use($num): void { $result[0] += $num($element); $result[1]++; },
             /**
              * @param  int[] $result
              * @return float
@@ -150,7 +151,7 @@ class Collector
     /**
      * restarts collection with a fresh instance
      *
-     * @return \stubbles\sequence\Collector
+     * @return \stubbles\sequence\Collector<T, V>
      */
     public function fork(): self
     {
@@ -160,8 +161,8 @@ class Collector
     /**
      * adds given element and key to result structure
      *
-     * @param mixed $element
-     * @param mixed $key
+     * @param T      $element
+     * @param int|string $key
      */
     public function accumulate($element, $key): void
     {
@@ -172,7 +173,7 @@ class Collector
     /**
      * finishes collection of result
      *
-     * @return T finished result
+     * @return V finished result
      */
     public function finish()
     {

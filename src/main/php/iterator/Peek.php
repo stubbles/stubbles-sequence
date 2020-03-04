@@ -10,28 +10,30 @@ namespace stubbles\sequence\iterator;
  * Iterator which allows consumption of an element before iteration continues.
  *
  * @since  5.2.0
+ * @template K
+ * @template V
  */
 class Peek extends \IteratorIterator implements SelfDescribing
 {
     /**
      * consumer for values
      *
-     * @var  callable
+     * @var  callable(V): void
      */
     private $valueConsumer;
     /**
      * consumer for keys
      *
-     * @var  callable|null
+     * @var  callable(K): void|null
      */
     private $keyConsumer;
 
     /**
      * constructor
      *
-     * @param  \Iterator  $iterator  iterator to map values of
-     * @param  callable   $valueConsumer  consumer which is invoked with current value
-     * @param  callable   $keyConsumer    optional  consumer which is invoked with current key
+     * @param  \Iterator<K,V>     $iterator  iterator to map values of
+     * @param  callable(V): void  $valueConsumer  consumer which is invoked with current value
+     * @param  callable(K): void  $keyConsumer    optional  consumer which is invoked with current key
      */
     public function __construct(\Iterator $iterator, callable $valueConsumer, callable $keyConsumer = null)
     {
