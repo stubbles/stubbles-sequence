@@ -132,7 +132,7 @@ class Generator implements \Iterator, SelfDescribing
      */
     public function description(): string
     {
-        return 'starting at ' . $this->seed . ' continued by '
+        return 'starting at ' . (string) $this->seed . ' continued by '
          . describeCallable($this->operation);
     }
 }
