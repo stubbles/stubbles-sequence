@@ -19,13 +19,13 @@ class MappingIterator extends \IteratorIterator implements SelfDescribing
     /**
      * callable which maps the values‚
      *
-     * @var  callable
+     * @var  callable|null
      */
     private $valueMapper;
     /**
      * callable which maps the keys
      *
-     * @var  callable
+     * @var  callable|null
      */
     private $keyMapper;
     /**
