@@ -43,7 +43,7 @@ class Reducer
      * reduce with given callable
      *
      * @param   callable  $accumulator
-     * @param   mixed      $identity
+     * @param   mixed     $identity
      * @return  mixed
      */
     public function with(callable $accumulator, $identity = null)
