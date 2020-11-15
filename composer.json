@@ -10,8 +10,8 @@
     },
     "require-dev": {
         "phpunit/phpunit": "^9.0",
-        "bovigo/assert": "^6.0",
-        "bovigo/callmap": "^6.0"
+        "bovigo/assert": "^6.1",
+        "bovigo/callmap": "^6.2"
     },
     "autoload": {
         "psr-4": {

@@ -4,36 +4,37 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7c46fb92a675655b9eb750fdbece99df",
+    "content-hash": "8ff960589326d63a7711fc7246d7e084",
     "packages": [],
     "packages-dev": [
         {
             "name": "bovigo/assert",
-            "version": "v6.0.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bovigo/assert.git",
-                "reference": "14ecd1a01259b42f65fbdf44cf6f26c5edd7e89d"
+                "reference": "a5a512e818d574b77f1a7021b9e86f7b24d9019c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bovigo/assert/zipball/14ecd1a01259b42f65fbdf44cf6f26c5edd7e89d",
-                "reference": "14ecd1a01259b42f65fbdf44cf6f26c5edd7e89d",
+                "url": "https://api.github.com/repos/bovigo/assert/zipball/a5a512e818d574b77f1a7021b9e86f7b24d9019c",
+                "reference": "a5a512e818d574b77f1a7021b9e86f7b24d9019c",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.3",
+                "php": "^7.3||^8.0",
                 "sebastian/comparator": "^4.0",
                 "sebastian/exporter": "^4.0"
             },
             "require-dev": {
                 "mikey179/vfsstream": "^1.6.8",
-                "phpunit/phpunit": "^9.0"
+                "phpstan/phpstan": "^0.12.54",
+                "phpunit/phpunit": "^9.4"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "6.0.x-dev"
+                    "dev-master": "6.1.x-dev"
                 }
             },
             "autoload": {
@@ -50,29 +51,31 @@
                 "BSD-3-Clause"
             ],
             "description": "Provides assertions for unit tests.",
-            "time": "2020-02-11T15:00:15+00:00"
+            "time": "2020-11-08T13:01:56+00:00"
         },
         {
             "name": "bovigo/callmap",
-            "version": "v6.0.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bovigo/callmap.git",
-                "reference": "7b6b091abf14b54a3836b6bdf6bef8c4a10292ce"
+                "reference": "18a6b1156cb866478521020c1da1fc12fbc71128"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bovigo/callmap/zipball/7b6b091abf14b54a3836b6bdf6bef8c4a10292ce",
-                "reference": "7b6b091abf14b54a3836b6bdf6bef8c4a10292ce",
+                "url": "https://api.github.com/repos/bovigo/callmap/zipball/18a6b1156cb866478521020c1da1fc12fbc71128",
+                "reference": "18a6b1156cb866478521020c1da1fc12fbc71128",
                 "shasum": ""
             },
             "require": {
-                "bovigo/assert": "^6.0",
-                "php": "^7.3"
+                "bovigo/assert": "^6.1",
+                "php": "^7.3||^8.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^9.0",
-                "xp-framework/unittest": "^9.7"
+                "phpstan/phpstan": "^0.12.54",
+                "phpunit/phpunit": "^9.4",
+                "xp-framework/core": "^10.3 | ^9.9",
+                "xp-framework/unittest": "^11.1 | ^10.1 | ^9.7.1"
             },
             "suggest": {
                 "bovigo/assert": "To use argument verification",
@@ -82,7 +85,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "6.0.x-dev"
+                    "dev-master": "6.2.x-dev"
                 }
             },
             "autoload": {
@@ -98,7 +101,7 @@
                 "BSD-3-Clause"
             ],
             "description": "Allows to stub and mock method calls by applying a callmap.",
-            "time": "2020-02-12T09:07:24+00:00"
+            "time": "2020-11-14T20:51:43+00:00"
         },
         {
             "name": "doctrine/instantiator",
@@ -830,6 +833,7 @@
             "keywords": [
                 "tokenizer"
             ],
+            "abandoned": true,
             "time": "2020-02-07T06:19:00+00:00"
         },
         {
@@ -1692,5 +1696,6 @@
         "php": "^7.3",
         "ext-json": "*"
     },
-    "platform-dev": []
+    "platform-dev": [],
+    "plugin-api-version": "1.1.0"
 }
