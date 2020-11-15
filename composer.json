@@ -9,7 +9,7 @@
         "ext-json": "*"
     },
     "require-dev": {
-        "phpunit/phpunit": "^9.0",
+        "phpunit/phpunit": "^9.4",
         "bovigo/assert": "^6.1",
         "bovigo/callmap": "^6.2",
         "phpstan/phpstan": "^0.12.55"
