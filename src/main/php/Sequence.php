@@ -95,7 +95,7 @@ class Sequence implements \IteratorAggregate, \Countable, \JsonSerializable
      * - one argument which is none of the above: equivalent to Sequence::of([$element])
      * - two or more arguments: sequence of the list of arguments
      *
-     * @param   array<int,mixed>  $elements
+     * @param   array<int,mixed>|\stubbles\sequence\Sequence|iterable<mixed>|mixed  $elements
      * @return  \stubbles\sequence\Sequence
      */
     public static function of(...$elements): self

@@ -11,7 +11,8 @@
     "require-dev": {
         "phpunit/phpunit": "^9.0",
         "bovigo/assert": "^6.1",
-        "bovigo/callmap": "^6.2"
+        "bovigo/callmap": "^6.2",
+        "phpstan/phpstan": "^0.12.55"
     },
     "autoload": {
         "psr-4": {
@@ -34,6 +35,7 @@
     "prefer-stable": true,
     "scripts": {
         "test": "phpunit",
-        "php-coveralls": "php-coveralls"
+        "php-coveralls": "php-coveralls",
+        "phpstan": "phpstan"
     }
 }
