@@ -13,12 +13,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/bovigo/assert.git",
-                "reference": "a5a512e818d574b77f1a7021b9e86f7b24d9019c"
+                "reference": "bf249628acb361ce63dcc83a9e4717de9ecbedd1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bovigo/assert/zipball/a5a512e818d574b77f1a7021b9e86f7b24d9019c",
-                "reference": "a5a512e818d574b77f1a7021b9e86f7b24d9019c",
+                "url": "https://api.github.com/repos/bovigo/assert/zipball/bf249628acb361ce63dcc83a9e4717de9ecbedd1",
+                "reference": "bf249628acb361ce63dcc83a9e4717de9ecbedd1",
                 "shasum": ""
             },
             "require": {
@@ -51,7 +51,7 @@
                 "BSD-3-Clause"
             ],
             "description": "Provides assertions for unit tests.",
-            "time": "2020-11-08T13:01:56+00:00"
+            "time": "2020-11-22T14:35:43+00:00"
         },
         {
             "name": "bovigo/callmap",
@@ -59,12 +59,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/bovigo/callmap.git",
-                "reference": "18a6b1156cb866478521020c1da1fc12fbc71128"
+                "reference": "9c2e9e1bb0edcea64fce3e90630e0b92c8737e4f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bovigo/callmap/zipball/18a6b1156cb866478521020c1da1fc12fbc71128",
-                "reference": "18a6b1156cb866478521020c1da1fc12fbc71128",
+                "url": "https://api.github.com/repos/bovigo/callmap/zipball/9c2e9e1bb0edcea64fce3e90630e0b92c8737e4f",
+                "reference": "9c2e9e1bb0edcea64fce3e90630e0b92c8737e4f",
                 "shasum": ""
             },
             "require": {
@@ -101,7 +101,7 @@
                 "BSD-3-Clause"
             ],
             "description": "Allows to stub and mock method calls by applying a callmap.",
-            "time": "2020-11-14T20:51:43+00:00"
+            "time": "2020-11-22T14:48:31+00:00"
         },
         {
             "name": "doctrine/instantiator",
@@ -588,16 +588,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "0.12.55",
+            "version": "0.12.57",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "4382b2b2059ec7e5135d07685ec1e3e16ae32d16"
+                "reference": "f9909d1d0c44b4cbaf72babcf80e8f14d6fdd55b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/4382b2b2059ec7e5135d07685ec1e3e16ae32d16",
-                "reference": "4382b2b2059ec7e5135d07685ec1e3e16ae32d16",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/f9909d1d0c44b4cbaf72babcf80e8f14d6fdd55b",
+                "reference": "f9909d1d0c44b4cbaf72babcf80e8f14d6fdd55b",
                 "shasum": ""
             },
             "require": {
@@ -640,7 +640,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-11-14T10:20:35+00:00"
+            "time": "2020-11-21T12:53:28+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
