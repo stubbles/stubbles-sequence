@@ -67,10 +67,8 @@ class MappingIterator extends \IteratorIterator implements SelfDescribing
 
     /**
      * returns the current element
-     *
-     * @return  mixed
      */
-    public function current()
+    public function current(): mixed
     {
         if (!$this->valid()) {
             return null;
@@ -86,10 +84,8 @@ class MappingIterator extends \IteratorIterator implements SelfDescribing
 
     /**
      * returns the current key
-     *
-     * @return  mixed
      */
-    public function key()
+    public function key(): mixed
     {
         if (!$this->valid()) {
             return null;

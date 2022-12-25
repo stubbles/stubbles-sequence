@@ -42,10 +42,8 @@ class Peek extends \IteratorIterator implements SelfDescribing
 
     /**
      * returns the current element
-     *
-     * @return  mixed
      */
-    public function current()
+    public function current(): mixed
     {
         $consumeValue = $this->valueConsumer;
         $current = parent::current();
@@ -58,7 +56,7 @@ class Peek extends \IteratorIterator implements SelfDescribing
      *
      * @return  mixed
      */
-    public function key()
+    public function key(): mixed
     {
         $key = parent::key();
         if (null !== $this->keyConsumer) {
