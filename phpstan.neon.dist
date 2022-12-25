@@ -6,4 +6,4 @@ parameters:
   checkGenericClassInNonGenericObjectType: false
   level: max
   paths:
-    - ./src
+    - ./src/main/php
