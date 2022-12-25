@@ -7,6 +7,8 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 namespace stubbles\sequence\assert;
+
+use InvalidArgumentException;
 use bovigo\assert\predicate\Equals;
 use bovigo\assert\predicate\Predicate;
 use SebastianBergmann\Exporter\Exporter;
@@ -14,24 +16,17 @@ use stubbles\sequence\Sequence;
 /**
  * Predicate which checks that a sequence provides all expected values or data.
  *
- * @since  8.0.0
+ * @since 8.0.0
  */
 class Provides extends Predicate
 {
-    /**
-     * @var  \bovigo\assert\predicate\Equals
-     */
-    private $expected;
-    /**
-     * @var  string
-     */
-    private $what;
+    private Equals $expected;
+    private string $what;
 
     /**
      * creates instance which checks that a sequence provides given values ignoring the keys
      *
-     * @param   mixed[]  $expected
-     * @return  Provides
+     * @param mixed[] $expected
      */
     public static function values(array $expected): self
     {
@@ -41,8 +36,7 @@ class Provides extends Predicate
     /**
      * creates instance which checks that a sequence provides values with keys
      *
-     * @param   array<int|string,mixed>  $expected
-     * @return  Provides
+     * @param  array<int|string,mixed> $expected
      */
     public static function data(array $expected): self
     {
@@ -50,8 +44,7 @@ class Provides extends Predicate
     }
 
     /**
-     * @param  array<int|string,mixed>  $expected
-     * @param  string               $what
+     * @param array<int|string,mixed> $expected
      */
     private function __construct(array $expected, string $what)
     {
@@ -62,13 +55,12 @@ class Provides extends Predicate
     /**
      * Tests that given value is a sequence and contains all values.
      *
-     * @param   mixed  $value
-     * @return  bool
+     * @throws InvalidArgumentException
      */
-    public function test($value): bool
+    public function test(mixed $value): bool
     {
         if (!($value instanceof Sequence)) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                     'Given value of type "' . gettype($value)
                     . '" is not an instance of ' . Sequence::class
             );
@@ -89,12 +81,8 @@ class Provides extends Predicate
 
     /**
      * Describes given value in textual form.
-     *
-     * @param   Exporter  $exporter
-     * @param   mixed     $value
-     * @return  string
      */
-    public function describeValue(Exporter $exporter, $value): string
+    public function describeValue(Exporter $exporter, mixed $value): string
     {
         if ($value instanceof Sequence) {
             return $value->__toString();

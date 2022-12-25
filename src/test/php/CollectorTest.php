@@ -24,14 +24,14 @@ use function bovigo\assert\predicate\equals;
 /**
  * Tests for stubbles\sequence\Collector.
  *
- * @since  5.2.0
+ * @since 5.2.0
  */
 class CollectorTest extends TestCase
 {
     /**
-     * @var  array<int,Employee>
+     * @var array<int,Employee>
      */
-    private $people;
+    private array $people;
 
     protected function setUp(): void
     {
@@ -49,7 +49,7 @@ class CollectorTest extends TestCase
     {
         assertThat(
                 Sequence::of($this->people)
-                        ->map(function($e) { return $e->name(); })
+                        ->map(fn($e) => $e->name())
                         ->collect()
                         ->inList(),
                 equals(['Timm', 'Alex', 'Dude'])
@@ -65,8 +65,8 @@ class CollectorTest extends TestCase
                 Sequence::of($this->people)
                         ->collect()
                         ->inMap(
-                            function(Employee $e) { return $e->id(); },
-                            function(Employee $e) { return $e->name(); }
+                            fn(Employee $e) => $e->id(),
+                            fn(Employee $e) => $e->name()
                 ),
                 equals([1549 => 'Timm', 1552 => 'Alex', 6100 => 'Dude'])
         );

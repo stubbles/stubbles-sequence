@@ -7,31 +7,29 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 namespace stubbles\sequence\iterator;
+
+use Iterator;
+use LimitIterator;
 /**
  * Enhances PHP's LimitIterator with a useful description.
  *
  * @since  8.0.0
  * @internal
  */
-class Limit extends \LimitIterator implements SelfDescribing
+class Limit extends LimitIterator implements SelfDescribing
 {
-    /** @var int */
-    private $offset;
-    /** @var int */
-    private $count;
-
-    public function __construct(\Iterator $iterator, int $offset = 0, int $count = -1)
-    {
+    public function __construct(
+        Iterator $iterator,
+        private int $offset = 0,
+        private int $count = -1
+    ) {
         parent::__construct($iterator, $offset, $count);
-        $this->offset = $offset;
-        $this->count  = $count;
     }
 
     /**
      * returns description of this iterator
      *
-     * @return  string
-     * @since   8.0.0
+     * @since 8.0.0
      */
     public function description(): string
     {

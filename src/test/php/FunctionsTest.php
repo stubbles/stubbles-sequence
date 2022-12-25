@@ -15,14 +15,14 @@ use function bovigo\assert\predicate\isSameAs;
 /**
  * Tests for stubbles\lang\*().
  *
- * @since  3.1.0
- * @group  ensure_callable
+ * @since 3.1.0
+ * @group ensure_callable
  */
 class FunctionsTest extends TestCase
 {
     /**
      * @test
-     * @since  4.0.0
+     * @since 4.0.0
      */
     public function ensureCallableDoesNotChangeClosures(): void
     {
@@ -32,7 +32,7 @@ class FunctionsTest extends TestCase
 
     /**
      * @test
-     * @since  4.0.0
+     * @since 4.0.0
      */
     public function ensureCallableDoesNotChangeCallbackWithInstance(): void
     {
@@ -50,7 +50,7 @@ class FunctionsTest extends TestCase
 
     /**
      * @test
-     * @since  4.0.0
+     * @since 4.0.0
      */
     public function ensureCallableDoesNotChangeCallbackWithStaticMethod(): void
     {
@@ -60,19 +60,19 @@ class FunctionsTest extends TestCase
 
     /**
      * @test
-     * @since  4.0.0
+     * @since 4.0.0
      */
     public function ensureCallableDoesNotWrapUserlandFunction(): void
     {
         assertThat(
-                ensureCallable('stubbles\sequence\ensureCallable'),
-                isSameAs('stubbles\sequence\ensureCallable')
+            ensureCallable('stubbles\sequence\ensureCallable'),
+            isSameAs('stubbles\sequence\ensureCallable')
         );
     }
 
     /**
      * @test
-     * @since  4.0.0
+     * @since 4.0.0
      */
     public function ensureCallableWrapsInternalFunction(): void
     {
@@ -81,7 +81,7 @@ class FunctionsTest extends TestCase
 
     /**
      * @test
-     * @since  4.0.0
+     * @since 4.0.0
      */
     public function ensureCallableAlwaysReturnsSameClosureForSameFunction(): void
     {
@@ -90,7 +90,7 @@ class FunctionsTest extends TestCase
 
     /**
      * @test
-     * @since  4.0.0
+     * @since 4.0.0
      */
     public function ensureCallableReturnsClosureThatPassesArgumentsAndReturnsValue(): void
     {

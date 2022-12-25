@@ -13,51 +13,45 @@ use function stubbles\sequence\describeCallable;
 /**
  * Iterator which calls an operation to retrieve the value.
  *
- * @since  5.2.0
+ * @since 5.2.0
  */
 class Generator implements \Iterator, SelfDescribing
 {
     /**
-     * initial value
-     *
-     * @var  mixed
-     */
-    private $seed;
-    /**
      * current value
      *
-     * @var  mixed
+     * @var mixed
      */
     private $value;
     /**
      * number of delivered elements since last rewind
-     *
-     * @var  int
      */
-    private $elementsGenerated = 0;
+    private int $elementsGenerated = 0;
     /**
      * operation which takes a value and generates a new one
      *
-     * @var  callable
+     * @var callable
      */
     private $operation;
     /**
      * function which decides whether a value is valid
      *
-     * @var  callable
+     * @var callable
      */
     private $validator;
 
     /**
      * constructor
      *
-     * @param  mixed     $seed       initial value
-     * @param  callable  $operation  operation which takes a value and generates a new one
-     * @param  callable  $validator  function which decides whether a value is valid
+     * @param mixed    $seed      initial value
+     * @param callable $operation operation which takes a value and generates a new one
+     * @param callable $validator function which decides whether a value is valid
      */
-    public function __construct($seed, callable $operation, callable $validator)
-    {
-        $this->seed      = $seed;
+    public function __construct(
+        private mixed $seed,
+        callable $operation,
+        callable $validator
+    ) {
         $this->value     = $seed;
         $this->operation = $operation;
         $this->validator = $validator;
@@ -65,12 +59,8 @@ class Generator implements \Iterator, SelfDescribing
 
     /**
      * creates a generator which iterates infinitely
-     *
-     * @param   mixed     $seed       initial value
-     * @param   callable  $operation  operation which takes a value and generates a new one
-     * @return  Generator
      */
-    public static function infinite($seed, callable $operation): self
+    public static function infinite(mixed $seed, callable $operation): self
     {
         return new self($seed, $operation, function() { return true; });
     }
@@ -85,8 +75,6 @@ class Generator implements \Iterator, SelfDescribing
 
     /**
      * returns number of delivered elements since last rewind()
-     *
-     * @return  int
      */
     public function key(): int
     {
@@ -114,8 +102,6 @@ class Generator implements \Iterator, SelfDescribing
 
     /**
      * checks if current element is valid
-     *
-     * @return  bool
      */
     public function valid(): bool
     {
@@ -125,8 +111,6 @@ class Generator implements \Iterator, SelfDescribing
 
     /**
      * returns description of this iterator
-     *
-     * @return  string
      */
     public function description(): string
     {

@@ -8,24 +8,29 @@ declare(strict_types=1);
  */
 namespace stubbles\sequence {
 
+    use ArrayIterator;
+    use Iterator;
+    use IteratorIterator;
+    use ReflectionFunction;
+    use Traversable;
+
     /**
      * cast given value into an array
      *
      * The following casts are applied:
      * - array: returned as is
-     * - instance of \Traversable: return value from iterator_to_array()
+     * - instance of Traversable: return value from iterator_to_array()
      * - object with asArray() method: returns value from call to this method
      * - object with toArray() method: returns value from call to this method
      * - object: returns map of properties using extractObjectProperties()
      * - any other: returns array with value as single entry
      *
-     * @param   mixed  $value
-     * @return  array<mixed>
-     * @since   5.4.0
+     * @return mixed[]
+     * @since  5.4.0
      */
-    function castToArray($value): array
+    function castToArray(mixed $value): array
     {
-        if ($value instanceof \Traversable) {
+        if ($value instanceof Traversable) {
             return iterator_to_array($value);
         } elseif (is_array($value)) {
             return $value;
@@ -56,25 +61,25 @@ namespace stubbles\sequence {
      * @return  \Iterator<mixed>
      * @since   8.0.0
      */
-    function castToIterator($value): \Iterator
+    function castToIterator(mixed $value): Iterator
     {
         if ($value instanceof Sequence) {
             return $value->getIterator();
         }
 
-        if ($value instanceof \Iterator) {
+        if ($value instanceof Iterator) {
             return $value;
         }
 
-        if ($value instanceof \Traversable) {
-            return new \IteratorIterator($value);
+        if ($value instanceof Traversable) {
+            return new IteratorIterator($value);
         }
 
         if (is_array($value)) {
-            return new \ArrayIterator($value);
+            return new ArrayIterator($value);
         }
 
-        return new \ArrayIterator([$value]);
+        return new ArrayIterator([$value]);
     }
 
     /**
@@ -84,11 +89,10 @@ namespace stubbles\sequence {
      * is not any more capable of retrieving private properties from child classes.
      * See http://stubbles.org/archives/32-Subtle-BC-break-in-PHP-5.2.4.html.
      *
-     * @param   object  $object
-     * @return  array<string,mixed>
-     * @since   3.1.0
+     * @return array<string,mixed>
+     * @since  3.1.0
      */
-    function extractObjectProperties($object): array
+    function extractObjectProperties(object $object): array
     {
         $properties      = (array) $object;
         /** @var array<string,mixed> $properties */
@@ -99,7 +103,8 @@ namespace stubbles\sequence {
                 continue;
             }
 
-            $fixedProperties[substr($propertyName, strrpos($propertyName, "\0") + 1)] = $propertyValue;
+            $key = substr($propertyName, strrpos($propertyName, "\0") + 1);
+            $fixedProperties[$key] = $propertyValue;
         }
 
         return $fixedProperties;
@@ -113,9 +118,7 @@ namespace stubbles\sequence {
      * This is a problem when you pass such a function as callable to a place
      * where it will receive more than it's exact amount of arguments.
      *
-     * @param   callable  $callable
-     * @return  callable
-     * @since   4.0.0
+     * @since 4.0.0
      */
     function ensureCallable(callable $callable): callable
     {
@@ -128,7 +131,7 @@ namespace stubbles\sequence {
             return $wrappedFunctions[$callable];
         }
 
-        $function = new \ReflectionFunction($callable);
+        $function = new ReflectionFunction($callable);
         if (!$function->isInternal()) {
             return $callable;
         }
@@ -149,8 +152,7 @@ namespace stubbles\sequence {
     /**
      * tries to determine a name for the callable
      *
-     * @return  string
-     * @since   8.0.0
+     * @since 8.0.0
      */
     function describeCallable(callable $callable): string
     {

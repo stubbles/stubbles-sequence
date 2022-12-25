@@ -10,27 +10,14 @@ namespace stubbles\sequence;
 /**
  * Provides factory functions for common collectors.
  *
- * @since  5.2.0
+ * @since 5.2.0
  */
 class Collectors
 {
     /**
-     * actual sequence of data to reduce
-     *
-     * @var  Sequence
+     * @internal create an instance with $sequence->collect() instead
      */
-    private $sequence;
-
-    /**
-     * constructor
-     *
-     * @internal  create an instance with $sequence->collect() instead
-     * @param  \stubbles\sequence\Sequence  $sequence
-     */
-    public function __construct(Sequence $sequence)
-    {
-        $this->sequence = $sequence;
-    }
+    public function __construct(private Sequence $sequence) {  }
 
     /**
      * collects all elements into structure defined by supplier
@@ -41,8 +28,11 @@ class Collectors
      * @param   callable  $finisher     optional  final operation after all elements have been added to the structure
      * @return  mixed
      */
-    public function with(callable $supplier, callable $accumulator, callable $finisher = null)
-    {
+    public function with(
+        callable $supplier,
+        callable $accumulator,
+        ?callable $finisher = null
+    ) {
         return $this->sequence->collect(new Collector($supplier, $accumulator, $finisher));
     }
 
@@ -50,7 +40,7 @@ class Collectors
      * returns a collector for lists
      *
      * @api
-     * @return  mixed[]
+     * @return mixed[]
      */
     public function inList(): array
     {
@@ -61,9 +51,9 @@ class Collectors
      * returns a collector for maps
      *
      * @api
-     * @return  array<string,mixed>
+     * @return array<string,mixed>
      */
-    public function inMap(callable $selectKey = null, callable $selectValue = null): array
+    public function inMap(?callable $selectKey = null, ?callable $selectValue = null): array
     {
         return $this->sequence->collect(Collector::forMap($selectKey, $selectValue));
     }
@@ -72,29 +62,22 @@ class Collectors
      * creates collector which groups the elements in two partitions according to given predicate
      *
      * @api
-     * @param   callable                      $predicate  function to evaluate in which partition an element belongs
-     * @param   \stubbles\sequence\Collector  $base       optional  defaults to Collector::forList()
-     * @return  array<bool,mixed[]>
+     * @param  callable   $predicate  function to evaluate in which partition an element belongs
+     * @param  Collector  $base       optional  defaults to Collector::forList()
+     * @return array<bool,mixed[]>
      */
-    public function inPartitions(callable $predicate, Collector $base = null): array
+    public function inPartitions(callable $predicate, ?Collector $base = null): array
     {
         $collector = (null === $base) ? Collector::forList() : $base;
         return $this->with(
                 /**
                  * @return array<bool,Collector>
                  */
-                function() use($collector): array
-                {
-                    return [true  => $collector->fork(),
-                            false => $collector->fork()
-                    ];
-                },
-                /**
-                 * @param array<bool,Collector> $partitions
-                 * @param mixed                 $element
-                 * @param int|string            $key
-                 */
-                function(array &$partitions, $element, $key) use($predicate): void
+                fn() => [
+                    true  => $collector->fork(),
+                    false => $collector->fork()
+                ],
+                function(array &$partitions, mixed $element, int|string $key) use($predicate): void
                 {
                     $partitions[$predicate($element)]->accumulate($element, $key);
                 },
@@ -102,12 +85,10 @@ class Collectors
                  * @param  array<bool,Collector> $partitions
                  * @return array<bool,mixed[]>
                  */
-                function(array $partitions): array
-                {
-                    return [true  => $partitions[true]->finish(),
-                            false => $partitions[false]->finish()
-                    ];
-                }
+                fn(array $partitions) => [
+                    true  => $partitions[true]->finish(),
+                    false => $partitions[false]->finish()
+                ]
         );
     }
 
@@ -115,20 +96,20 @@ class Collectors
      * creates collector which groups the elements according to given classifier
      *
      * @api
-     * @param   callable                      $classifier  function to map elements to keys
-     * @param   \stubbles\sequence\Collector  $base        optional  defaults to Collector::forList()
-     * @return  array<mixed>
+     * @param  callable  $classifier function to map elements to keys
+     * @param  Collector $base       optional  defaults to Collector::forList()
+     * @return array<mixed>
      */
     public function inGroups(callable $classifier, Collector $base = null): array
     {
-        $collector = (null === $base) ? Collector::forList() : $base;
+        $collector = $base ?: Collector::forList();
         return $this->with(
-                function(): array { return []; },
+                fn() => [],
                 /**
                  * @param array<Collector> $groups
                  * @param mixed            $element
                  */
-                function(array &$groups, $element) use($classifier, $collector): void
+                function(array &$groups, mixed $element) use($classifier, $collector): void
                 {
                     $key = $classifier($element);
                     if (!isset($groups[$key])) {
@@ -168,20 +149,19 @@ class Collectors
      * </code>
      *
      * @api
-     * @param   string  $delimiter     delimiter between elements, defaults to ', '
-     * @param   string  $prefix        optional  prefix for complete string, empty by default
-     * @param   string  $suffix        optional  suffix for complete string, empty by default
-     * @param   string  $keySeparator  optional  separator between key and element
-     * @return  string
+     * @param string $delimiter    delimiter between elements, defaults to ', '
+     * @param string $prefix       optional  prefix for complete string, empty by default
+     * @param string $suffix       optional  suffix for complete string, empty by default
+     * @param string $keySeparator optional  separator between key and element
      */
     public function byJoining(
-            string $delimiter = ', ',
-            string $prefix = '',
-            string $suffix = '',
-            string $keySeparator = null
+        string $delimiter = ', ',
+        string $prefix = '',
+        string $suffix = '',
+        ?string $keySeparator = null
     ): string {
         return $this->with(
-                function (): string { return ''; },
+                fn () => '',
                 function(string &$joinedElements, string $element, $key) use($prefix, $delimiter, $keySeparator): void
                 {
                     if (strlen($joinedElements) === 0) {
@@ -192,7 +172,7 @@ class Collectors
 
                     $joinedElements .= (null !== $keySeparator ? $key . $keySeparator : '') . $element;
                 },
-                function(string $joinedElements) use($suffix): string { return $joinedElements . $suffix; }
+                fn(string $joinedElements) => $joinedElements . $suffix
         );
     }
 }

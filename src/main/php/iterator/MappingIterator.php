@@ -7,6 +7,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 namespace stubbles\sequence\iterator;
+
+use InvalidArgumentException;
+use Traversable;
 use function stubbles\sequence\describeCallable;
 use function stubbles\sequence\ensureCallable;
 /**
@@ -19,37 +22,37 @@ class MappingIterator extends \IteratorIterator implements SelfDescribing
     /**
      * callable which maps the values‚
      *
-     * @var  callable|null
+     * @var callable|null
      */
     private $valueMapper;
     /**
      * callable which maps the keys
      *
-     * @var  callable|null
+     * @var callable|null
      */
     private $keyMapper;
     /**
-     * @var  string[]
+     * @var string[]
      */
-    private $description = [];
+    private array $description = [];
 
     /**
      * constructor
      *
-     * @param   \Traversable<mixed>  $iterator     iterator to map values of
+     * @param   Traversable<mixed>  $iterator     iterator to map values of
      * @param   callable             $valueMapper  optional  callable which maps the values
      * @param   callable             $keyMapper    optional  callable which maps the keys
-     * @throws  \InvalidArgumentException  in case both $valueMapper and $keyMapper are null
+     * @throws InvalidArgumentException in case both $valueMapper and $keyMapper are null
      */
     public function __construct(
-            \Traversable $iterator,
-            callable $valueMapper = null,
-            callable $keyMapper = null
+        \Traversable $iterator,
+        callable $valueMapper = null,
+        callable $keyMapper = null
     ) {
         if (null === $valueMapper && null === $keyMapper) {
-            throw new \InvalidArgumentException(
-                    'Passed null for both valueMapper and keyMapper, but at '
-                    . 'least one of both must not be null'
+            throw new InvalidArgumentException(
+                'Passed null for both valueMapper and keyMapper, but at '
+                . 'least one of both must not be null'
             );
         }
 
@@ -102,8 +105,7 @@ class MappingIterator extends \IteratorIterator implements SelfDescribing
     /**
      * returns description of this iterator
      *
-     * @return  string
-     * @since   8.0.0
+     * @since 8.0.0
      */
     public function description(): string
     {

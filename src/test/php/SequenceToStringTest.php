@@ -9,6 +9,8 @@ declare(strict_types=1);
  * @package  stubbles\sequence
  */
 namespace stubbles\sequence;
+
+use ArrayIterator;
 use PHPUnit\Framework\TestCase;
 use stubbles\sequence\iterator\Limit;
 
@@ -17,29 +19,28 @@ use function bovigo\assert\predicate\equals;
 /**
  * Tests for stubbles\sequence\Sequence->__toString().
  *
- * @since  8.0.0
+ * @since 8.0.0
  */
 class SequenceToStringTest extends TestCase
 {
     /**
-     * @return  array<array<mixed>>
+     * @return array<array<mixed>>
      */
     public function sequenceSourceTypes(): array
     {
         $f = function() { yield 1; yield 2; yield 3; };
         return [
                 [[1, 2, 3], 'of array'],
-                [new \ArrayIterator([1, 2, 3]), 'from ArrayIterator'],
+                [new ArrayIterator([1, 2, 3]), 'from ArrayIterator'],
                 [Sequence::of([1, 2, 3]), 'of array'],
                 [$f(), 'from Generator']
         ];
     }
 
     /**
-     * @param  iterable<int>  $input
-     * @param  string         $expectedSourceType
+     * @param iterable<int> $input
      * @test
-     * @dataProvider  sequenceSourceTypes
+     * @dataProvider sequenceSourceTypes
      */
     public function containsSourceType(iterable $input, string $expectedSourceType): void
     {
@@ -56,7 +57,7 @@ class SequenceToStringTest extends TestCase
     {
         assertThat(
                 (string) Sequence::of(1, 2, 3, 4)
-                        ->filter(function($e) { return 0 === $e % 2; }),
+                        ->filter(fn($e) => 0 === $e % 2),
                 equals(Sequence::class . ' of array filtered by a lambda function')
         );
     }
@@ -133,7 +134,7 @@ class SequenceToStringTest extends TestCase
     {
         assertThat(
                 (string) Sequence::of([1, 2, 3, 4])
-                        ->mapKeys(function($e) { return $e * 2; }),
+                        ->mapKeys(fn($e) => $e * 2),
                 equals(Sequence::class . ' of array keys mapped by a lambda function')
         );
     }
@@ -166,7 +167,7 @@ class SequenceToStringTest extends TestCase
     public function containsReferenceToInfiniteGenerator(): void
     {
         assertThat(
-                (string) Sequence::infinite(1, function($i) { return ++$i; })->limit(2),
+                (string) Sequence::infinite(1, fn($i) => ++$i)->limit(2),
                 equals(
                         Sequence::class . ' starting at 1 continued by a lambda function'
                         . ' limited to 2 elements'
@@ -182,9 +183,9 @@ class SequenceToStringTest extends TestCase
         assertThat(
                 (string) Sequence::generate(
                         1,
-                        function($i) { return $i + 1; },
-                        function($i) { return $i < 10; }
-                        )->limit(2),
+                        fn($i) => $i + 1,
+                        fn($i) => $i < 10
+                )->limit(2),
                 equals(
                         Sequence::class . ' starting at 1 continued by a lambda function'
                         . ' limited to 2 elements'
@@ -209,7 +210,7 @@ class SequenceToStringTest extends TestCase
     public function containsReferenceToBothLimitAndSkippedElements(): void
     {
         assertThat(
-                (string) Sequence::infinite(1, function($i) { return ++$i; })
+                (string) Sequence::infinite(1, fn($i) => ++$i)
                         ->skip(2)
                         ->limit(3),
                 equals(
@@ -225,7 +226,7 @@ class SequenceToStringTest extends TestCase
     public function limitDescriptionWithBothLimitAndSkipped(): void
     {
         assertThat(
-                (new Limit(new \ArrayIterator([]), 2, 3))->description(),
+                (new Limit(new ArrayIterator([]), 2, 3))->description(),
                 equals('limited to 3 elements starting from offset 2')
         );
     }

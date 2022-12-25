@@ -6,35 +6,41 @@ declare(strict_types=1);
  * For the full copyright and license information, please view the LICENSE
  */
 namespace stubbles\sequence\iterator;
+
+use Iterator;
+use IteratorIterator;
 /**
  * Iterator which allows consumption of an element before iteration continues.
  *
- * @since  5.2.0
+ * @since 5.2.0
  */
-class Peek extends \IteratorIterator implements SelfDescribing
+class Peek extends IteratorIterator implements SelfDescribing
 {
     /**
      * consumer for values
      *
-     * @var  callable
+     * @var callable
      */
     private $valueConsumer;
     /**
      * consumer for keys
      *
-     * @var  callable|null
+     * @var callable|null
      */
     private $keyConsumer;
 
     /**
      * constructor
      *
-     * @param  \Iterator  $iterator  iterator to map values of
-     * @param  callable   $valueConsumer  consumer which is invoked with current value
-     * @param  callable   $keyConsumer    optional  consumer which is invoked with current key
+     * @param Iterator $iterator iterator to map values of
+     * @param callable $valueConsumer consumer which is invoked with current value
+     * @param callable $keyConsumer   optional  consumer which is invoked with current key
      */
-    public function __construct(\Iterator $iterator, callable $valueConsumer, callable $keyConsumer = null)
-    {
+    public function __construct(
+        Iterator $iterator,
+        callable $valueConsumer,
+        ?callable $keyConsumer = null
+    ) {
         parent::__construct($iterator);
         $this->valueConsumer = $valueConsumer;
         $this->keyConsumer   = $keyConsumer;
@@ -53,8 +59,6 @@ class Peek extends \IteratorIterator implements SelfDescribing
 
     /**
      * returns the current key
-     *
-     * @return  mixed
      */
     public function key(): mixed
     {
@@ -70,10 +74,8 @@ class Peek extends \IteratorIterator implements SelfDescribing
     /**
      * returns description of this iterator
      *
-     * description is intentionally empty, peeking does not change the
-     * elements which it is peeking at
-     *
-     * @return  string
+     * Description is intentionally empty, peeking does not change the
+     * elements which it is peeking at.
      */
     public function description(): string
     {

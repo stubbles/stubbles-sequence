@@ -10,14 +10,12 @@ namespace stubbles\sequence\iterator;
 /**
  * Maps values and/or keys from an underlying iterator.
  *
- * @since  8.0.0
+ * @since 8.0.0
  */
 interface SelfDescribing
 {
     /**
      * returns description of this iterator
-     *
-     * @return  string
      */
     public function description(): string;
 }

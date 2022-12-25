@@ -7,26 +7,22 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 namespace stubbles\sequence\iterator;
+
+use CallbackFilterIterator;
+use Iterator;
 use function stubbles\sequence\describeCallable;
 use function stubbles\sequence\ensureCallable;
 /**
  * Enhances PHP's CallbackFilterIterator with a useful description.
  *
- * @since  8.0.0
+ * @since 8.0.0
  * @internal
  */
-class Filter extends \CallbackFilterIterator implements SelfDescribing
+class Filter extends CallbackFilterIterator implements SelfDescribing
 {
-    /**
-     * @var  string
-     */
-    private $description;
+    private string $description;
 
-    /**
-     * @param  \Iterator  $iterator
-     * @param  callable   $callback
-     */
-    public function __construct(\Iterator $iterator, callable $callback)
+    public function __construct(Iterator $iterator, callable $callback)
     {
         parent::__construct($iterator, ensureCallable($callback));
         $this->description = describeCallable($callback);
@@ -35,8 +31,7 @@ class Filter extends \CallbackFilterIterator implements SelfDescribing
     /**
      * returns description of this iterator
      *
-     * @return  string
-     * @since   8.0.0
+     * @since 8.0.0
      */
     public function description(): string
     {

@@ -7,6 +7,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 namespace stubbles\sequence\assert;
+
+use Generator;
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use stubbles\sequence\Sequence;
 
@@ -19,8 +22,8 @@ use function bovigo\assert\predicate\equals;
 /**
  * Tests for stubbles\sequence\assert\Provides.
  *
- * @since  8.0.0
- * @group  assert
+ * @since 8.0.0
+ * @group assert
  */
 class ProvidesTest extends TestCase
 {
@@ -31,54 +34,54 @@ class ProvidesTest extends TestCase
     {
         $provides  = Provides::values([]);
         expect(function() use ($provides) { $provides->test(new \stdClass()); })
-                ->throws(\InvalidArgumentException::class)
-                ->withMessage('Given value of type "object" is not an instance of ' . Sequence::class);
+            ->throws(InvalidArgumentException::class)
+            ->withMessage('Given value of type "object" is not an instance of ' . Sequence::class);
     }
 
-    /**
-     * @return  array<array<mixed>>
-     */
-    public function createProvides(): array
+    public function createProvides(): Generator
     {
-        return [
-                [Provides::values([1]), 'values'],
-                [Provides::data(['foo' => 1]), 'data']
-        ];
+        yield [Provides::values([1]), 'values'];
+        yield [Provides::data(['foo' => 1]), 'data'];
     }
 
     /**
      * @test
-     * @dataProvider  createProvides
+     * @dataProvider createProvides
      */
-    public function evaluatesToTrueIfTestedSequenceProvidesExpectedContents(Provides $provides): void
-    {
+    public function evaluatesToTrueIfTestedSequenceProvidesExpectedContents(
+        Provides $provides
+    ): void {
         assertTrue($provides->test(Sequence::of(['foo' => 1])));
     }
 
     /**
      * @test
-     * @dataProvider  createProvides
+     * @dataProvider createProvides
      */
-    public function evaluatesToFalseIfTestedSequenceDoesNotProvideExpectedContents(Provides $provides): void
-    {
+    public function evaluatesToFalseIfTestedSequenceDoesNotProvideExpectedContents(
+        Provides $provides
+    ): void {
         assertFalse($provides->test(Sequence::of(['bar' => 2])));
     }
 
     /**
      * @test
-     * @dataProvider  createProvides
+     * @dataProvider createProvides
      */
-    public function evaluatesToFalseIfTestedSequenceContainsMoreValues(Provides $provides): void
+    public function evaluatesToFalseIfTestedSequenceContainsMoreValues(
+        Provides $provides ): void
     {
         assertFalse($provides->test(Sequence::of(['foo' => 1, 'bar' => 2])));
     }
 
     /**
      * @test
-     * @dataProvider  createProvides
+     * @dataProvider createProvides
      */
-    public function stringRepresentationReferencesType(Provides $provides, string $type): void
-    {
+    public function stringRepresentationReferencesType(
+        Provides $provides,
+        string $type
+    ): void {
         assertThat((string) $provides, equals('provides expected ' . $type));
     }
 
@@ -90,8 +93,8 @@ class ProvidesTest extends TestCase
         $provides = Provides::values([1]);
         $provides->test(Sequence::of(['foo' => 1, 'bar' => 2]));
         assertThat(
-                (string) $provides,
-                equals('provides expected values.
+            (string) $provides,
+            equals('provides expected values.
 --- Expected
 +++ Actual
 @@ @@
@@ -111,8 +114,8 @@ class ProvidesTest extends TestCase
         $provides = Provides::data(['foo' => 1]);
         $provides->test(Sequence::of(['foo' => 1, 'bar' => 2]));
         assertThat(
-                (string) $provides,
-                equals('provides expected data.
+            (string) $provides,
+            equals('provides expected data.
 --- Expected
 +++ Actual
 @@ @@
@@ -130,8 +133,8 @@ class ProvidesTest extends TestCase
     public function exportsSequenceAsStringRepresentation(): void
     {
         assertThat(
-                Provides::values([1])->describeValue(exporter(), Sequence::of([])),
-                equals(Sequence::class . ' of array')
+            Provides::values([1])->describeValue(exporter(), Sequence::of([])),
+            equals(Sequence::class . ' of array')
         );
     }
 
@@ -141,8 +144,8 @@ class ProvidesTest extends TestCase
     public function exportsAnyThingElseWithDefault(): void
     {
         assertThat(
-                Provides::values([1])->describeValue(exporter(), 'foo'),
-                equals('\'foo\'')
+            Provides::values([1])->describeValue(exporter(), 'foo'),
+            equals('\'foo\'')
         );
     }
 }

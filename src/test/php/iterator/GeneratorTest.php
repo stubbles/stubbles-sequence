@@ -15,8 +15,8 @@ use function bovigo\assert\predicate\equals;
 /**
  * Tests for stubbles\sequence\iterator\Generator.
  *
- * @group  iterator
- * @since  5.2.0
+ * @group iterator
+ * @since 5.2.0
  */
 class GeneratorTest extends TestCase
 {
@@ -26,9 +26,9 @@ class GeneratorTest extends TestCase
     public function iterationStopsWhenValidatorReturnsFalse(): void
     {
         $generator = new Generator(
-                2,
-                function($value) { return $value + 2; },
-                function($value) { return $value < 15; }
+            2,
+            function($value) { return $value + 2; },
+            function($value) { return $value < 15; }
         );
         $result = [];
         foreach ($generator as $key => $value) {
@@ -36,8 +36,8 @@ class GeneratorTest extends TestCase
         }
 
         assertThat(
-                $result,
-                equals([0 => 2, 1 => 4, 2 => 6, 3 => 8, 4 => 10, 5 => 12, 6 => 14])
+            $result,
+            equals([0 => 2, 1 => 4, 2 => 6, 3 => 8, 4 => 10, 5 => 12, 6 => 14])
         );
     }
 
@@ -47,9 +47,9 @@ class GeneratorTest extends TestCase
     public function resultsAreReproducableWhenOperationIsReproducable(): void
     {
         $generator = new Generator(
-                2,
-                function($value) { return $value + 2; },
-                function($value) { return $value < 15; }
+            2,
+            function($value) { return $value + 2; },
+            function($value) { return $value < 15; }
         );
         $result1 = [];
         foreach ($generator as $key => $value) {
@@ -70,7 +70,7 @@ class GeneratorTest extends TestCase
     public function infiniteGeneratorDoesStopOnlyWhenBreakOutOfLoop(): void
     {
         $i = 0;
-        foreach (Generator::infinite(0, function($value) { return $value + 2; }) as $key => $value) {
+        foreach (Generator::infinite(0, fn($value) => $value + 2) as $key => $value) {
             if (1000 > $key) {
                 $i++;
             } else {

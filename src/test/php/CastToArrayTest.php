@@ -15,8 +15,8 @@ use function bovigo\assert\predicate\equals;
 /**
  * Tests for stubbles\sequence\castToArray().
  *
- * @since  5.4.0
- * @group  cast_to_array
+ * @since 5.4.0
+ * @group cast_to_array
  */
 class CastToArrayTest extends TestCase
 {
@@ -26,8 +26,8 @@ class CastToArrayTest extends TestCase
     public function castToArrayOnTraversable(): void
     {
         assertThat(
-                castToArray(new \ArrayIterator(['foo' => 'bar', 'baz' => 303])),
-                equals(['foo' => 'bar', 'baz' => 303])
+            castToArray(new \ArrayIterator(['foo' => 'bar', 'baz' => 303])),
+            equals(['foo' => 'bar', 'baz' => 303])
         );
     }
 
@@ -37,8 +37,8 @@ class CastToArrayTest extends TestCase
     public function castToArrayOnArray(): void
     {
         assertThat(
-                castToArray(['foo' => 'bar', 'baz' => 303]),
-                equals(['foo' => 'bar', 'baz' => 303])
+            castToArray(['foo' => 'bar', 'baz' => 303]),
+            equals(['foo' => 'bar', 'baz' => 303])
         );
     }
 
@@ -48,12 +48,9 @@ class CastToArrayTest extends TestCase
     public function castToArrayOnObject(): void
     {
         $object = new class() {
-            /** @var  string */
-            public $foo = 'bar';
-            /** @var  bool */
-            protected $bar = true;
-            /** @var  int */
-            private $baz = 303;
+            public string $foo = 'bar';
+            protected bool $bar = true;
+            private int $baz = 303;
         };
         assertThat(
             castToArray($object),
@@ -67,8 +64,8 @@ class CastToArrayTest extends TestCase
     public function castToArrayOnObjectWithAsArrayMethod(): void
     {
         assertThat(
-                castToArray(new AsArray()),
-                equals(['foo' => 'bar', 'baz' => 303])
+            castToArray(new AsArray()),
+            equals(['foo' => 'bar', 'baz' => 303])
         );
     }
 
@@ -78,8 +75,8 @@ class CastToArrayTest extends TestCase
     public function castToArrayOnObjectWithToArrayMethod(): void
     {
         assertThat(
-                castToArray(new ToArray()),
-                equals(['foo' => 'bar', 'baz' => 303])
+            castToArray(new ToArray()),
+            equals(['foo' => 'bar', 'baz' => 303])
         );
     }
 

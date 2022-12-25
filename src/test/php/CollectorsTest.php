@@ -23,14 +23,14 @@ use function bovigo\assert\predicate\equals;
 /**
  * Tests for stubbles\sequence\Collectors.
  *
- * @since  5.2.0
+ * @since 5.2.0
  */
 class CollectorsTest extends TestCase
 {
     /**
-     * @var  array<int,Employee>
+     * @var array<int,Employee>
      */
-    private $people;
+    private array $people;
 
     protected function setUp(): void
     {
@@ -56,7 +56,7 @@ class CollectorsTest extends TestCase
     {
         assertThat(
                 Sequence::of($this->people)
-                        ->map(function(Employee $e) { return $e->name(); })
+                        ->map(fn(Employee $e) => $e->name())
                         ->collect()
                         ->byJoining(),
                 equals('Timm, Alex, Dude')
@@ -70,7 +70,7 @@ class CollectorsTest extends TestCase
     {
         assertThat(
                 Sequence::of($this->people)
-                        ->map(function(Employee $e) { return $e->name(); })
+                        ->map(fn(Employee $e) => $e->name())
                         ->collect()
                         ->byJoining(';'),
                 equals('Timm;Alex;Dude')
@@ -84,7 +84,7 @@ class CollectorsTest extends TestCase
     {
         assertThat(
                 Sequence::of($this->people)
-                        ->map(function(Employee $e) { return $e->name(); })
+                        ->map(fn(Employee $e) => $e->name())
                         ->collect()
                         ->byJoining(', ', '(', ')'),
                 equals('(Timm, Alex, Dude)')
@@ -98,7 +98,7 @@ class CollectorsTest extends TestCase
     {
         assertThat(
                 Sequence::of($this->people)
-                        ->map(function(Employee $e) { return $e->name(); })
+                        ->map(fn(Employee $e) => $e->name())
                         ->collect()
                         ->byJoining(', ', '(', ')', ':'),
                 equals('(1549:Timm, 1552:Alex, 6100:Dude)')
@@ -113,7 +113,7 @@ class CollectorsTest extends TestCase
         assertThat(
                 Sequence::of($this->people)
                         ->collect()
-                        ->inGroups(function(Employee $e) { return $e->department(); }),
+                        ->inGroups(fn(Employee $e) => $e->department()),
                 equals([
                         'B' => [$this->people[1549]],
                         'I' => [$this->people[1552], $this->people[6100]]
@@ -130,8 +130,8 @@ class CollectorsTest extends TestCase
                 Sequence::of($this->people)
                         ->collect()
                         ->inGroups(
-                                function(Employee $e) { return $e->department(); },
-                                Collector::forSum(function(Employee $e) { return $e->years(); })
+                                fn(Employee $e) => $e->department(),
+                                Collector::forSum(fn(Employee $e) => $e->years())
                           ),
                 equals(['B' => 15, 'I' => 18])
         );
@@ -146,8 +146,8 @@ class CollectorsTest extends TestCase
                 Sequence::of($this->people)
                         ->collect()
                         ->inGroups(
-                                function(Employee $e) { return $e->department(); },
-                                Collector::forAverage(function(Employee $e) { return $e->years(); })
+                                fn(Employee $e) => $e->department(),
+                                Collector::forAverage(fn(Employee $e) => $e->years())
                         ),
                 equals(['B' => 15, 'I' => 9])
         );
@@ -161,7 +161,7 @@ class CollectorsTest extends TestCase
         assertThat(
                 Sequence::of($this->people)
                         ->collect()
-                        ->inPartitions(function(Employee $e) { return $e->years() > 10; }),
+                        ->inPartitions(fn(Employee $e) => $e->years() > 10),
                 equals([
                         true  => [$this->people[1549], $this->people[1552]],
                         false => [$this->people[6100]]
@@ -176,8 +176,8 @@ class CollectorsTest extends TestCase
     {
         assertThat(
                 Sequence::of($this->people)->collect()->inPartitions(
-                        function(Employee $e) { return $e->years() > 10; },
-                        Collector::forSum(function(Employee $e) { return $e->years(); })
+                        fn(Employee $e) => $e->years() > 10,
+                        Collector::forSum(fn(Employee $e) => $e->years())
                 ),
                 equals([
                         true  => 29,

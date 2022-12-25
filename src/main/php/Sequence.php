@@ -14,6 +14,12 @@ declare(strict_types=1);
  * https://github.com/xp-framework/xp-framework/blob/master/core/src/main/php/LICENCE
  */
 namespace stubbles\sequence;
+
+use AppendIterator;
+use ArrayIterator;
+use Iterator;
+use IteratorIterator;
+use Traversable;
 use stubbles\sequence\iterator\{
     Filter,
     Generator,
@@ -51,31 +57,17 @@ use stubbles\sequence\iterator\{
  * existing operations are not sufficient to the task.
  *
  * @api
- * @since  5.2.0
+ * @since 5.2.0
  */
 class Sequence implements \IteratorAggregate, \Countable, \JsonSerializable
 {
     /**
-     * actual data in sequence
-     *
-     * @var  iterable  $elements
+     * @since 8.0.0
      */
-    private $elements;
-    /**
-     * @var  string
-     * @since  8.0.0
-     */
-    private $type     = '';
+    private string $type;
 
-    /**
-     * constructor
-     *
-     * @param  iterable  $elements
-     * @param  string    $sourceType  optional
-     */
-    private function __construct($elements, string $sourceType = '')
+    private function __construct(private iterable $elements, string $sourceType = '')
     {
-        $this->elements = $elements;
         if ($elements instanceof SelfDescribing) {
             $this->type = $sourceType . ' ' . $elements->description();
         } elseif (\is_array($elements)) {
@@ -100,7 +92,7 @@ class Sequence implements \IteratorAggregate, \Countable, \JsonSerializable
      */
     public static function of(...$elements): self
     {
-        if (\count($elements) === 1) {
+        if (count($elements) === 1) {
             $elements = $elements[0];
         }
 
@@ -108,7 +100,7 @@ class Sequence implements \IteratorAggregate, \Countable, \JsonSerializable
             return $elements;
         }
 
-        if ($elements instanceof \Traversable || \is_array($elements)) {
+        if ($elements instanceof Traversable || is_array($elements)) {
             return new self($elements);
         }
 
@@ -125,11 +117,11 @@ class Sequence implements \IteratorAggregate, \Countable, \JsonSerializable
      * iteration when required.
      *
      *
-     * @param   mixed     $seed       initial value
-     * @param   callable  $operation  operation which takes a value and generates a new one
-     * @return  \stubbles\sequence\Sequence
+     * @param  mixed    $seed      initial value
+     * @param  callable $operation operation which takes a value and generates a new one
+     * @return Sequence
      */
-    public static function infinite($seed, callable $operation): self
+    public static function infinite(mixed $seed, callable $operation): self
     {
         return new self(Generator::infinite($seed, $operation));
     }
@@ -152,13 +144,16 @@ class Sequence implements \IteratorAggregate, \Countable, \JsonSerializable
      * )->values();
      * </code>
      *
-     * @param   mixed     $seed       initial value
-     * @param   callable  $operation  operation which takes a value and generates a new one
-     * @param   callable  $validator  function which decides whether a value is valid
-     * @return  \stubbles\sequence\Sequence
+     * @param  mixed     $seed       initial value
+     * @param  callable  $operation  operation which takes a value and generates a new one
+     * @param  callable  $validator  function which decides whether a value is valid
+     * @return Sequence
      */
-    public static function generate($seed, callable $operation, callable $validator): self
-    {
+    public static function generate(
+        mixed $seed,
+        callable $operation,
+        callable $validator
+    ): self {
         return new self(new Generator($seed, $operation, $validator));
     }
 
@@ -166,9 +161,6 @@ class Sequence implements \IteratorAggregate, \Countable, \JsonSerializable
      * limits sequence to the first n elements
      *
      * This is an intermediate operation.
-     *
-     * @param   int  $n
-     * @return  \stubbles\sequence\Sequence
      */
     public function limit(int $n): self
     {
@@ -179,9 +171,6 @@ class Sequence implements \IteratorAggregate, \Countable, \JsonSerializable
      * skips the first n elements of the sequence
      *
      * This is an intermediate operation.
-     *
-     * @param   int  $n
-     * @return  \stubbles\sequence\Sequence
      */
     public function skip(int $n): self
     {
@@ -195,15 +184,12 @@ class Sequence implements \IteratorAggregate, \Countable, \JsonSerializable
      *
      * The given predicate reveives a value and must return true to accept the
      * value or false to reject the value.
-     *
-     * @param   callable  $predicate
-     * @return  \stubbles\sequence\Sequence
      */
     public function filter(callable $predicate): self
     {
         return new self(
-                new Filter($this->getIterator(), $predicate),
-                $this->type
+            new Filter($this->getIterator(), $predicate),
+            $this->type
         );
     }
 
@@ -212,19 +198,18 @@ class Sequence implements \IteratorAggregate, \Countable, \JsonSerializable
      *
      * This is an intermediate operation.
      *
-     * @param   callable  $valueMapper  function to map values with
-     * @param   callable  $keyMapper    function to map keys with
-     * @return  \stubbles\sequence\Sequence
+     * @param callable $valueMapper function to map values with
+     * @param callable $keyMapper   function to map keys with
      */
     public function map(callable $valueMapper, callable $keyMapper = null): self
     {
         return new self(
-                new MappingIterator(
-                        $this->getIterator(),
-                        $valueMapper,
-                        $keyMapper
-                ),
-                $this->type
+            new MappingIterator(
+                $this->getIterator(),
+                $valueMapper,
+                $keyMapper
+            ),
+            $this->type
         );
     }
 
@@ -233,19 +218,18 @@ class Sequence implements \IteratorAggregate, \Countable, \JsonSerializable
      *
      * This is an intermediate operation.
      *
-     * @param   callable  $keyMapper    function to map keys with
-     * @return  \stubbles\sequence\Sequence
-     * @since   5.3.0
+     * @param callable $keyMapper function to map keys with
+     * @since 5.3.0
      */
     public function mapKeys(callable $keyMapper): self
     {
         return new self(
-                new MappingIterator(
-                        $this->getIterator(),
-                        null,
-                        $keyMapper
-                ),
-                $this->type
+            new MappingIterator(
+                $this->getIterator(),
+                null,
+                $keyMapper
+            ),
+            $this->type
         );
     }
 
@@ -256,19 +240,20 @@ class Sequence implements \IteratorAggregate, \Countable, \JsonSerializable
      * last element to a new sequence.
      *
      * This is an intermediate operation.
-     *
-     * @param   mixed  $other
-     * @return  \stubbles\sequence\Sequence
      */
-    public function append($other): self
+    public function append(mixed $other): self
     {
-        if (is_array($this->elements) && !is_array($other) && !($other instanceof \Traversable)) {
+        if (
+            is_array($this->elements)
+            && !is_array($other)
+            && !($other instanceof Traversable)
+        ) {
             $all = $this->elements;
             $all[] = $other;
             return new self($all);
         }
 
-        $appendIterator = new \AppendIterator();
+        $appendIterator = new AppendIterator();
         $appendIterator->append($this->getIterator());
         $appendIterator->append(castToIterator($other));
         return new self($appendIterator, $this->type);
@@ -279,15 +264,15 @@ class Sequence implements \IteratorAggregate, \Countable, \JsonSerializable
      *
      * This is an intermediate operation.
      *
-     * @param   callable  $valueConsumer  consumer which is invoked with each element
-     * @param   callable  $keyConsumer    optional  consumer which is invoked with each key
-     * @return  \stubbles\sequence\Sequence
+     * @param  callable $valueConsumer consumer which is invoked with each element
+     * @param  callable $keyConsumer   optional consumer which is invoked with each key
+     * @return Sequence
      */
     public function peek(callable $valueConsumer, callable $keyConsumer = null): self
     {
         return new self(
-                new Peek($this->getIterator(), $valueConsumer, $keyConsumer),
-                $this->type
+            new Peek($this->getIterator(), $valueConsumer, $keyConsumer),
+            $this->type
         );
     }
 
@@ -329,8 +314,8 @@ class Sequence implements \IteratorAggregate, \Countable, \JsonSerializable
      * </code>
      *
      *
-     * @param   callable  $consumer
-     * @return  int       amount of elements for which consumer was invoked
+     * @param  callable $consumer
+     * @return int      amount of elements for which consumer was invoked
      */
     public function each(callable $consumer): int
     {
@@ -371,9 +356,9 @@ class Sequence implements \IteratorAggregate, \Countable, \JsonSerializable
      * will be returned which provides convenience methods for some common
      * reduction operations.
      *
-     * @param   callable  $accumulate  optional  function which acumulates result and element to a new result
-     * @param   mixed     $identity    optional  initial return value in case sequence is empty, defaults to null
-     * @return  mixed|\stubbles\sequence\Reducer
+     * @param  callable $accumulate optional function which acumulates result and element to a new result
+     * @param  mixed    $identity   optional initial return value in case sequence is empty, defaults to null
+     * @return mixed|Reducer
      */
     public function reduce(callable $accumulate = null, $identity = null)
     {
@@ -398,8 +383,7 @@ class Sequence implements \IteratorAggregate, \Countable, \JsonSerializable
      * will be returned which provides convenience methods for some common
      * collection operations.
      *
-     * @param   \stubbles\sequence\Collector  $collector  optional
-     * @return  mixed|\stubbles\sequence\Collectors
+     * @return mixed|Collectors
      */
     public function collect(Collector $collector = null)
     {
@@ -419,7 +403,6 @@ class Sequence implements \IteratorAggregate, \Countable, \JsonSerializable
      *
      * This is a terminal operation.
      *
-     * @return  int
      * @XmlIgnore
      */
     public function count(): int
@@ -438,7 +421,7 @@ class Sequence implements \IteratorAggregate, \Countable, \JsonSerializable
      *
      * This is a terminal operation.
      *
-     * @return  array
+     * @return mixed[]
      * @XmlIgnore
      */
     public function values(): array
@@ -451,7 +434,7 @@ class Sequence implements \IteratorAggregate, \Countable, \JsonSerializable
      *
      * This is a terminal operation.
      *
-     * @return  array
+     * @return array<int|string,mixed>
      */
     public function data(): array
     {
@@ -461,27 +444,25 @@ class Sequence implements \IteratorAggregate, \Countable, \JsonSerializable
     /**
      * returns an iterator on this sequence
      *
-     * @return  \Iterator
      * @XmlIgnore
      */
-    public function getIterator(): \Iterator
+    public function getIterator(): Iterator
     {
-        if ($this->elements instanceof \Iterator) {
+        if ($this->elements instanceof Iterator) {
             return $this->elements;
         }
 
-        if ($this->elements instanceof \Traversable) {
-            return new \IteratorIterator($this->elements);
+        if ($this->elements instanceof Traversable) {
+            return new IteratorIterator($this->elements);
         }
 
-        return new \ArrayIterator($this->elements);
+        return new ArrayIterator($this->elements);
     }
 
     /**
      * returns string description of this sequence
      *
-     * @return  string
-     * @since   8.0.0
+     * @since 8.0.0
      */
     public function __toString(): string
     {
@@ -491,8 +472,7 @@ class Sequence implements \IteratorAggregate, \Countable, \JsonSerializable
     /**
      * returns serializable representation for JSON
      *
-     * @return  array
-     * @since   5.3.2
+     * @since 5.3.2
      */
     public function jsonSerialize(): array
     {

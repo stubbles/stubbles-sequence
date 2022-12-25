@@ -7,6 +7,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 namespace stubbles\sequence\iterator;
+
+use ArrayIterator;
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use function bovigo\assert\assertThat;
 use function bovigo\assert\assertNull;
@@ -16,21 +19,21 @@ use function bovigo\assert\predicate\equals;
 /**
  * Tests for stubbles\sequence\iterator\MappingIterator.
  *
- * @since  5.0.0
- * @group  iterator
+ * @since 5.0.0
+ * @group iterator
  */
 class MappingIteratorTest extends TestCase
 {
     /**
      * @test
-     * @since  5.3.0
+     * @since 5.3.0
      */
     public function throwsInvalidArgumentExceptionWhenBothValueMapperAndKeyMapperAreNull(): void
     {
-        expect(function() {
-                new MappingIterator(new \ArrayIterator(['foo', 'bar', 'baz']));
-        })
-        ->throws(\InvalidArgumentException::class);
+        expect(fn() =>
+            new MappingIterator(new ArrayIterator(['foo', 'bar', 'baz']))
+        )
+            ->throws(InvalidArgumentException::class);
     }
 
     /**
@@ -39,8 +42,8 @@ class MappingIteratorTest extends TestCase
     public function mapsValueOnIteration(): void
     {
         $mapping = new MappingIterator(
-                new \ArrayIterator(['foo']),
-                function($value) { return 'bar'; }
+            new ArrayIterator(['foo']),
+            fn() => 'bar'
         );
         foreach ($mapping as $value) {
             assertThat($value, equals('bar'));
@@ -53,8 +56,8 @@ class MappingIteratorTest extends TestCase
     public function valueMapperCanOptionallyReceiveKey(): void
     {
         $mapping = new MappingIterator(
-                new \ArrayIterator(['foo' => 'bar']),
-                function($value, $key) { return $key; }
+            new ArrayIterator(['foo' => 'bar']),
+            fn($value, $key) => $key
         );
         foreach ($mapping as $value) {
             assertThat($value, equals('foo'));
@@ -63,14 +66,14 @@ class MappingIteratorTest extends TestCase
 
     /**
      * @test
-     * @since  5.3.0
+     * @since 5.3.0
      */
     public function keyMapperCanOptionallyReceiveValue(): void
     {
         $mapping = new MappingIterator(
-                new \ArrayIterator(['foo' => 'bar']),
-                null,
-                function($key, $value) { return $value; }
+            new ArrayIterator(['foo' => 'bar']),
+            null,
+            fn($key, $value) => $value
         );
         foreach ($mapping as $key => $value) {
             assertThat($key, equals('bar'));
@@ -83,9 +86,9 @@ class MappingIteratorTest extends TestCase
     public function valueMapperReceivesUnmappedKey(): void
     {
         $mapping = new MappingIterator(
-                new \ArrayIterator(['foo' => 'bar']),
-                function($value, $key) { assertThat($key, equals('foo')); return 'mappedValue'; },
-                function($key) { return 'mappedKey'; }
+            new ArrayIterator(['foo' => 'bar']),
+            function($value, $key) { assertThat($key, equals('foo')); return 'mappedValue'; },
+            fn() => 'mappedKey'
         );
         foreach ($mapping as $key => $value) {
             // intentionally empty
@@ -94,14 +97,14 @@ class MappingIteratorTest extends TestCase
 
     /**
      * @test
-     * @since  5.3.0
+     * @since 5.3.0
      */
     public function keyMapperReceivesUnmappedValue(): void
     {
         $mapping = new MappingIterator(
-                new \ArrayIterator(['foo' => 'bar']),
-                function($value) { return 'mappedValue'; },
-                function($key, $value) { assertThat($value, equals('bar')); return 'mappedKey'; }
+            new ArrayIterator(['foo' => 'bar']),
+            fn() => 'mappedValue',
+            function($key, $value) { assertThat($value, equals('bar')); return 'mappedKey'; }
         );
         foreach ($mapping as $key => $value) {
             // intentionally empty
@@ -110,14 +113,14 @@ class MappingIteratorTest extends TestCase
 
     /**
      * @test
-     * @since  5.3.0
+     * @since 5.3.0
      */
     public function doesNotMapValueWhenNoValueMapperProvided(): void
     {
         $mapping = new MappingIterator(
-                new \ArrayIterator(['foo' => 303, 'bar' => 808, 'baz' => '909']),
-                null,
-                function($value) { return 'mappedValue'; }
+            new ArrayIterator(['foo' => 303, 'bar' => 808, 'baz' => '909']),
+            null,
+            fn() => 'mappedValue'
         );
         $values = [];
         foreach ($mapping as $key => $value) {
@@ -133,8 +136,8 @@ class MappingIteratorTest extends TestCase
     public function doesNotMapKeyWhenNoKeyMapperProvided(): void
     {
         $mapping = new MappingIterator(
-                new \ArrayIterator(['foo' => 303, 'bar' => 808, 'baz' => '909']),
-                function($value) { return 'mappedValue'; }
+            new ArrayIterator(['foo' => 303, 'bar' => 808, 'baz' => '909']),
+            fn() => 'mappedValue'
         );
         $keys = [];
         foreach ($mapping as $key => $value) {
@@ -150,9 +153,9 @@ class MappingIteratorTest extends TestCase
     public function mapsKeyWhenKeyMapperProvided(): void
     {
         $mapping = new MappingIterator(
-                new \ArrayIterator(['foo' => 303, 'bar' => 808, 'baz' => 909]),
-                function($value) { return 'mappedValue'; },
-                function($key) { return 'mappedKey'; }
+            new ArrayIterator(['foo' => 303, 'bar' => 808, 'baz' => 909]),
+            fn() => 'mappedValue',
+            fn() => 'mappedKey'
         );
         $keys = [];
         foreach ($mapping as $key => $value) {
@@ -164,13 +167,13 @@ class MappingIteratorTest extends TestCase
 
     /**
      * @test
-     * @since  7.0.0
+     * @since 7.0.0
      */
     public function doesNotCallValueMapperWhenEndOfIteratorReached(): void
     {
         $mapping = new MappingIterator(
-                new \ArrayIterator(['foo' => 303]),
-                function() { fail('Should never be called'); }
+            new ArrayIterator(['foo' => 303]),
+            function() { fail('Should never be called'); }
         );
         $mapping->next();
         assertNull($mapping->current());
@@ -178,14 +181,14 @@ class MappingIteratorTest extends TestCase
 
     /**
      * @test
-     * @since  7.0.0
+     * @since 7.0.0
      */
     public function doesNotCallKeyMapperWhenEndOfIteratorReached(): void
     {
         $mapping = new MappingIterator(
-                new \ArrayIterator(['foo' => 303]),
-                function() { fail('Value mapper never be called'); },
-                function() { fail('Key mapper never be called'); }
+            new ArrayIterator(['foo' => 303]),
+            function() { fail('Value mapper never be called'); },
+            function() { fail('Key mapper never be called'); }
         );
         $mapping->next();
         assertNull($mapping->key());
