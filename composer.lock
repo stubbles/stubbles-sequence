@@ -4,78 +4,82 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "73e9585201c77b80d50f4077295bff73",
+    "content-hash": "b3444612c8c2be61b54490e766e96094",
     "packages": [],
     "packages-dev": [
         {
             "name": "bovigo/assert",
-            "version": "dev-master",
+            "version": "v7.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bovigo/assert.git",
-                "reference": "a5a512e818d574b77f1a7021b9e86f7b24d9019c"
+                "reference": "40039a3fa7c73a1eab6d1fbc130910772ea3f230"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bovigo/assert/zipball/a5a512e818d574b77f1a7021b9e86f7b24d9019c",
-                "reference": "a5a512e818d574b77f1a7021b9e86f7b24d9019c",
+                "url": "https://api.github.com/repos/bovigo/assert/zipball/40039a3fa7c73a1eab6d1fbc130910772ea3f230",
+                "reference": "40039a3fa7c73a1eab6d1fbc130910772ea3f230",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.3||^8.0",
+                "php": "^8.0",
                 "sebastian/comparator": "^4.0",
                 "sebastian/exporter": "^4.0"
             },
             "require-dev": {
-                "mikey179/vfsstream": "^1.6.8",
-                "phpstan/phpstan": "^0.12.54",
+                "mikey179/vfsstream": "^1.6.11",
+                "phpstan/phpstan": "^1.9",
                 "phpunit/phpunit": "^9.4"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "6.1.x-dev"
+                    "dev-main": "7.0.x-dev"
                 }
             },
             "autoload": {
-                "psr-4": {
-                    "bovigo\\assert\\": "src/main/php"
-                },
                 "files": [
                     "src/main/php/assert.php",
                     "src/main/php/predicate/predicates.php"
-                ]
+                ],
+                "psr-4": {
+                    "bovigo\\assert\\": "src/main/php"
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "BSD-3-Clause"
             ],
             "description": "Provides assertions for unit tests.",
-            "time": "2020-11-08T13:01:56+00:00"
+            "support": {
+                "issues": "https://github.com/bovigo/assert/issues",
+                "source": "https://github.com/bovigo/assert/tree/v7.0.0"
+            },
+            "time": "2022-12-25T13:29:55+00:00"
         },
         {
             "name": "bovigo/callmap",
-            "version": "dev-master",
+            "version": "v7.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bovigo/callmap.git",
-                "reference": "02c6abd98e714cf8b833a68bdc7933d90059876c"
+                "reference": "3d381d53e1995fc8759c840291271583788a8bf2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bovigo/callmap/zipball/02c6abd98e714cf8b833a68bdc7933d90059876c",
-                "reference": "02c6abd98e714cf8b833a68bdc7933d90059876c",
+                "url": "https://api.github.com/repos/bovigo/callmap/zipball/3d381d53e1995fc8759c840291271583788a8bf2",
+                "reference": "3d381d53e1995fc8759c840291271583788a8bf2",
                 "shasum": ""
             },
             "require": {
-                "bovigo/assert": "^6.1",
-                "php": "^7.3||^8.0"
+                "bovigo/assert": "^7.0",
+                "php": "^8.0"
             },
             "require-dev": {
-                "phpstan/phpstan": "^0.12.57",
-                "phpunit/phpunit": "^9.4",
-                "xp-framework/core": "^10.3 | ^9.9",
-                "xp-framework/unittest": "^11.1 | ^10.1 | ^9.7.1"
+                "phpstan/phpstan": "^1.9",
+                "phpunit/phpunit": "^9.5",
+                "xp-framework/core": "^11.5",
+                "xp-framework/unittest": "^11.1"
             },
             "suggest": {
                 "bovigo/assert": "To use argument verification",
@@ -85,23 +89,27 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "6.2.x-dev"
+                    "dev-main": "7.0.x-dev"
                 }
             },
             "autoload": {
-                "psr-4": {
-                    "bovigo\\callmap\\": "src/main/php"
-                },
                 "files": [
                     "src/main/php/functions.php"
-                ]
+                ],
+                "psr-4": {
+                    "bovigo\\callmap\\": "src/main/php"
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "BSD-3-Clause"
             ],
             "description": "Allows to stub and mock method calls by applying a callmap.",
-            "time": "2021-02-02T21:14:38+00:00"
+            "support": {
+                "issues": "https://github.com/bovigo/callmap/issues",
+                "source": "https://github.com/bovigo/callmap/tree/v7.0.0"
+            },
+            "time": "2022-12-25T15:09:53+00:00"
         },
         {
             "name": "doctrine/instantiator",
@@ -1787,7 +1795,7 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": "^7.3||^8.0",
+        "php": "^8.0",
         "ext-json": "*"
     },
     "platform-dev": [],
