@@ -32,7 +32,7 @@ use function bovigo\assert\{
 /**
  * Tests for stubbles\sequence\Sequence.
  *
- * @since  5.2.0
+ * @since 5.2.0
  */
 class SequenceTest extends TestCase
 {
@@ -377,7 +377,7 @@ class SequenceTest extends TestCase
 
     /**
      * @test
-     * @dataProvider  eachWithDifferentAmount
+     * @dataProvider eachWithDifferentAmount
      */
     public function eachReturnsAmountOfElementsForWhichCallableWasExecuted(
         int $expected,
@@ -527,7 +527,7 @@ class SequenceTest extends TestCase
 
     /**
      * @test
-     * @since  5.4.0
+     * @since 5.4.0
      */
     public function appendCreatesNewCombinedSequenceWithGivenArray(): void
     {
@@ -539,7 +539,7 @@ class SequenceTest extends TestCase
 
     /**
      * @test
-     * @since  5.4.0
+     * @since 5.4.0
      */
     public function appendCreatesNewCombinedSequenceWithGivenIterator(): void
     {
@@ -551,7 +551,7 @@ class SequenceTest extends TestCase
 
     /**
      * @test
-     * @since  8.0.0
+     * @since 8.0.0
      */
     public function appendCreatesNewCombinedSequenceWithGivenIteratorAggregate(): void
     {
@@ -565,7 +565,7 @@ class SequenceTest extends TestCase
 
     /**
      * @test
-     * @since  8.0.0
+     * @since 8.0.0
      */
     public function appendCreatesNewCombinedSequenceFromInitialIteratorAggregate(): void
     {
