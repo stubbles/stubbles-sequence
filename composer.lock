@@ -9,16 +9,16 @@
     "packages-dev": [
         {
             "name": "bovigo/assert",
-            "version": "v7.0.0",
+            "version": "v7.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bovigo/assert.git",
-                "reference": "40039a3fa7c73a1eab6d1fbc130910772ea3f230"
+                "reference": "9765afcab69abc660918a791d94310bfee3eaf13"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bovigo/assert/zipball/40039a3fa7c73a1eab6d1fbc130910772ea3f230",
-                "reference": "40039a3fa7c73a1eab6d1fbc130910772ea3f230",
+                "url": "https://api.github.com/repos/bovigo/assert/zipball/9765afcab69abc660918a791d94310bfee3eaf13",
+                "reference": "9765afcab69abc660918a791d94310bfee3eaf13",
                 "shasum": ""
             },
             "require": {
@@ -53,9 +53,9 @@
             "description": "Provides assertions for unit tests.",
             "support": {
                 "issues": "https://github.com/bovigo/assert/issues",
-                "source": "https://github.com/bovigo/assert/tree/v7.0.0"
+                "source": "https://github.com/bovigo/assert/tree/v7.0.1"
             },
-            "time": "2022-12-25T13:29:55+00:00"
+            "time": "2022-12-26T20:03:31+00:00"
         },
         {
             "name": "bovigo/callmap",
@@ -1059,6 +1059,10 @@
                 "compare",
                 "equality"
             ],
+            "support": {
+                "issues": "https://github.com/sebastianbergmann/comparator/issues",
+                "source": "https://github.com/sebastianbergmann/comparator/tree/4.0.8"
+            },
             "funding": [
                 {
                     "url": "https://github.com/sebastianbergmann",
@@ -1174,6 +1178,10 @@
                 "unidiff",
                 "unified diff"
             ],
+            "support": {
+                "issues": "https://github.com/sebastianbergmann/diff/issues",
+                "source": "https://github.com/sebastianbergmann/diff/tree/4.0.4"
+            },
             "funding": [
                 {
                     "url": "https://github.com/sebastianbergmann",
@@ -1306,6 +1314,10 @@
                 "export",
                 "exporter"
             ],
+            "support": {
+                "issues": "https://github.com/sebastianbergmann/exporter/issues",
+                "source": "https://github.com/sebastianbergmann/exporter/tree/4.0.5"
+            },
             "funding": [
                 {
                     "url": "https://github.com/sebastianbergmann",
@@ -1582,6 +1594,10 @@
             ],
             "description": "Provides functionality to recursively process PHP variables",
             "homepage": "http://www.github.com/sebastianbergmann/recursion-context",
+            "support": {
+                "issues": "https://github.com/sebastianbergmann/recursion-context/issues",
+                "source": "https://github.com/sebastianbergmann/recursion-context/tree/4.0.4"
+            },
             "funding": [
                 {
                     "url": "https://github.com/sebastianbergmann",
