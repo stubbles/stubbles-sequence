@@ -19,13 +19,13 @@ _stubbles/sequence_ is distributed as [Composer](https://getcomposer.org/)
 package. To install it as a dependency of your package use the following
 command:
 
-    composer require "stubbles/sequence": "^9.0"
+    composer require "stubbles/sequence": "^10.0"
 
 
 Requirements
 ------------
 
-_stubbles/sequence_ requires at least PHP 7.3.
+_stubbles/sequence_ requires at least PHP 8.0.
 
 
 Introduction
