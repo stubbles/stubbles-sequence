@@ -10,6 +10,9 @@ namespace stubbles\sequence\assert;
 
 use Generator;
 use InvalidArgumentException;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use stubbles\sequence\Sequence;
 
@@ -23,13 +26,11 @@ use function bovigo\assert\predicate\equals;
  * Tests for stubbles\sequence\assert\Provides.
  *
  * @since 8.0.0
- * @group assert
  */
+#[Group('assert')]
 class ProvidesTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function throwInvalidArgumentExceptionWhenTestValueIsNotOfTypeSequence(): void
     {
         $provides  = Provides::values([]);
@@ -44,40 +45,32 @@ class ProvidesTest extends TestCase
         yield [Provides::data(['foo' => 1]), 'data'];
     }
 
-    /**
-     * @test
-     * @dataProvider createProvides
-     */
+    #[Test]
+    #[DataProvider('createProvides')]
     public function evaluatesToTrueIfTestedSequenceProvidesExpectedContents(
         Provides $provides
     ): void {
         assertTrue($provides->test(Sequence::of(['foo' => 1])));
     }
 
-    /**
-     * @test
-     * @dataProvider createProvides
-     */
+    #[Test]
+    #[DataProvider('createProvides')]
     public function evaluatesToFalseIfTestedSequenceDoesNotProvideExpectedContents(
         Provides $provides
     ): void {
         assertFalse($provides->test(Sequence::of(['bar' => 2])));
     }
 
-    /**
-     * @test
-     * @dataProvider createProvides
-     */
+    #[Test]
+    #[DataProvider('createProvides')]
     public function evaluatesToFalseIfTestedSequenceContainsMoreValues(
         Provides $provides ): void
     {
         assertFalse($provides->test(Sequence::of(['foo' => 1, 'bar' => 2])));
     }
 
-    /**
-     * @test
-     * @dataProvider createProvides
-     */
+    #[Test]
+    #[DataProvider('createProvides')]
     public function stringRepresentationReferencesType(
         Provides $provides,
         string $type
@@ -85,9 +78,7 @@ class ProvidesTest extends TestCase
         assertThat((string) $provides, equals('provides expected ' . $type));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function stringRepresentationContainsDiffWhenTestFailedForValues(): void
     {
         $provides = Provides::values([1]);
@@ -106,9 +97,7 @@ class ProvidesTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function stringRepresentationContainsDiffWhenTestFailedForData(): void
     {
         $provides = Provides::data(['foo' => 1]);
@@ -127,9 +116,7 @@ class ProvidesTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function exportsSequenceAsStringRepresentation(): void
     {
         assertThat(
@@ -138,9 +125,7 @@ class ProvidesTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function exportsAnyThingElseWithDefault(): void
     {
         assertThat(

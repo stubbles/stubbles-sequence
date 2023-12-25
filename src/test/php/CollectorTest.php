@@ -16,6 +16,8 @@ declare(strict_types=1);
  * @package  stubbles\sequence
  */
 namespace stubbles\sequence;
+
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use stubbles\test\sequence\Employee;
 
@@ -42,9 +44,7 @@ class CollectorTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function toList(): void
     {
         assertThat(
@@ -56,9 +56,7 @@ class CollectorTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function toMapUsesGivenKeyAndValueSelector(): void
     {
         assertThat(
@@ -72,9 +70,7 @@ class CollectorTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function toMapPassesKeyAndValueWhenNoSelectorProvided(): void
     {
         assertThat(

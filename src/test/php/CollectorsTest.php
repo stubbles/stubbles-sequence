@@ -14,6 +14,8 @@ declare(strict_types=1);
  * https://github.com/xp-framework/xp-framework/blob/master/core/src/main/php/LICENCE
  */
 namespace stubbles\sequence;
+
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use stubbles\test\sequence\Employee;
 
@@ -41,17 +43,13 @@ class CollectorsTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function joiningEmptySequenceReturnsEmptyString(): void
     {
         assertEmptyString(Sequence::of([])->collect()->byJoining());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function joiningNames(): void
     {
         assertThat(
@@ -63,9 +61,7 @@ class CollectorsTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function joiningNamesWithSemicolon(): void
     {
         assertThat(
@@ -77,9 +73,7 @@ class CollectorsTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function joiningNamesWithPrefixAndSuffix(): void
     {
         assertThat(
@@ -91,9 +85,7 @@ class CollectorsTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function joiningNamesWithKeySeparator(): void
     {
         assertThat(
@@ -105,9 +97,7 @@ class CollectorsTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function groupingBy(): void
     {
         assertThat(
@@ -121,9 +111,7 @@ class CollectorsTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function groupingByWithSummingOfYears(): void
     {
         assertThat(
@@ -137,9 +125,7 @@ class CollectorsTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function groupingByWithAveragingOfYears(): void
     {
         assertThat(
@@ -153,9 +139,7 @@ class CollectorsTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function partitioningBy(): void
     {
         assertThat(
@@ -169,9 +153,7 @@ class CollectorsTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function partitioningByWithSum(): void
     {
         assertThat(

@@ -10,6 +10,8 @@ namespace stubbles\sequence\iterator;
 
 use ArrayIterator;
 use InvalidArgumentException;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use function bovigo\assert\assertThat;
 use function bovigo\assert\assertNull;
@@ -20,14 +22,14 @@ use function bovigo\assert\predicate\equals;
  * Tests for stubbles\sequence\iterator\MappingIterator.
  *
  * @since 5.0.0
- * @group iterator
  */
+#[Group('iterator')]
 class MappingIteratorTest extends TestCase
 {
     /**
-     * @test
      * @since 5.3.0
      */
+    #[Test]
     public function throwsInvalidArgumentExceptionWhenBothValueMapperAndKeyMapperAreNull(): void
     {
         expect(fn() =>
@@ -36,9 +38,7 @@ class MappingIteratorTest extends TestCase
             ->throws(InvalidArgumentException::class);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function mapsValueOnIteration(): void
     {
         $mapping = new MappingIterator(
@@ -50,9 +50,7 @@ class MappingIteratorTest extends TestCase
         }
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function valueMapperCanOptionallyReceiveKey(): void
     {
         $mapping = new MappingIterator(
@@ -65,9 +63,9 @@ class MappingIteratorTest extends TestCase
     }
 
     /**
-     * @test
      * @since 5.3.0
      */
+    #[Test]
     public function keyMapperCanOptionallyReceiveValue(): void
     {
         $mapping = new MappingIterator(
@@ -80,9 +78,7 @@ class MappingIteratorTest extends TestCase
         }
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function valueMapperReceivesUnmappedKey(): void
     {
         $mapping = new MappingIterator(
@@ -96,9 +92,9 @@ class MappingIteratorTest extends TestCase
     }
 
     /**
-     * @test
      * @since 5.3.0
      */
+    #[Test]
     public function keyMapperReceivesUnmappedValue(): void
     {
         $mapping = new MappingIterator(
@@ -112,9 +108,9 @@ class MappingIteratorTest extends TestCase
     }
 
     /**
-     * @test
      * @since 5.3.0
      */
+    #[Test]
     public function doesNotMapValueWhenNoValueMapperProvided(): void
     {
         $mapping = new MappingIterator(
@@ -130,9 +126,7 @@ class MappingIteratorTest extends TestCase
         assertThat($values, equals([303, 808, '909']));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function doesNotMapKeyWhenNoKeyMapperProvided(): void
     {
         $mapping = new MappingIterator(
@@ -147,9 +141,7 @@ class MappingIteratorTest extends TestCase
         assertThat($keys, equals(['foo', 'bar', 'baz']));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function mapsKeyWhenKeyMapperProvided(): void
     {
         $mapping = new MappingIterator(
@@ -166,9 +158,9 @@ class MappingIteratorTest extends TestCase
     }
 
     /**
-     * @test
      * @since 7.0.0
      */
+    #[Test]
     public function doesNotCallValueMapperWhenEndOfIteratorReached(): void
     {
         $mapping = new MappingIterator(
@@ -180,9 +172,9 @@ class MappingIteratorTest extends TestCase
     }
 
     /**
-     * @test
      * @since 7.0.0
      */
+    #[Test]
     public function doesNotCallKeyMapperWhenEndOfIteratorReached(): void
     {
         $mapping = new MappingIterator(

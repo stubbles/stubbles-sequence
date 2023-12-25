@@ -11,6 +11,8 @@ declare(strict_types=1);
 namespace stubbles\sequence;
 
 use ArrayIterator;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use stubbles\sequence\iterator\Limit;
 
@@ -39,9 +41,9 @@ class SequenceToStringTest extends TestCase
 
     /**
      * @param iterable<int> $input
-     * @test
-     * @dataProvider sequenceSourceTypes
      */
+    #[Test]
+    #[DataProvider('sequenceSourceTypes')]
     public function containsSourceType(iterable $input, string $expectedSourceType): void
     {
         assertThat(
@@ -50,9 +52,7 @@ class SequenceToStringTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function containsReferenceToFilterLambdaFunction(): void
     {
         assertThat(
@@ -62,9 +62,7 @@ class SequenceToStringTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function containsReferenceToFilterNamedFunction(): void
     {
         assertThat(
@@ -73,9 +71,7 @@ class SequenceToStringTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function containsReferenceToMappingLambdaFunction(): void
     {
         assertThat(
@@ -89,9 +85,7 @@ class SequenceToStringTest extends TestCase
         return $e * 2;
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function containsReferenceToMappingStaticMethod(): void
     {
         assertThat(
@@ -105,9 +99,7 @@ class SequenceToStringTest extends TestCase
         return $e * 2;
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function containsReferenceToMappingInstanceMethod(): void
     {
         assertThat(
@@ -116,9 +108,7 @@ class SequenceToStringTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function containsReferenceToMappingNamedFunction(): void
     {
         assertThat(
@@ -127,9 +117,7 @@ class SequenceToStringTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function containsReferenceToKeyMappingFunction(): void
     {
         assertThat(
@@ -139,9 +127,7 @@ class SequenceToStringTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function containsNoReferenceToPeakFunction(): void
     {
         assertThat(
@@ -150,9 +136,7 @@ class SequenceToStringTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function containsReferenceToLimit(): void
     {
         assertThat(
@@ -161,9 +145,7 @@ class SequenceToStringTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function containsReferenceToInfiniteGenerator(): void
     {
         assertThat(
@@ -175,9 +157,7 @@ class SequenceToStringTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function containsReferenceToGenerator(): void
     {
         assertThat(
@@ -193,9 +173,7 @@ class SequenceToStringTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function containsReferenceToSkippedElements(): void
     {
         assertThat(
@@ -204,9 +182,7 @@ class SequenceToStringTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function containsReferenceToBothLimitAndSkippedElements(): void
     {
         assertThat(
@@ -220,9 +196,7 @@ class SequenceToStringTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function limitDescriptionWithBothLimitAndSkipped(): void
     {
         assertThat(

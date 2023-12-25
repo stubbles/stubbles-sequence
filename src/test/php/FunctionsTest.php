@@ -7,6 +7,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 namespace stubbles\sequence;
+
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use function bovigo\assert\assertThat;
 use function bovigo\assert\predicate\equals;
@@ -16,14 +19,14 @@ use function bovigo\assert\predicate\isSameAs;
  * Tests for stubbles\lang\*().
  *
  * @since 3.1.0
- * @group ensure_callable
  */
+#[Group('ensure_callable')]
 class FunctionsTest extends TestCase
 {
     /**
-     * @test
      * @since 4.0.0
      */
+    #[Test]
     public function ensureCallableDoesNotChangeClosures(): void
     {
         $closure = function() { return true; };
@@ -31,9 +34,9 @@ class FunctionsTest extends TestCase
     }
 
     /**
-     * @test
      * @since 4.0.0
      */
+    #[Test]
     public function ensureCallableDoesNotChangeCallbackWithInstance(): void
     {
         $callback = [$this, __FUNCTION__];
@@ -49,9 +52,9 @@ class FunctionsTest extends TestCase
     }
 
     /**
-     * @test
      * @since 4.0.0
      */
+    #[Test]
     public function ensureCallableDoesNotChangeCallbackWithStaticMethod(): void
     {
         $callback = [__CLASS__, 'example'];
@@ -59,9 +62,9 @@ class FunctionsTest extends TestCase
     }
 
     /**
-     * @test
      * @since 4.0.0
      */
+    #[Test]
     public function ensureCallableDoesNotWrapUserlandFunction(): void
     {
         assertThat(
@@ -71,27 +74,27 @@ class FunctionsTest extends TestCase
     }
 
     /**
-     * @test
      * @since 4.0.0
      */
+    #[Test]
     public function ensureCallableWrapsInternalFunction(): void
     {
         assertThat(ensureCallable('strlen'), isInstanceOf(\Closure::class));
     }
 
     /**
-     * @test
      * @since 4.0.0
      */
+    #[Test]
     public function ensureCallableAlwaysReturnsSameClosureForSameFunction(): void
     {
         assertThat(ensureCallable('strlen'), isSameAs(ensureCallable('strlen')));
     }
 
     /**
-     * @test
      * @since 4.0.0
      */
+    #[Test]
     public function ensureCallableReturnsClosureThatPassesArgumentsAndReturnsValue(): void
     {
         $strlen = ensureCallable('strlen');

@@ -7,6 +7,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 namespace stubbles\sequence;
+
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use stubbles\test\sequence\AsArray;
 use stubbles\test\sequence\ToArray;
@@ -16,13 +19,11 @@ use function bovigo\assert\predicate\equals;
  * Tests for stubbles\sequence\castToArray().
  *
  * @since 5.4.0
- * @group cast_to_array
  */
+#[Group('cast_to_array')]
 class CastToArrayTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function castToArrayOnTraversable(): void
     {
         assertThat(
@@ -31,9 +32,7 @@ class CastToArrayTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function castToArrayOnArray(): void
     {
         assertThat(
@@ -42,9 +41,7 @@ class CastToArrayTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function castToArrayOnObject(): void
     {
         $object = new class() {
@@ -58,9 +55,7 @@ class CastToArrayTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function castToArrayOnObjectWithAsArrayMethod(): void
     {
         assertThat(
@@ -69,9 +64,7 @@ class CastToArrayTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function castToArrayOnObjectWithToArrayMethod(): void
     {
         assertThat(
@@ -80,9 +73,7 @@ class CastToArrayTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function castToArrayOnScalarValue(): void
     {
         assertThat(castToArray(303), equals([303]));

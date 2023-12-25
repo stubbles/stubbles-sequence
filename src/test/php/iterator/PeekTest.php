@@ -9,6 +9,8 @@ declare(strict_types=1);
 namespace stubbles\sequence\iterator;
 
 use ArrayIterator;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use function bovigo\assert\assertThat;
 use function bovigo\assert\fail;
@@ -16,14 +18,12 @@ use function bovigo\assert\predicate\equals;
 /**
  * Tests for stubbles\sequence\iterator\Peek.
  *
- * @group iterator
  * @since 5.2.0
  */
+#[Group('iterator')]
 class PeekTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function peekCallsValueConsumerWithCurrentValueOnIteration(): void
     {
         $result = '';
@@ -38,9 +38,7 @@ class PeekTest extends TestCase
         assertThat($result, equals('foobarbaz'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function peekCallsKeyConsumerWithCurrentKeyOnIteration(): void
     {
         $result = '';
@@ -56,9 +54,7 @@ class PeekTest extends TestCase
         assertThat($result, equals('foobarbaz'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function keyConsumerIsNotCalledWhenNoKeyInForeachRequested(): void
     {
         $i = 0;

@@ -9,20 +9,21 @@ declare(strict_types=1);
  * @package  stubbles\sequence
  */
 namespace stubbles\sequence\iterator;
+
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use function bovigo\assert\assertThat;
 use function bovigo\assert\predicate\equals;
 /**
  * Tests for stubbles\sequence\iterator\Generator.
  *
- * @group iterator
  * @since 5.2.0
  */
+#[Group('iterator')]
 class GeneratorTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function iterationStopsWhenValidatorReturnsFalse(): void
     {
         $generator = new Generator(
@@ -41,9 +42,7 @@ class GeneratorTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function resultsAreReproducableWhenOperationIsReproducable(): void
     {
         $generator = new Generator(
@@ -64,9 +63,7 @@ class GeneratorTest extends TestCase
         assertThat($result1, equals($result2));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function infiniteGeneratorDoesStopOnlyWhenBreakOutOfLoop(): void
     {
         $i = 0;
