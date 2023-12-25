@@ -38,7 +38,7 @@ class ProvidesTest extends TestCase
             ->withMessage('Given value of type "object" is not an instance of ' . Sequence::class);
     }
 
-    public function createProvides(): Generator
+    public static function createProvides(): Generator
     {
         yield [Provides::values([1]), 'values'];
         yield [Provides::data(['foo' => 1]), 'data'];

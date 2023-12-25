@@ -26,7 +26,7 @@ class SequenceToStringTest extends TestCase
     /**
      * @return array<array<mixed>>
      */
-    public function sequenceSourceTypes(): array
+    public static function sequenceSourceTypes(): array
     {
         $f = function() { yield 1; yield 2; yield 3; };
         return [

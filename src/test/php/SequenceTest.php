@@ -42,7 +42,7 @@ class SequenceTest extends TestCase
      *
      * @return array<array<mixed>>
      */
-    public function validData(): array
+    public static function validData(): array
     {
         $f = function() { yield 1; yield 2; yield 3; };
         return [
@@ -155,7 +155,7 @@ class SequenceTest extends TestCase
     /**
      * @return  array<array<mixed>>
      */
-    public function countData(): array
+    public static function countData(): array
     {
         return [
             [0, []],
@@ -177,7 +177,7 @@ class SequenceTest extends TestCase
     /**
      * @return  array<array<mixed>>
      */
-    public function sumData(): array
+    public static function sumData(): array
     {
         return [
             [0, []],
@@ -202,7 +202,7 @@ class SequenceTest extends TestCase
     /**
      * @return array<array<mixed>>
      */
-    public function minData(): array
+    public static function minData(): array
     {
         return [
             [null, []],
@@ -227,7 +227,7 @@ class SequenceTest extends TestCase
     /**
      * @return array<array<mixed>>
      */
-    public function maxData(): array
+    public static function maxData(): array
     {
         return [
             [null, []],
@@ -367,7 +367,7 @@ class SequenceTest extends TestCase
     /**
      * @return array<array<mixed>>
      */
-    public function eachWithDifferentAmount(): array
+    public static function eachWithDifferentAmount(): array
     {
         return [
             [4, function() { /* intentionally empty */ }],
@@ -581,7 +581,7 @@ class SequenceTest extends TestCase
      * @return array<array<mixed>>
      * @since  5.4.0
      */
-    public function initialSequence(): array
+    public static function initialSequence(): array
     {
         return [[[1, 2]], [new ArrayIterator([1, 2])]];
     }
