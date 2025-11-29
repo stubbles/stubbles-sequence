@@ -6,6 +6,10 @@
 
 * raised minimum required PHP version to 8.3
 
+### Other changes
+
+* ensured compatibility with PHP 8.5
+
 ## 10.1.0 (2023-12-25)
 
 ### BC breaks

@@ -8,7 +8,6 @@ declare(strict_types=1);
  */
 namespace stubbles\sequence\assert;
 
-use Generator;
 use InvalidArgumentException;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
@@ -39,14 +38,14 @@ class ProvidesTest extends TestCase
             ->withMessage('Given value of type "object" is not an instance of ' . Sequence::class);
     }
 
-    public static function createProvides(): Generator
+    public static function createProvides(): iterable
     {
         yield [Provides::values([1]), 'values'];
         yield [Provides::data(['foo' => 1]), 'data'];
     }
 
     #[Test]
-    #[DataProvider('createProvides')]
+    #[DataProvider('createProvides', validateArgumentCount:false)]
     public function evaluatesToTrueIfTestedSequenceProvidesExpectedContents(
         Provides $provides
     ): void {
@@ -54,7 +53,7 @@ class ProvidesTest extends TestCase
     }
 
     #[Test]
-    #[DataProvider('createProvides')]
+    #[DataProvider('createProvides', validateArgumentCount:false)]
     public function evaluatesToFalseIfTestedSequenceDoesNotProvideExpectedContents(
         Provides $provides
     ): void {
@@ -62,10 +61,10 @@ class ProvidesTest extends TestCase
     }
 
     #[Test]
-    #[DataProvider('createProvides')]
+    #[DataProvider('createProvides', validateArgumentCount:false)]
     public function evaluatesToFalseIfTestedSequenceContainsMoreValues(
-        Provides $provides ): void
-    {
+        Provides $provides
+    ): void {
         assertFalse($provides->test(Sequence::of(['foo' => 1, 'bar' => 2])));
     }
 
