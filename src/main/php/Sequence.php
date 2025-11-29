@@ -201,7 +201,7 @@ class Sequence implements \IteratorAggregate, \Countable, \JsonSerializable
      * @param callable $valueMapper function to map values with
      * @param callable $keyMapper   function to map keys with
      */
-    public function map(callable $valueMapper, callable $keyMapper = null): self
+    public function map(callable $valueMapper, ?callable $keyMapper = null): self
     {
         return new self(
             new MappingIterator(
@@ -268,7 +268,7 @@ class Sequence implements \IteratorAggregate, \Countable, \JsonSerializable
      * @param  callable $keyConsumer   optional consumer which is invoked with each key
      * @return Sequence
      */
-    public function peek(callable $valueConsumer, callable $keyConsumer = null): self
+    public function peek(callable $valueConsumer, ?callable $keyConsumer = null): self
     {
         return new self(
             new Peek($this->getIterator(), $valueConsumer, $keyConsumer),
@@ -360,7 +360,7 @@ class Sequence implements \IteratorAggregate, \Countable, \JsonSerializable
      * @param  mixed    $identity   optional initial return value in case sequence is empty, defaults to null
      * @return mixed|Reducer
      */
-    public function reduce(callable $accumulate = null, $identity = null)
+    public function reduce(?callable $accumulate = null, mixed $identity = null)
     {
         if (null === $accumulate) {
             return new Reducer($this);
@@ -385,7 +385,7 @@ class Sequence implements \IteratorAggregate, \Countable, \JsonSerializable
      *
      * @return mixed|Collectors
      */
-    public function collect(Collector $collector = null)
+    public function collect(?Collector $collector = null)
     {
         if (null === $collector) {
             return new Collectors($this);

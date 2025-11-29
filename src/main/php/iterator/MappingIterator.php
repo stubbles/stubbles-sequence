@@ -46,8 +46,8 @@ class MappingIterator extends \IteratorIterator implements SelfDescribing
      */
     public function __construct(
         \Traversable $iterator,
-        callable $valueMapper = null,
-        callable $keyMapper = null
+        ?callable $valueMapper = null,
+        ?callable $keyMapper = null
     ) {
         if (null === $valueMapper && null === $keyMapper) {
             throw new InvalidArgumentException(

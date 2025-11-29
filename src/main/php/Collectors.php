@@ -100,7 +100,7 @@ class Collectors
      * @param  Collector $base       optional  defaults to Collector::forList()
      * @return array<mixed>
      */
-    public function inGroups(callable $classifier, Collector $base = null): array
+    public function inGroups(callable $classifier, ?Collector $base = null): array
     {
         $collector = $base ?: Collector::forList();
         return $this->with(
