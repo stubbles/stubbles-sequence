@@ -19,10 +19,8 @@ class Generator implements \Iterator, SelfDescribing
 {
     /**
      * current value
-     *
-     * @var mixed
      */
-    private $value;
+    private mixed $value;
     /**
      * number of delivered elements since last rewind
      */
