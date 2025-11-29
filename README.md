@@ -7,7 +7,7 @@ Stream your iterators.
 Build status
 ------------
 
-![Tests](https://github.com/stubbles/stubbles-sequence/workflows/Tests/badge.svg) [![Coverage Status](https://coveralls.io/repos/github/stubbles/stubbles-sequence/badge.svg?branch=master)](https://coveralls.io/github/stubbles/stubbles-sequence?branch=master)
+![Tests](https://github.com/stubbles/stubbles-sequence/workflows/Tests/badge.svg)
 
 [![Latest Stable Version](https://poser.pugx.org/stubbles/sequence/version.png)](https://packagist.org/packages/stubbles/sequence) [![Latest Unstable Version](https://poser.pugx.org/stubbles/sequence/v/unstable.png)](//packagist.org/packages/stubbles/sequence)
 
@@ -19,13 +19,13 @@ _stubbles/sequence_ is distributed as [Composer](https://getcomposer.org/)
 package. To install it as a dependency of your package use the following
 command:
 
-    composer require "stubbles/sequence": "^10.0"
+    composer require "stubbles/sequence": "^11.0"
 
 
 Requirements
 ------------
 
-_stubbles/sequence_ requires at least PHP 8.0.
+_stubbles/sequence_ requires at least PHP 8.3.
 
 
 Introduction
