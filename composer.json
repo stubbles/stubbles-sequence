@@ -5,7 +5,7 @@
     "license": "BSD-3-Clause",
     "description": "Stream your iterators.",
     "require": {
-        "php": "^8.2",
+        "php": "^8.3",
         "ext-json": "*"
     },
     "require-dev": {
@@ -33,7 +33,6 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "scripts": {
-        "test": "phpunit",
-        "php-coveralls": "php-coveralls"
+        "test": "phpunit"
     }
 }
