@@ -1,5 +1,9 @@
 # Changelog
 
+## 11.1.0 (2026-??-??)
+
+* Added XML attributes from stubbles/xml-attributes, replaces XML annotations. XML annotations are kept for back ward compatibility in the 10.x series, but will be removed with 12.0.0.
+
 ## 11.0.0 (2025-11-29)
 
 ### BC breaks

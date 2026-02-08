@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9f428ae5be34ac5549a80c907967b1a2",
+    "content-hash": "a5fd9218d6988c788917d9d3787e6a1a",
     "packages": [],
     "packages-dev": [
         {
@@ -1731,6 +1731,46 @@
             "time": "2024-10-20T05:08:20+00:00"
         },
         {
+            "name": "stubbles/xml-attributes",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/stubbles/stubbles-xml-attributes.git",
+                "reference": "07da453156f86ba8c869ad61bd1b5021bfae710b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/stubbles/stubbles-xml-attributes/zipball/07da453156f86ba8c869ad61bd1b5021bfae710b",
+                "reference": "07da453156f86ba8c869ad61bd1b5021bfae710b",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.3"
+            },
+            "default-branch": true,
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-main": "10.1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "stubbles\\xml\\": "src/main/php"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "description": "Attributes for XML serialization with stubbles/xml.",
+            "support": {
+                "issues": "https://github.com/stubbles/stubbles-xml-attributes/issues",
+                "source": "https://github.com/stubbles/stubbles-xml-attributes/tree/main"
+            },
+            "time": "2026-02-03T15:04:20+00:00"
+        },
+        {
             "name": "theseer/tokenizer",
             "version": "2.0.1",
             "source": {
@@ -1791,5 +1831,5 @@
         "ext-json": "*"
     },
     "platform-dev": {},
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.9.0"
 }

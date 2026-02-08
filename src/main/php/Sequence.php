@@ -28,6 +28,8 @@ use stubbles\sequence\iterator\{
     Peek,
     SelfDescribing
 };
+use stubbles\xml\serializer\attributes\XmlIgnore;
+
 /**
  * Sequence is a stream of data that can be operated on.
  *
@@ -338,6 +340,7 @@ class Sequence implements \IteratorAggregate, \Countable, \JsonSerializable
      * @return  mixed
      * @XmlIgnore
      */
+    #[XmlIgnore]
     public function first()
     {
         foreach ($this->elements as $first) {
@@ -405,6 +408,7 @@ class Sequence implements \IteratorAggregate, \Countable, \JsonSerializable
      *
      * @XmlIgnore
      */
+    #[XmlIgnore]
     public function count(): int
     {
         $amount = 0;
@@ -424,6 +428,7 @@ class Sequence implements \IteratorAggregate, \Countable, \JsonSerializable
      * @return mixed[]
      * @XmlIgnore
      */
+    #[XmlIgnore]
     public function values(): array
     {
         return $this->collect()->inList();
@@ -446,6 +451,7 @@ class Sequence implements \IteratorAggregate, \Countable, \JsonSerializable
      *
      * @XmlIgnore
      */
+    #[XmlIgnore]
     public function getIterator(): Iterator
     {
         if ($this->elements instanceof Iterator) {
