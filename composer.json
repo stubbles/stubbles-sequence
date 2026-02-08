@@ -12,7 +12,7 @@
         "phpunit/phpunit": "^12.4",
         "bovigo/assert": "^8.1",
         "bovigo/callmap": "^9.0",
-        "stubbles/xml-attributes": "^10.1"
+        "stubbles/xml-attributes": "^1.0"
     },
     "autoload": {
         "psr-4": {

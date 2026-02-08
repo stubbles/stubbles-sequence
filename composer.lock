@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a5fd9218d6988c788917d9d3787e6a1a",
+    "content-hash": "e4c6ae5accc4dfff54c8f25091db43f4",
     "packages": [],
     "packages-dev": [
         {
@@ -1736,12 +1736,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/stubbles/stubbles-xml-attributes.git",
-                "reference": "07da453156f86ba8c869ad61bd1b5021bfae710b"
+                "reference": "d201b5372735ad450b419b7f3b7f35e0a0973814"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stubbles/stubbles-xml-attributes/zipball/07da453156f86ba8c869ad61bd1b5021bfae710b",
-                "reference": "07da453156f86ba8c869ad61bd1b5021bfae710b",
+                "url": "https://api.github.com/repos/stubbles/stubbles-xml-attributes/zipball/d201b5372735ad450b419b7f3b7f35e0a0973814",
+                "reference": "d201b5372735ad450b419b7f3b7f35e0a0973814",
                 "shasum": ""
             },
             "require": {
@@ -1751,7 +1751,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "10.1.x-dev"
+                    "dev-main": "1.0.x-dev"
                 }
             },
             "autoload": {
@@ -1768,7 +1768,7 @@
                 "issues": "https://github.com/stubbles/stubbles-xml-attributes/issues",
                 "source": "https://github.com/stubbles/stubbles-xml-attributes/tree/main"
             },
-            "time": "2026-02-03T15:04:20+00:00"
+            "time": "2026-02-08T14:25:22+00:00"
         },
         {
             "name": "theseer/tokenizer",
